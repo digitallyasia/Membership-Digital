@@ -1,5 +1,11 @@
 <?php
 
+use App\Announcement;
+use App\Benefit as AppBenefit;
+use App\Benefit;
+use App\Http\Resources\AnnouncementCollection;
+use App\Http\Resources\BenefitCollection;
+use App\Http\Resources\User as UserResource;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -17,16 +23,12 @@ use Illuminate\Validation\ValidationException;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/register', 'API\MemberRegistrationController');
 
-
-Route::post('/sanctum/token', function (Request $request) {
+Route::post('/login', function (Request $request) {
     $request->validate([
         'email' => 'required|email',
         'password' => 'required',
-        'device_name' => 'required'
     ]);
 
     $user = User::where('email', $request->email)->first();
@@ -37,5 +39,23 @@ Route::post('/sanctum/token', function (Request $request) {
         ]);
     }
 
-    return $user->createToken($request->device_name)->plainTextToken;
+    return $user->createToken('Application')->plainTextToken;
+});
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/me', function (Request $request) {
+        return new UserResource($request->user());
+    });
+
+    Route::put('/me/update', 'API\ProfileUpdateController');
+
+    Route::prefix('organizations/{organization}/')->group(function () {
+        Route::get('announcements', function (App\Organization $organization) {
+            return new AnnouncementCollection(Announcement::where('organization_id', $organization->id)->paginate());
+        });
+
+        Route::get('benefits', function (App\Organization $organization) {
+            return new BenefitCollection(Benefit::where('organization_id', $organization->id)->paginate());
+        });
+    });
 });
