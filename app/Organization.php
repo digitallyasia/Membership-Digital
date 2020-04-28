@@ -28,6 +28,13 @@ class Organization extends Model
     ];
 
     /**
+     * The number of models to return for pagination.
+     *
+     * @var int
+     */
+    protected $perPage = 25;
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array

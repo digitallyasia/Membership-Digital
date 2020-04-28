@@ -5,7 +5,9 @@ use App\Benefit as AppBenefit;
 use App\Benefit;
 use App\Http\Resources\AnnouncementCollection;
 use App\Http\Resources\BenefitCollection;
+use App\Http\Resources\OrganizationCollection;
 use App\Http\Resources\User as UserResource;
+use App\Organization;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -43,11 +45,17 @@ Route::post('/login', function (Request $request) {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/me', function (Request $request) {
-        return new UserResource($request->user());
-    });
+    Route::prefix('me')->group(function () {
+        Route::get('/', function (Request $request) {
+            return new UserResource($request->user());
+        });
 
-    Route::put('/me/update', 'API\ProfileUpdateController');
+        Route::put('/update', 'API\ProfileUpdateController');
+
+        Route::get('/organizations', function (Request $request) {
+            return new OrganizationCollection(Organization::where('user_id', $request->user()->id)->paginate());
+        });
+    });
 
     Route::prefix('organizations/{organization}/')->group(function () {
         Route::get('announcements', function (App\Organization $organization) {
