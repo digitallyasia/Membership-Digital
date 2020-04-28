@@ -3,10 +3,12 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\Avatar;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 
 class User extends Resource
 {
@@ -48,6 +50,8 @@ class User extends Resource
                 ->sortable()
                 ->rules('required', 'max:255'),
 
+            Avatar::make('Profile Picture'),
+
             Text::make('Email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
@@ -58,6 +62,18 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
+
+            Text::make('Phone Number'),
+
+            Text::make('Username'),
+
+            Text::make('Fcm Token'),
+
+            Text::make('Address'),
+
+            Date::make('Date of Birth'),
+
+            Textarea::make('Description'),
         ];
     }
 
