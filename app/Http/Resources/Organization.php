@@ -19,7 +19,9 @@ class Organization extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'logo' => $this->logo,
+            'logo' => $this->logo ? \Storage::disk('images')->url(
+                $this->logo
+            ) : null,
             'description' => $this->description,
             'email' => $this->email,
             'phone' => $this->phone,
@@ -27,6 +29,8 @@ class Organization extends JsonResource
             'city' => $this->city,
             'state' => $this->state,
             'postal_code' => $this->postal_code,
+            'status' => $this->status,
+            // 'qrcode' => $this->qrcode,
             // 'user_id' => $this->user_id,
             'announcements' => new AnnouncementCollection(Announcement::where('organization_id', $this->id)->paginate()),
             'benefits' => new BenefitCollection(Benefit::where('organization_id', $this->id)->paginate()),

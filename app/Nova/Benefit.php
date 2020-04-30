@@ -49,7 +49,8 @@ class Benefit extends Resource
             Text::make('Title')
                 ->sortable()
                 ->rules('required', 'max:255'),
-            Image::make('Image'),
+            Image::make('Image')
+                ->disk('images'),
             Text::make('Promocode'),
             Textarea::make('Details'),
         ];

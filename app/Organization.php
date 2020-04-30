@@ -2,12 +2,30 @@
 
 namespace App;
 
+use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Organization extends Model
 {
     use SoftDeletes;
+
+    public static function boot()
+    {
+        parent::boot();
+        static::created(
+            function ($organiztion) {
+                QrCode::format('png')
+                    ->size(399)
+                    ->color(40, 40, 40)
+                    ->generate(json_encode($organiztion->only('id', 'name')), './storage/app/public/qrcodes/' . $organiztion->id . '.png');
+                $organiztion->update([
+                    'qrcode' => $organiztion->id . '.png'
+                ]);
+            }
+        );
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +43,7 @@ class Organization extends Model
         'state',
         'postal_code',
         'user_id',
+        'qrcode',
     ];
 
     /**
@@ -56,7 +75,7 @@ class Organization extends Model
 
     public function members()
     {
-        return $this->belongsToMany(\App\User::class);
+        return $this->belongsToMany(\App\User::class, 'organization_members');
     }
 
     public function user()

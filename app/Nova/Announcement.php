@@ -52,6 +52,7 @@ class Announcement extends Resource
             Text::make('url')
                 ->rules('nullable', 'max:255'),
             Image::make('Image')
+                ->disk('images')
                 ->rules('nullable'),
             Textarea::make('Details'),
         ];

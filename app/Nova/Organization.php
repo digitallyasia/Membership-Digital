@@ -4,6 +4,9 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
@@ -46,7 +49,8 @@ class Organization extends Resource
         return [
             ID::make()->sortable(),
             BelongsTo::make('User'),
-            Image::make('Logo'),
+            Image::make('Logo')
+                ->disk('images'),
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
@@ -61,6 +65,17 @@ class Organization extends Resource
             Text::make('State'),
             Text::make('Postal Code'),
             Textarea::make('Description'),
+            Image::make('Qrcode')
+                ->disk('qrcodes'),
+            HasMany::make('Announcements'),
+            HasMany::make('Benefits'),
+            BelongsToMany::make('Members', 'members', 'App\Nova\User')
+                ->fields(function () {
+                    return [
+                        Boolean::make('Status'),
+                    ];
+                }),
+
         ];
     }
 

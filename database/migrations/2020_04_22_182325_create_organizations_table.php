@@ -24,9 +24,12 @@ class CreateOrganizationsTable extends Migration
             $table->string('city');
             $table->string('state');
             $table->string('postal_code');
+            $table->string('qrcode');
             $table->unsignedBigInteger('user_id');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

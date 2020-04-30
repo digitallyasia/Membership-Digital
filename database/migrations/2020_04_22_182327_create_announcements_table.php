@@ -21,6 +21,8 @@ class CreateAnnouncementsTable extends Migration
             $table->string('url')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
+
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
         });
     }
 
