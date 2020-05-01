@@ -24,7 +24,9 @@ class CreateOrganizationsTable extends Migration
             $table->string('city');
             $table->string('state');
             $table->string('postal_code');
-            $table->string('qrcode');
+            $table->boolean('auto_join')->default(false);
+            $table->uuid('uuid');
+            $table->string('qrcode')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->softDeletes();
             $table->timestamps();
