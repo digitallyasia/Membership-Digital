@@ -1,11 +1,11 @@
 <?php
 
 use App\Announcement;
-use App\Benefit as AppBenefit;
 use App\Benefit;
 use App\Http\Resources\AnnouncementCollection;
 use App\Http\Resources\BenefitCollection;
 use App\Http\Resources\OrganizationCollection;
+use App\Http\Resources\OrganizationResource;
 use App\Http\Resources\User as UserResource;
 use App\Organization;
 use App\User;
@@ -57,13 +57,28 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
     });
 
-    Route::prefix('organizations/{organization}/')->group(function () {
-        Route::get('announcements', function (App\Organization $organization) {
-            return new AnnouncementCollection(Announcement::where('organization_id', $organization->id)->paginate());
+    Route::prefix('organizations/{organization:uuid}')->group(function () {
+        Route::get('/', function (App\Organization $organization) {
+            return new OrganizationResource($organization);
         });
 
-        Route::get('benefits', function (App\Organization $organization) {
-            return new BenefitCollection(Benefit::where('organization_id', $organization->id)->paginate());
+        Route::get('/join', 'API\OrganizationJoinController');
+    });
+    Route::prefix('organizations/{organization}/')->group(function () {
+        Route::get('announcements', function (App\Organization $organization, Request $request) {
+            if ($organization->isMember($request->user())) {
+                return new AnnouncementCollection(Announcement::where('organization_id', $organization->id)->paginate());
+            } else {
+                return response(['message' => 'You are not member of this organization'], 403);
+            }
+        });
+
+        Route::get('benefits', function (App\Organization $organization, Request $request) {
+            if ($organization->isMember($request->user())) {
+                return new BenefitCollection(Benefit::where('organization_id', $organization->id)->paginate());
+            } else {
+                return response(['message' => 'You are not member of this organization'], 403);
+            }
         });
     });
 });
