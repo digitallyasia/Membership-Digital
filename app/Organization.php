@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -14,15 +13,18 @@ class Organization extends Model
     public static function boot()
     {
         parent::boot();
+        static::creating(
+            function ($organiztion) {
+                $organiztion->uuid = \Str::uuid();
+            }
+        );
         static::created(
             function ($organiztion) {
                 QrCode::format('png')
                     ->size(399)
                     ->color(40, 40, 40)
-                    ->generate(json_encode($organiztion->only('id', 'name')), './storage/app/public/qrcodes/' . $organiztion->id . '.png');
-                $organiztion->update([
-                    'qrcode' => $organiztion->id . '.png'
-                ]);
+                    ->generate((string) $organiztion->uuid, './storage/app/public/qrcodes/' . $organiztion->id . '.png');
+                $organiztion->update(['qrcode' => $organiztion->uuid . '.png']);
             }
         );
     }
@@ -81,5 +83,13 @@ class Organization extends Model
     public function user()
     {
         return $this->belongsTo(\App\User::class);
+    }
+    public function isMember($user)
+    {
+        return $this->members()->where('user_id', $user->id)->where('status', true)->exists();
+    }
+    public function membership($user)
+    {
+        return $this->members()->where('user_id', $user->id)->withPivot('status')->first();
     }
 }
