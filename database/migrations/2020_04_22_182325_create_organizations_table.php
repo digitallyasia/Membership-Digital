@@ -19,6 +19,9 @@ class CreateOrganizationsTable extends Migration
             $table->string('logo');
             $table->string('description');
             $table->string('email');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
             $table->string('phone');
             $table->string('address');
             $table->string('city');
@@ -27,11 +30,8 @@ class CreateOrganizationsTable extends Migration
             $table->boolean('auto_join')->default(false);
             $table->uuid('uuid');
             $table->string('qrcode')->nullable();
-            $table->unsignedBigInteger('user_id');
             $table->softDeletes();
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
