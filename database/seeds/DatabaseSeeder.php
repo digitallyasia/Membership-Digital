@@ -2,6 +2,7 @@
 
 use App\Announcement;
 use App\Benefit;
+use App\Notification;
 use App\Organization;
 use Illuminate\Database\Seeder;
 
@@ -15,16 +16,18 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UserSeeder::class);
-        $admin = factory('App\User')->create([
+        factory('App\User')->create([
             'name' => 'Admin',
-            'email' => 'admin@ngo.com'
+            'email' => 'admin@membershipdigital.my'
         ]);
-        $admin->organizations()->saveMany(
-            factory(Organization::class, 5)->create()
-                ->each(function ($organization) {
-                    $organization->announcements()->saveMany(factory(Announcement::class, 3)->create());
-                    $organization->benefits()->saveMany(factory(Benefit::class, 3)->create());
-                })
-        );
+        $members = factory(App\User::class, 20)->create()->pluck('id')->toArray();
+        $organization =  factory(Organization::class)->create([
+            'name' => 'Organization',
+            'email' => 'organization@membershipdigital.my'
+        ]);
+        $organization->announcements()->saveMany(factory(Announcement::class, 20)->create());
+        $organization->benefits()->saveMany(factory(Benefit::class, 20)->create());
+        $organization->notifications()->saveMany(factory(Notification::class, 20)->create());
+        $organization->members()->attach($members, ['status' => true]);
     }
 }
