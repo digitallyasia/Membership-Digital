@@ -19,9 +19,7 @@ class Organization extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'logo' => $this->logo ? \Storage::disk('images')->url(
-                $this->logo
-            ) : null,
+            'logo' => $this->logo,
             'description' => $this->description,
             'email' => $this->email,
             'phone' => $this->phone,

@@ -20,9 +20,7 @@ class Announcement extends JsonResource
             'title' => $this->title,
             'details' => $this->details,
             'url' => $this->url,
-            'image' => $this->image ? \Storage::disk('images')->url(
-                $this->image
-            ) : null,
+            'image' => $this->image,
         ];
     }
 }
