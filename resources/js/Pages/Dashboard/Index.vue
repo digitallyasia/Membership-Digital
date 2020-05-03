@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="-mr-4 lg:-mr-12">
     <div class="flex flex-col xl:flex-row">
       <div class="flex flex-col flex-wrap content-start w-full xl:w-2/3 md:flex-row">
         <div class="w-full md:w-1/2">
