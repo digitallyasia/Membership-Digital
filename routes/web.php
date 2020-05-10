@@ -21,9 +21,14 @@ Route::name('organization.')->namespace('Organization')->group(function () {
     });
     Route::middleware(['auth:organization'])->group(function () {
         Route::get('/members', 'OrganiztionMembersController')->name('members');
+        Route::post('/members/block', 'OrganizationMembersController@block')->name('members.block');
+        Route::post('/members/unblock', 'OrganizationMembersController@unblock')->name('members.unblock');
+        Route::post('/members/delete', 'OrganizationMembersController@delete')->name('members.delete');
         Route::get('/announcements', 'OrganiztionAnnouncementsController')->name('announcements');
         Route::get('/benefits', 'OrganiztionBenefitsController')->name('benefits');
         Route::get('/notifications', 'OrganiztionNotificationsController')->name('notifications');
+        Route::get('/account/profile', 'OrganizationAccountController@profile')->name('profile');
+        Route::get('/account/billing', 'OrganizationAccountController@billing')->name('billing');
     });
 });
 Route::middleware(['auth:organization'])->group(function () {
