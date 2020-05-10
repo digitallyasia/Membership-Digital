@@ -2,11 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
-class Organization extends Model
+class Organization extends Authenticatable
 {
     use SoftDeletes;
 
@@ -23,7 +24,8 @@ class Organization extends Model
                 QrCode::format('png')
                     ->size(399)
                     ->color(40, 40, 40)
-                    ->generate((string) $organiztion->uuid, './storage/app/public/qrcodes/' . $organiztion->id . '.png');
+                    ->margin(1)
+                    ->generate((string) $organiztion->uuid, './storage/app/public/qrcodes/' . $organiztion->uuid . '.png');
                 $organiztion->update(['qrcode' => $organiztion->uuid . '.png']);
             }
         );
@@ -39,12 +41,14 @@ class Organization extends Model
         'logo',
         'description',
         'email',
+        'email_verified_at',
+        'password',
+        'remember_token',
         'phone',
         'address',
         'city',
         'state',
         'postal_code',
-        'user_id',
         'qrcode',
     ];
 
@@ -53,7 +57,17 @@ class Organization extends Model
      *
      * @var int
      */
-    protected $perPage = 25;
+    protected $perPage = 10;
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -70,26 +84,95 @@ class Organization extends Model
         return $this->hasMany(\App\Benefit::class);
     }
 
+    public function benefitsWithTrashed()
+    {
+        return $this->benefits()->withTrashed();
+    }
+
     public function announcements()
     {
         return $this->hasMany(\App\Announcement::class);
     }
 
-    public function members()
+    public function announcementsWithTrashed()
     {
-        return $this->belongsToMany(\App\User::class, 'organization_members');
+        return $this->announcements()->withTrashed();
     }
 
-    public function user()
+    public function notifications()
     {
-        return $this->belongsTo(\App\User::class);
+        return $this->hasMany(\App\Notification::class);
     }
+
+    public function notificationsWithTrashed()
+    {
+        return $this->notifications()->withTrashed();
+    }
+
+    public function members()
+    {
+        return $this->belongsToMany(\App\User::class, 'organization_members')->withPivot('status');
+    }
+    public function activeMembers()
+    {
+        return $this->belongsToMany(\App\User::class, 'organization_members')->wherePivot('status', 'accepted');
+    }
+    public function pendingMembers()
+    {
+        return $this->belongsToMany(\App\User::class, 'organization_members')->wherePivot('status', 'pending');
+    }
+    public function blockedMembers()
+    {
+        return $this->belongsToMany(\App\User::class, 'organization_members')->wherePivot('status', 'blocked');
+    }
+
     public function isMember($user)
     {
         return $this->members()->where('user_id', $user->id)->where('status', true)->exists();
     }
+
     public function membership($user)
     {
         return $this->members()->where('user_id', $user->id)->withPivot('status')->first();
+    }
+    public function subscription()
+    {
+        return $this->belongsTo(\App\Plan::class, 'plan_id');
+    }
+
+    public function scopeOrderByName($query)
+    {
+        $query->orderBy('name');
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            });
+        })->when($filters['role'] ?? null, function ($query, $role) {
+            $query->whereRole($role);
+        })->when($filters['trashed'] ?? null, function ($query, $trashed) {
+            if ($trashed === 'with') {
+                $query->withTrashed();
+            } elseif ($trashed === 'only') {
+                $query->onlyTrashed();
+            }
+        });
+    }
+
+    public function getLogoAttribute($value)
+    {
+        return $value !== null ? Storage::disk('images')->url(
+            $value
+        ) : null;
+    }
+    public function getQrcodeAttribute($value)
+    {
+        return $value !== null ? Storage::disk('qrcodes')->url(
+            $value
+        ) : null;
     }
 }
