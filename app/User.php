@@ -12,6 +12,13 @@ class User extends Authenticatable
     use Notifiable, HasApiTokens, SoftDeletes;
 
     /**
+     * The number of models to return for pagination.
+     *
+     * @var int
+     */
+    protected $perPage = 10;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
