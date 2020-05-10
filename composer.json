@@ -23,7 +23,7 @@
         "league/glide": "2.0.x-dev",
         "reinink/remember-query-strings": "^0.1.0",
         "tightenco/ziggy": "^0.8.0",
-        "moontoast/math": "1.1.2 as 1.999.999"
+        "moontoast/math": "1.2.1 as 1.999.999"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
