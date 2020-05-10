@@ -18,6 +18,7 @@ class CreateNotificationsTable extends Migration
             $table->unsignedBigInteger('organization_id');
             $table->string('title');
             $table->string('body');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');

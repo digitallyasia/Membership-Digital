@@ -31,6 +31,10 @@ class CreateOrganizationsTable extends Migration
             $table->uuid('uuid');
             $table->string('qrcode')->nullable();
             $table->softDeletes();
+            $table->unsignedBigInteger('plan_id')->default(1);
+            $table->timestamp('subscription_expire_at')->nullable();
+            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

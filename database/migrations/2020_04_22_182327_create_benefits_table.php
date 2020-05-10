@@ -19,7 +19,8 @@ class CreateBenefitsTable extends Migration
             $table->string('title');
             $table->string('details');
             $table->string('image');
-            $table->string('promocode');
+            $table->string('promo_code');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');

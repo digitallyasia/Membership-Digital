@@ -20,6 +20,7 @@ class CreateAnnouncementsTable extends Migration
             $table->string('details');
             $table->string('url')->nullable();
             $table->string('image')->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
