@@ -19,16 +19,16 @@ class Organization extends Authenticatable
                 $organiztion->uuid = \Str::uuid();
             }
         );
-        static::created(
-            function ($organiztion) {
-                QrCode::format('png')
-                    ->size(399)
-                    ->color(40, 40, 40)
-                    ->margin(1)
-                    ->generate((string) $organiztion->uuid, './storage/app/public/qrcodes/' . $organiztion->uuid . '.png');
-                $organiztion->update(['qrcode' => $organiztion->uuid . '.png']);
-            }
-        );
+        // static::created(
+        //     function ($organiztion) {
+        //         QrCode::format('png')
+        //             ->size(399)
+        //             ->color(40, 40, 40)
+        //             ->margin(1)
+        //             ->generate((string) $organiztion->uuid, './storage/app/public/qrcodes/' . $organiztion->uuid . '.png');
+        //         $organiztion->update(['qrcode' => $organiztion->uuid . '.png']);
+        //     }
+        // );
     }
 
     /**
