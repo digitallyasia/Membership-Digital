@@ -1,23 +1,28 @@
 <template>
   <div>
-    <h1 class="mb-8 font-bold text-3xl">Push Notifications</h1>
-    <div class="mb-6 flex justify-between items-center">
+    <h1 class="mb-8 text-3xl font-bold">Push Notifications</h1>
+    <div class="flex items-center justify-between mb-6">
       <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset">
         <label class="block text-gray-700">Trashed:</label>
-        <select v-model="form.trashed" class="mt-1 w-full form-select">
+        <select v-model="form.trashed" class="w-full mt-1 form-select">
           <option :value="null" />
           <option value="with">With Trashed</option>
           <option value="only">Only Trashed</option>
         </select>
       </search-filter>
-      <inertia-link class="btn-indigo" :href="route('notifications.create')">
+      <inertia-link
+        class="btn-indigo"
+        :href="route('notifications.create')"
+        v-if="$page.auth.organization.subscription.number_of_notifications - $page.auth.organization.notifications_with_trashed_count > 0"
+      >
         <span>Create</span>
         <span class="hidden md:inline">Notification</span>
       </inertia-link>
+      <span v-else>You have reached your subscription limit</span>
     </div>
-    <div class="bg-white rounded shadow-md overflow-x-auto">
+    <div class="overflow-x-auto bg-white rounded shadow-md">
       <table class="w-full whitespace-no-wrap">
-        <tr class="text-left font-bold bg-gray-300">
+        <tr class="font-bold text-left bg-gray-300">
           <th class="px-6 pt-6 pb-4">Title</th>
           <th class="px-6 pt-6 pb-4" colspan="2">Body</th>
         </tr>
@@ -27,13 +32,13 @@
           class="hover:bg-gray-100 focus-within:bg-gray-100"
         >
           <td class="border-t">
-            <span class="px-6 py-4 flex items-center" tabindex="-1">{{ notification.title }}</span>
+            <span class="flex items-center px-6 py-4" tabindex="-1">{{ notification.title }}</span>
           </td>
           <td class="border-t">
-            <span class="px-6 py-4 flex items-center" tabindex="-1">{{ notification.body }}</span>
+            <span class="flex items-center px-6 py-4" tabindex="-1">{{ notification.body }}</span>
           </td>
-          <td class="border-t w-px">
-            <span class="px-4 flex items-center" tabindex="-1">
+          <td class="w-px border-t">
+            <span class="flex items-center px-4" tabindex="-1">
               <button
                 v-if="!notification.deleted_at"
                 tabindex="-1"
@@ -42,14 +47,14 @@
               >
                 <icon
                   name="trash"
-                  class="block w-6 h-6 fill-gray-400 hover:fill-red-600 cursor-pointer"
+                  class="block w-6 h-6 cursor-pointer fill-gray-400 hover:fill-red-600"
                 />
               </button>
             </span>
           </td>
         </tr>
         <tr v-if="notifications.data.length === 0">
-          <td class="border-t px-6 py-4" colspan="4">No notification found.</td>
+          <td class="px-6 py-4 border-t" colspan="4">No notification found.</td>
         </tr>
       </table>
     </div>
