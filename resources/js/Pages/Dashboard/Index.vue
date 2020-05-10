@@ -7,7 +7,9 @@
             <icon name="users" class="w-20 h-20" :class="'fill-indigo-400 group-hover:fill-white'" />
             <div class="flex flex-col pt-2 pl-6">
               <div class="mb-2 text-xl font-bold">Members</div>
-              <p class="text-2xl text-center text-gray-700">50/100</p>
+              <p
+                class="text-2xl text-center text-gray-700"
+              >{{$page.auth.organization.active_members_count}}/{{$page.auth.organization.subscription.number_of_members}}</p>
             </div>
           </div>
         </div>
@@ -22,7 +24,7 @@
               <div class="mb-2 text-xl font-bold">Notifications</div>
               <p
                 class="text-2xl text-center text-gray-700"
-              >{{$page.auth.organization.notifications_with_trashed_count}}/100</p>
+              >{{$page.auth.organization.notifications_with_trashed_count}}/{{$page.auth.organization.subscription.number_of_notifications}}</p>
             </div>
           </div>
         </div>
@@ -37,7 +39,7 @@
               <div class="mb-2 text-xl font-bold">Announcements</div>
               <p
                 class="text-2xl text-center text-gray-700"
-              >{{$page.auth.organization.announcements_with_trashed_count}}/100</p>
+              >{{$page.auth.organization.announcements_with_trashed_count}}/{{$page.auth.organization.subscription.number_of_announcements}}</p>
             </div>
           </div>
         </div>
@@ -52,7 +54,7 @@
               <div class="mb-2 text-xl font-bold">Benefits</div>
               <p
                 class="text-2xl text-center text-gray-700"
-              >{{$page.auth.organization.benefits_with_trashed_count}}/100</p>
+              >{{$page.auth.organization.benefits_with_trashed_count}}/{{$page.auth.organization.subscription.number_of_benefits}}</p>
             </div>
           </div>
         </div>
