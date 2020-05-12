@@ -41,10 +41,9 @@
               </div>
               <div slot="dropdown" class="py-2 mt-2 text-sm bg-white rounded shadow-xl">
                 <!-- <inertia-link class="block px-6 py-2 hover:bg-indigo-500 hover:text-white" :href="route('users.edit', $page.auth.organization.id)">My Profile</inertia-link> -->
-                <!-- <inertia-link class="block px-6 py-2 hover:bg-indigo-500 hover:text-white" :href="route('users')">Manage Users</inertia-link> -->
                 <inertia-link
                   class="block px-6 py-2 hover:bg-indigo-500 hover:text-white"
-                  :href="route('logout')"
+                  :href="route('organization.logout')"
                   method="post"
                 >Logout</inertia-link>
               </div>
