@@ -3,8 +3,10 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
@@ -33,7 +35,7 @@ class Organization extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'email', 'phone'
     ];
 
     /**
@@ -66,6 +68,9 @@ class Organization extends Resource
                 ->disk('qrcodes'),
             HasMany::make('Announcements'),
             HasMany::make('Benefits'),
+            HasMany::make('Notifications'),
+            BelongsTo::make('Subscription', 'subscription', 'App\Nova\Plan'),
+            DateTime::make('Subscription Expire At'),
             BelongsToMany::make('Members', 'members', 'App\Nova\User')
                 ->fields(function () {
                     return [
