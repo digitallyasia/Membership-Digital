@@ -1,11 +1,11 @@
 <template>
   <div>
-    <label v-if="label" class="form-label" :for="id">{{ label }}:</label>
+    <label v-if="label" class="font-bold form-label" :for="id">{{ label }}:</label>
     <input
       :id="id"
       ref="input"
       v-bind="$attrs"
-      class="form-input rounded-lg px-3"
+      class="px-3 rounded-lg form-input"
       :class="{ error: errors.length }"
       :type="type"
       :value="value"
