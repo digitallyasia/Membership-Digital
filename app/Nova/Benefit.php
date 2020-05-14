@@ -24,7 +24,7 @@ class Benefit extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'title';
 
     /**
      * The columns that should be searched.
@@ -32,7 +32,7 @@ class Benefit extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'title', 'promo_code', 'details'
     ];
 
     /**
@@ -50,9 +50,13 @@ class Benefit extends Resource
                 ->sortable()
                 ->rules('required', 'max:255'),
             Image::make('Image')
-                ->disk('images'),
-            Text::make('Promocode'),
-            Textarea::make('Details'),
+                ->disk('images')
+                ->rules('required'),
+            Text::make('Promo Code')
+                ->rules('required'),
+            Textarea::make('Details')
+                ->rules('required'),
+
         ];
     }
 
