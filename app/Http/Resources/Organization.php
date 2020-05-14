@@ -27,7 +27,7 @@ class Organization extends JsonResource
             'city' => $this->city,
             'state' => $this->state,
             'postal_code' => $this->postal_code,
-            'status' => $this->status,
+            'status' => $this->pivot->status,
             // 'qrcode' => $this->qrcode,
             // 'user_id' => $this->user_id,
             'announcements' => new AnnouncementCollection(Announcement::where('organization_id', $this->id)->paginate()),
