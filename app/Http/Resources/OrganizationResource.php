@@ -25,7 +25,7 @@ class OrganizationResource extends JsonResource
             'city' => $this->city,
             'state' => $this->state,
             'postal_code' => $this->postal_code,
-            'status' => $this->status,
+            'status' => $this->pivot ? $this->pivot->status : null,
         ];
     }
 }

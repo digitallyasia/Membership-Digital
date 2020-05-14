@@ -23,6 +23,7 @@ class MemberRegistrationController extends Controller
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
             'phone_number' => $request['phone_number'],
+            'fcm_token' => $request['fcm_token'],
         ]);
 
         $user->token = $user->createToken('Application')->plainTextToken;

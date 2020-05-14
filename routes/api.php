@@ -31,6 +31,7 @@ Route::post('/login', function (Request $request) {
     $request->validate([
         'email' => 'required|email',
         'password' => 'required',
+        'fcm_token' => 'required',
     ]);
 
     $user = User::where('email', $request->email)->first();
@@ -40,7 +41,9 @@ Route::post('/login', function (Request $request) {
             'email' => ['The provided credentials are incorrect.'],
         ]);
     }
-
+    $user->update([
+        'fcm_token' => $request->fcm_token
+    ]);
     return $user->createToken('Application')->plainTextToken;
 });
 
@@ -53,13 +56,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/update', 'API\ProfileUpdateController');
 
         Route::get('/organizations', function (Request $request) {
-            return new OrganizationCollection(Organization::where('user_id', $request->user()->id)->paginate());
+            return new OrganizationCollection($request->user()->organizations()->paginate());
         });
     });
 
     Route::prefix('organizations/{organization:uuid}')->group(function () {
-        Route::get('/', function (App\Organization $organization) {
-            return new OrganizationResource($organization);
+        Route::get('/', function (App\Organization $organization, Request $request) {
+            if ($organization->membership($request->user())) {
+                return new OrganizationResource($request->user()->organizations()->where('organization_members.organization_id', '=', $organization->id)->first());
+            } else {
+                return new OrganizationResource($organization);
+            }
         });
 
         Route::get('/join', 'API\OrganizationJoinController');

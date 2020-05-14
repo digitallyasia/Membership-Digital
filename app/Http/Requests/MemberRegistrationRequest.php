@@ -28,6 +28,7 @@ class MemberRegistrationRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phone_number' => ['required', 'string'],
+            'fcm_token' => ['required', 'string'],
         ];
     }
 }
