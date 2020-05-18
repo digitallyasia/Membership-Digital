@@ -1,5 +1,6 @@
 <?php
 
+use App\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,3 +44,6 @@ Route::middleware(['auth:organization'])->group(function () {
 \Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/organizations', function () {
+    return Organization::paginate();
+});
