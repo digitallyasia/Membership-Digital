@@ -21,10 +21,13 @@ Route::name('organization.')->namespace('Organization')->group(function () {
         \Auth::routes(['verify' => true]);
     });
     Route::middleware(['auth:organization'])->group(function () {
-        Route::get('/members', 'OrganiztionMembersController')->name('members');
+        Route::get('/members/active', 'OrganizationMembersController@activeMembers')->name('members.active');
+        Route::get('/members/pending', 'OrganizationMembersController@pendingMembers')->name('members.pending');
+        Route::get('/members/blocked', 'OrganizationMembersController@blockedMembers')->name('members.blocked');
         Route::post('/members/block', 'OrganizationMembersController@block')->name('members.block');
         Route::post('/members/unblock', 'OrganizationMembersController@unblock')->name('members.unblock');
         Route::post('/members/delete', 'OrganizationMembersController@delete')->name('members.delete');
+        Route::post('/members/accept', 'OrganizationMembersController@acceptJoinRequest')->name('members.accept');
         Route::get('/announcements', 'OrganiztionAnnouncementsController')->name('announcements');
         Route::get('/benefits', 'OrganiztionBenefitsController')->name('benefits');
         Route::get('/notifications', 'OrganiztionNotificationsController')->name('notifications');

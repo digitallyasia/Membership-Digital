@@ -23,14 +23,17 @@
       </inertia-link>
     </div>
     <div class="mb-4">
-      <inertia-link class="flex items-center py-3 group" :href="route('organization.members')">
+      <inertia-link
+        class="flex items-center py-3 group"
+        :href="route('organization.members.active')"
+      >
         <icon
           name="users"
           class="w-4 h-4 mr-2"
-          :class="isUrl('members') ? 'fill-white' : 'fill-indigo-400 group-hover:fill-white'"
+          :class="isUrl('members/active') ? 'fill-white' : 'fill-indigo-400 group-hover:fill-white'"
         />
         <div
-          :class="isUrl('members') ? 'text-white' : 'text-indigo-300 group-hover:text-white'"
+          :class="isUrl('members/active') ? 'text-white' : 'text-indigo-300 group-hover:text-white'"
         >Members</div>
       </inertia-link>
     </div>

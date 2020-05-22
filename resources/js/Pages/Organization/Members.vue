@@ -15,20 +15,43 @@
       <div>
         <ul class="flex border-b-4 border-gray-300" role="tablist">
           <li
-            v-for="tab in tabs"
-            :key="tab"
             class="px-4 py-2 bg-white"
-            :class="{ 'border-b-4 border-gray-600': activeTab===tab }"
-            :style="activeTab===tab ? 'margin-bottom: -4px' : ''"
+            :class="{ 'border-b-4 border-gray-600': activeTab==='Accepted' }"
+            :style="activeTab==='Accepted' ? 'margin-bottom: -4px' : ''"
           >
-            <button
-              v-text="tab"
-              :class="{ 'font-bold': activeTab===tab }"
+            <inertia-link
+              :href="route('organization.members.active')"
+              :class="{ 'font-bold': activeTab==='Accepted' }"
               class="p-1 text-xl focus:outline-none"
               role="tab"
-              :aria-selected="activeTab===tab"
-              @click="activeTab = tab"
-            ></button>
+              :aria-selected="activeTab==='Accepted'"
+            >Accepted</inertia-link>
+          </li>
+          <li
+            class="px-4 py-2 bg-white"
+            :class="{ 'border-b-4 border-gray-600': activeTab==='Blocked' }"
+            :style="activeTab==='Blocked' ? 'margin-bottom: -4px' : ''"
+          >
+            <inertia-link
+              :href="route('organization.members.blocked')"
+              :class="{ 'font-bold': activeTab==='Blocked' }"
+              class="p-1 text-xl focus:outline-none"
+              role="tab"
+              :aria-selected="activeTab==='Blocked'"
+            >Blocked</inertia-link>
+          </li>
+          <li
+            class="px-4 py-2 bg-white"
+            :class="{ 'border-b-4 border-gray-600': activeTab==='Pending' }"
+            :style="activeTab==='Pending' ? 'margin-bottom: -4px' : ''"
+          >
+            <inertia-link
+              :href="route('organization.members.pending')"
+              :class="{ 'font-bold': activeTab==='Pending' }"
+              class="p-1 text-xl focus:outline-none"
+              role="tab"
+              :aria-selected="activeTab==='Pending'"
+            >Pending</inertia-link>
           </li>
         </ul>
       </div>
@@ -70,9 +93,39 @@
             </td>
             <td class="w-px border-t">
               <span class="flex items-center px-4" tabindex="-1">
-                <button class="mr-2" tabindex="-1" title="Block Member" @click="block(member.id)">
+                <button
+                  v-if="activeTab==='Accepted'"
+                  class="mr-2"
+                  tabindex="-1"
+                  title="Block Member"
+                  @click="block(member.id)"
+                >
                   <icon
                     name="block"
+                    class="block w-6 h-6 cursor-pointer fill-gray-500 hover:fill-gray-800"
+                  />
+                </button>
+                <button
+                  v-if="activeTab==='Blocked'"
+                  class="mr-2"
+                  tabindex="-1"
+                  title="Unblock Member"
+                  @click="unblock(member.id)"
+                >
+                  <icon
+                    name="un-block"
+                    class="block w-6 h-6 cursor-pointer fill-gray-500 hover:fill-gray-800"
+                  />
+                </button>
+                <button
+                  v-if="activeTab==='Pending'"
+                  class="mr-2"
+                  tabindex="-1"
+                  title="Accept Join Request"
+                  @click="acceptJoinRequest(member.id)"
+                >
+                  <icon
+                    name="un-block"
                     class="block w-6 h-6 cursor-pointer fill-gray-500 hover:fill-gray-800"
                   />
                 </button>
@@ -122,11 +175,12 @@ export default {
   },
   props: {
     members: Object,
-    filters: Object
+    filters: Object,
+    tab: String
   },
   data() {
     return {
-      activeTab: "Accepted",
+      activeTab: this.tab,
       tabs: ["Accepted", "Pending", "Blocked"],
       form: {
         search: this.filters.search,
@@ -159,6 +213,11 @@ export default {
     },
     unblock(id) {
       this.$inertia.post(this.route("organization.members.unblock"), {
+        member_id: id
+      });
+    },
+    acceptJoinRequest(id) {
+      this.$inertia.post(this.route("organization.members.accept"), {
         member_id: id
       });
     },
