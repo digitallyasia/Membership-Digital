@@ -71,15 +71,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
     Route::prefix('organizations/{organization}/')->group(function () {
         Route::get('announcements', function (App\Organization $organization, Request $request) {
-            return $organization->isMember($request->user())
-                ? new AnnouncementCollection(Announcement::where('organization_id', $organization->id)->paginate())
-                : response(['message' => 'You are not member of this organization'], 403);
+            // return $organization->isMember($request->user())
+            return new AnnouncementCollection(Announcement::where('organization_id', $organization->id)->paginate());
+            // : response(['message' => 'You are not member of this organization'], 403);
         });
 
         Route::get('benefits', function (App\Organization $organization, Request $request) {
-            return $organization->isMember($request->user())
-                ? new BenefitCollection(Benefit::where('organization_id', $organization->id)->paginate())
-                : response(['message' => 'You are not member of this organization'], 403);
+            // return $organization->isMember($request->user())
+            return new BenefitCollection(Benefit::where('organization_id', $organization->id)->paginate());
+            // : response(['message' => 'You are not member of this organization'], 403);
         });
     });
 });
