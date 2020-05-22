@@ -19,6 +19,6 @@ $factory->define(Organization::class, function (Faker $faker) {
         'city' => $faker->city,
         'state' => $faker->state,
         'postal_code' => $faker->postcode,
-        'auto_join' => 'true',
+        'auto_join' => 1,
     ];
 });
