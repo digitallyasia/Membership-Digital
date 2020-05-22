@@ -2,14 +2,7 @@
   <div>
     <h1 class="mb-8 text-3xl font-bold">Members</h1>
     <div class="flex items-center justify-between mb-6">
-      <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset">
-        <label class="block text-gray-700">Trashed:</label>
-        <select v-model="form.trashed" class="w-full mt-1 form-select">
-          <option :value="null" />
-          <option value="with">With Trashed</option>
-          <option value="only">Only Trashed</option>
-        </select>
-      </search-filter>
+      <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset"></search-filter>
     </div>
     <div class="pt-2 bg-white rounded-lg shadow-lg">
       <div>
@@ -41,6 +34,7 @@
             >Blocked</inertia-link>
           </li>
           <li
+            v-if="!$page.auth.organization.auto_join"
             class="px-4 py-2 bg-white"
             :class="{ 'border-b-4 border-gray-600': activeTab==='Pending' }"
             :style="activeTab==='Pending' ? 'margin-bottom: -4px' : ''"
@@ -181,7 +175,6 @@ export default {
   data() {
     return {
       activeTab: this.tab,
-      tabs: ["Accepted", "Pending", "Blocked"],
       form: {
         search: this.filters.search,
         trashed: this.filters.trashed
