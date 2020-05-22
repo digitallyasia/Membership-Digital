@@ -66,6 +66,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@membershipdigital.my'
         ]);
+        $test_user  = factory('App\User')->create([
+            'name' => 'Test User',
+            'email' => 'user@membershipdigital.my'
+        ]);
         $members = factory(App\User::class, 20)->create()->pluck('id')->toArray();
         $organization =  factory(Organization::class)->create([
             'name' => 'Organization',
@@ -75,5 +79,6 @@ class DatabaseSeeder extends Seeder
         $organization->benefits()->saveMany(factory(Benefit::class, 20)->create());
         $organization->notifications()->saveMany(factory(Notification::class, 20)->create());
         $organization->members()->attach($members, ['status' => 'accepted']);
+        $organization->members()->attach($test_user->id, ['status' => 'accepted']);
     }
 }
