@@ -51,25 +51,38 @@
           />
           <div class="w-full pb-8">
             <label
-              for="ngo_transmission"
+              for="auto_join"
               class="inline-block w-full mb-6 font-bold"
             >Would you like to add your members manually or automatically?</label>
             <div class="flex flex-row justify-around">
               <div class="w-1/4">
                 <div class="relative">
                   <label class="font-bold">
-                    <input name="ngo_transmission" type="radio" value="auto" /> Automatic
+                    <input
+                      name="auto_join"
+                      type="radio"
+                      required
+                      v-model="form.auto_join"
+                      value="auto"
+                    /> Automatic
                   </label>
                 </div>
               </div>
               <div class="w-1/4">
                 <div class="relative">
                   <label class="font-bold">
-                    <input name="ngo_transmission" type="radio" value="manual" /> Manual
+                    <input
+                      name="auto_join"
+                      type="radio"
+                      required
+                      v-model="form.auto_join"
+                      value="manual"
+                    /> Manual
                   </label>
                 </div>
               </div>
             </div>
+            <div v-if="$page.errors.auto_join" class="form-error">{{ $page.errors.auto_join[0] }}</div>
           </div>
           <text-input
             v-model="form.address"
@@ -173,19 +186,29 @@ export default {
         city: "",
         state: "",
         postal_code: "",
-        description: ""
+        description: "",
+        auto_join: ""
       }
     };
   },
   methods: {
     submit() {
       this.sending = true;
+      var data = new FormData();
+      data.append("logo", this.form.logo);
+      data.append("name", this.form.name);
+      data.append("email", this.form.email);
+      data.append("password", this.form.password);
+      data.append("password_confirmation", this.form.password_confirmation);
+      data.append("address", this.form.address);
+      data.append("phone", this.form.phone);
+      data.append("city", this.form.city);
+      data.append("state", this.form.state);
+      data.append("postal_code", this.form.postal_code);
+      data.append("description", this.form.description);
+      data.append("auto_join", this.form.auto_join);
       this.$inertia
-        .post(this.route("organization.register"), {
-          email: this.form.email,
-          password: this.form.password,
-          remember: this.form.remember
-        })
+        .post(this.route("organization.register"), data)
         .then(() => (this.sending = false));
     }
   }
