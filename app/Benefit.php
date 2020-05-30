@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Imageable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Benefit extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Imageable;
     protected static function boot()
     {
         parent::boot();
@@ -69,12 +70,5 @@ class Benefit extends Model
                 $query->onlyTrashed();
             }
         });
-    }
-
-    public function getImageAttribute($value)
-    {
-        return $value !== null ? Storage::disk('images')->url(
-            $value
-        ) : null;
     }
 }
