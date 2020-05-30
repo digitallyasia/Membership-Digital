@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserUpdateRequest;
+use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileUpdateController extends Controller
 {
@@ -16,7 +18,14 @@ class ProfileUpdateController extends Controller
      */
     public function __invoke(UserUpdateRequest $request)
     {
-        // dd($request);
-        return 'Hello';
+        $validated = $request->validated();
+        if ($request->hasFile('profile_picture')) {
+            $validated['profile_picture'] = Storage::disk('images')->put(
+                time() . $request->file('profile_picture')->getClientOriginalExtension(),
+                $request->file('profile_picture')
+            );
+        }
+        $request->user()->update($validated);
+        return new UserResource($request->user());
     }
 }
