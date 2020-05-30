@@ -71,6 +71,7 @@ return [
             'url' => env('APP_URL') . '/storage/qrcodes',
             'visibility' => 'public',
         ],
+
         'images' => [
             'driver' => 'local',
             'root' => storage_path('app/public/images'),
