@@ -29,6 +29,7 @@ class OrganizationMembersController extends Controller
                 ->paginate()
         ]);
     }
+
     public function blockedMembers(Request $request)
     {
         return Inertia::render('Organization/Members', [
@@ -46,6 +47,7 @@ class OrganizationMembersController extends Controller
         ]);
         return redirect()->back()->with('success', 'Member successfully blocked.');
     }
+
     public function unblock(Request $request)
     {
         Auth::guard('organization')->user()->members()->updateExistingPivot(Request::input('member_id'), [
@@ -53,6 +55,7 @@ class OrganizationMembersController extends Controller
         ]);
         return redirect()->back()->with('success', 'Member successfully unblocked.');
     }
+
     public function delete(Request $request)
     {
         Auth::guard('organization')->user()->members()->detach(Request::input('member_id'));
