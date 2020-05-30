@@ -2,14 +2,7 @@
   <div>
     <h1 class="mb-8 text-3xl font-bold">Push Notifications</h1>
     <div class="flex items-center justify-between mb-6">
-      <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset">
-        <label class="block text-gray-700">Trashed:</label>
-        <select v-model="form.trashed" class="w-full mt-1 form-select">
-          <option :value="null" />
-          <option value="with">With Trashed</option>
-          <option value="only">Only Trashed</option>
-        </select>
-      </search-filter>
+      <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset"></search-filter>
       <inertia-link
         class="btn-indigo"
         :href="route('notifications.create')"
