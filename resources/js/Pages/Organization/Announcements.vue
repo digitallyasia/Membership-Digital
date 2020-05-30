@@ -23,9 +23,9 @@
     <div class="overflow-x-auto bg-white rounded shadow-md">
       <table class="w-full whitespace-no-wrap">
         <tr class="font-bold text-left bg-gray-300">
-          <th class="px-6 pt-6 pb-4">Title</th>
-          <th class="px-6 pt-6 pb-4">Details</th>
-          <th class="px-6 pt-6 pb-4" colspan="2">URL</th>
+          <th class="px-6 py-4">Title</th>
+          <th class="px-6 py-4">Details</th>
+          <th class="px-6 py-4" colspan="2">URL</th>
         </tr>
         <tr
           v-for="announcement in announcements.data"

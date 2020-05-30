@@ -23,8 +23,8 @@
     <div class="overflow-x-auto bg-white rounded shadow-md">
       <table class="w-full whitespace-no-wrap">
         <tr class="font-bold text-left bg-gray-300">
-          <th class="px-6 pt-6 pb-4">Title</th>
-          <th class="px-6 pt-6 pb-4" colspan="2">Body</th>
+          <th class="px-6 py-4">Title</th>
+          <th class="px-6 py-4" colspan="2">Body</th>
         </tr>
         <tr
           v-for="notification in notifications.data"

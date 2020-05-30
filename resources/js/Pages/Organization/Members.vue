@@ -8,7 +8,7 @@
       <div>
         <ul class="flex border-b-4 border-gray-300" role="tablist">
           <li
-            class="px-4 py-2 bg-white"
+            class="px-4 py-2 pb-4 bg-white"
             :class="{ 'border-b-4 border-gray-600': activeTab==='Accepted' }"
             :style="activeTab==='Accepted' ? 'margin-bottom: -4px' : ''"
           >
@@ -21,7 +21,7 @@
             >Accepted</inertia-link>
           </li>
           <li
-            class="px-4 py-2 bg-white"
+            class="px-4 py-2 pb-4 bg-white"
             :class="{ 'border-b-4 border-gray-600': activeTab==='Blocked' }"
             :style="activeTab==='Blocked' ? 'margin-bottom: -4px' : ''"
           >
@@ -35,7 +35,7 @@
           </li>
           <li
             v-if="!$page.auth.organization.auto_join"
-            class="px-4 py-2 bg-white"
+            class="px-4 py-2 pb-4 bg-white"
             :class="{ 'border-b-4 border-gray-600': activeTab==='Pending' }"
             :style="activeTab==='Pending' ? 'margin-bottom: -4px' : ''"
           >
@@ -52,11 +52,11 @@
       <div class="m-4 overflow-x-auto bg-white rounded shadow-md">
         <table class="w-full whitespace-no-wrap">
           <tr class="font-bold text-left bg-gray-300">
-            <th class="px-6 pt-6 pb-4">Name</th>
-            <th class="px-6 pt-6 pb-4">Email</th>
-            <th class="px-6 pt-6 pb-4">Phone Number</th>
-            <th class="px-6 pt-6 pb-4">Date of Birth</th>
-            <th class="px-6 pt-6 pb-4" colspan="2">Address</th>
+            <th class="px-6 py-4">Name</th>
+            <th class="px-6 py-4">Email</th>
+            <th class="px-6 py-4">Phone Number</th>
+            <th class="px-6 py-4">Date of Birth</th>
+            <th class="px-6 py-4" colspan="2">Address</th>
           </tr>
           <tr
             v-for="member in members.data"
