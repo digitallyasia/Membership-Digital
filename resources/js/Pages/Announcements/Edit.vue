@@ -8,11 +8,6 @@
       <span class="font-medium text-indigo-400">/</span>
       {{ form.title }}
     </h1>
-    <trashed-message
-      v-if="announcement.deleted_at"
-      class="mb-6"
-      @restore="restore"
-    >This announcement has been deleted.</trashed-message>
     <div class="max-w-3xl overflow-hidden bg-white rounded shadow">
       <form @submit.prevent="submit">
         <div class="flex flex-wrap p-8 -mb-8 -mr-6">
