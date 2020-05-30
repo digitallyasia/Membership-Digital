@@ -25,7 +25,7 @@ class Organization extends Authenticatable
         //             ->size(399)
         //             ->color(40, 40, 40)
         //             ->margin(1)
-        //             ->generate((string) $organiztion->uuid, './storage/app/public/qrcodes/' . $organiztion->uuid . '.png');
+        //             ->generate((string) $organiztion->uuid, storage_path('app/public/qrcodes/' . $organiztion->uuid . '.png'));
         //         $organiztion->update(['qrcode' => $organiztion->uuid . '.png']);
         //     }
         // );
@@ -103,6 +103,14 @@ class Organization extends Authenticatable
     {
         return $this->hasMany(\App\Notification::class);
     }
+    public function payments()
+    {
+        return $this->hasMany(\App\Payment::class);
+    }
+    public function pendingPayment()
+    {
+        return $this->payments()->where('status', 'pending');
+    }
 
     public function notificationsWithTrashed()
     {
@@ -128,7 +136,7 @@ class Organization extends Authenticatable
 
     public function isMember($user)
     {
-        return $this->members()->where('user_id', $user->id)->where('status', true)->exists();
+        return $this->members()->where('user_id', $user->id)->where('status', 'accepted')->exists();
     }
 
     public function membership($user)
@@ -165,14 +173,18 @@ class Organization extends Authenticatable
 
     public function getLogoAttribute($value)
     {
-        return $value !== null ? Storage::disk('images')->url(
-            $value
-        ) : null;
+        return $value !== null
+            ? (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $value)
+                ? $value
+                : Storage::disk('images')->url($value))
+            : null;
     }
     public function getQrcodeAttribute($value)
     {
-        return $value !== null ? Storage::disk('qrcodes')->url(
-            $value
-        ) : null;
+        return $value !== null
+            ? (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $value)
+                ? $value
+                : Storage::disk('qrcodes')->url($value))
+            : null;
     }
 }
