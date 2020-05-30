@@ -1,25 +1,20 @@
 <template>
   <div>
-    <h1 class="mb-8 font-bold text-3xl">
+    <h1 class="mb-8 text-3xl font-bold">
       <inertia-link
         class="text-indigo-400 hover:text-indigo-600"
         :href="route('organization.benefits')"
       >Benefits</inertia-link>
-      <span class="text-indigo-400 font-medium">/</span>
+      <span class="font-medium text-indigo-400">/</span>
       {{ form.title }}
     </h1>
-    <trashed-message
-      v-if="benefit.deleted_at"
-      class="mb-6"
-      @restore="restore"
-    >This benefit has been deleted.</trashed-message>
-    <div class="bg-white rounded shadow overflow-hidden max-w-3xl">
+    <div class="max-w-3xl overflow-hidden bg-white rounded shadow">
       <form @submit.prevent="submit">
-        <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
+        <div class="flex flex-wrap p-8 -mb-8 -mr-6">
           <file-input
             v-model="form.image"
             :errors="$page.errors.image"
-            class="pb-8 w-full lg:w-full"
+            class="w-full pb-8 lg:w-full"
             type="file"
             accept="image/*"
             label="Image"
@@ -27,24 +22,24 @@
           <text-input
             v-model="form.title"
             :errors="$page.errors.title"
-            class="pr-6 pb-8 w-full"
+            class="w-full pb-8 pr-6"
             label="Title"
           />
           <text-input
             v-model="form.promo_code"
             :errors="$page.errors.promo_code"
-            class="pr-6 pb-8 w-full"
+            class="w-full pb-8 pr-6"
             label="Promo Code"
           />
           <textarea-input
             v-model="form.details"
             :errors="$page.errors.details"
-            class="pr-6 pb-8 w-full"
+            class="w-full pb-8 pr-6"
             label="Details"
           />
         </div>
-        <div class="px-8 py-4 bg-gray-100 border-t border-gray-200 flex items-center">
-          <loading-button :loading="sending" class="btn-indigo ml-auto" type="submit">Update Benefit</loading-button>
+        <div class="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
+          <loading-button :loading="sending" class="ml-auto btn-indigo" type="submit">Update Benefit</loading-button>
         </div>
       </form>
     </div>
