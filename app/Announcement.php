@@ -62,12 +62,6 @@ class Announcement extends Model
                 $query->where('title', 'like', '%' . $search . '%')
                     ->orWhere('details', 'like', '%' . $search . '%');
             });
-        })->when($filters['trashed'] ?? null, function ($query, $trashed) {
-            if ($trashed === 'with') {
-                $query->withTrashed();
-            } elseif ($trashed === 'only') {
-                $query->onlyTrashed();
-            }
         });
     }
 }

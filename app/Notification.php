@@ -51,12 +51,6 @@ class Notification extends Model
                 $query->where('title', 'like', '%' . $search . '%')
                     ->orWhere('body', 'like', '%' . $search . '%');
             });
-        })->when($filters['trashed'] ?? null, function ($query, $trashed) {
-            if ($trashed === 'with') {
-                $query->withTrashed();
-            } elseif ($trashed === 'only') {
-                $query->onlyTrashed();
-            }
         });
     }
 }

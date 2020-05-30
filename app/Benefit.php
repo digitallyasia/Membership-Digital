@@ -63,12 +63,6 @@ class Benefit extends Model
                     ->orWhere('details', 'like', '%' . $search . '%')
                     ->orWhere('promo_code', 'like', '%' . $search . '%');
             });
-        })->when($filters['trashed'] ?? null, function ($query, $trashed) {
-            if ($trashed === 'with') {
-                $query->withTrashed();
-            } elseif ($trashed === 'only') {
-                $query->onlyTrashed();
-            }
         });
     }
 }
