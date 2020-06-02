@@ -2,9 +2,28 @@
   <div class="-m-12">
     <main class="bg-gray-900">
       <div class="flex flex-row p-6">
-        <div class="w-1/2">
-          <div class="w-full">
-            <div class="mr-4 card sm:mr-4 lg:mr-12">
+        <div class="flex flex-col flex-wrap content-start w-1/2 xl:w-2/3 md:flex-row">
+          <div class="w-1/2 mb-6">
+            <div class="justify-start mr-4 card sm:mr-4 lg:mr-6">
+              <div class="flex flex-col">
+                <div class="mb-2 text-base font-bold">Your Current Organisation Plan</div>
+              </div>
+            </div>
+          </div>
+          <div class="w-1/2 mb-6">
+            <div class="mr-4 card sm:mr-4 lg:mr-6">
+              <icon
+                name="users"
+                class="w-20 h-20"
+                :class="'fill-indigo-400 group-hover:fill-white'"
+              />
+              <div class="flex flex-col pt-2 pl-6">
+                <div class="mb-2 text-xl font-bold">You have a bill due</div>
+              </div>
+            </div>
+          </div>
+          <div class="w-full" v-if="pendingPayment">
+            <div class="mr-4 card sm:mr-4 lg:mr-6">
               <icon
                 name="users"
                 class="w-20 h-20"
@@ -126,7 +145,6 @@ import Layout from "@/Shared/Layout";
 import mapValues from "lodash/mapValues";
 import Pagination from "@/Shared/Pagination";
 import pickBy from "lodash/pickBy";
-import SearchFilter from "@/Shared/SearchFilter";
 import debounce from "lodash/debounce";
 import PackageListItem from "@/shared/PackageListItem";
 
@@ -136,13 +154,11 @@ export default {
   components: {
     Icon,
     Pagination,
-    SearchFilter,
     PackageListItem
   },
   props: {
     members: Object,
     payments: Object,
-    filters: Object,
     plans: Array,
     pendingPayment: Object
   },
