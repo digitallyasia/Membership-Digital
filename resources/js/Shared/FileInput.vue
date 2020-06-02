@@ -1,13 +1,16 @@
 <template>
-  <div>
+  <div class="flex items-center justify-center">
     <!-- <label v-if="label" class="form-label">{{ label }}:</label> -->
     <div
       class="flex flex-col w-auto max-w-md p-0 mx-auto border-0 form-input"
       :class="{ error: errors.length }"
     >
       <img
-        class="object-cover rounded-lg shadow-md"
-        :src="typeof value === 'string'&& value!==''?value:preview ? preview : 'https://via.placeholder.com/300x300'"
+        class="object-cover shadow-md"
+        :class="rounded ? 'rounded-full':'rounded-lg'"
+        :src="typeof value === 'string'&& value!==''?value:preview ? preview : 'https://via.placeholder.com/200x200'"
+        width="200"
+        height="200"
       />
       <input
         ref="file"
@@ -18,21 +21,17 @@
         class="hidden"
         @change="change"
       />
-      <div v-if="!value" class="absolute bottom-0 p-2">
+      <div class="flex justify-center mt-2">
         <button
+          v-if="!value"
           type="button"
           class="px-4 py-1 text-xs font-medium text-white bg-gray-500 rounded-sm hover:bg-gray-700"
           @click="browse"
         >Browse</button>
-      </div>
-      <div v-else class="absolute bottom-0 flex items-center justify-between w-full p-2">
-        <div class="flex-1 pr-1 mr-auto">
-          {{ value.name }}
-          <span class="text-xs text-gray-500">({{ filesize(value.size) }})</span>
-        </div>
         <button
+          v-else
           type="button"
-          class="px-4 py-1 ml-auto text-xs font-medium text-white bg-gray-500 rounded-sm hover:bg-gray-700"
+          class="px-4 py-1 text-xs font-medium text-white bg-gray-500 rounded-sm hover:bg-gray-700"
           @click="remove"
         >Remove</button>
       </div>
@@ -47,6 +46,10 @@ export default {
     value: [File, String],
     label: String,
     accept: String,
+    rounded: {
+      type: Boolean,
+      default: false
+    },
     errors: {
       type: Array,
       default: () => []

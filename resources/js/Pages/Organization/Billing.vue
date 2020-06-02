@@ -1,6 +1,68 @@
 <template>
   <div class="-m-12">
     <main class="bg-gray-900">
+      <div class="flex flex-row p-6">
+        <div class="w-1/2">
+          <div class="w-full">
+            <div class="mr-4 card sm:mr-4 lg:mr-12">
+              <icon
+                name="users"
+                class="w-20 h-20"
+                :class="'fill-indigo-400 group-hover:fill-white'"
+              />
+              <div class="flex flex-col pt-2 pl-6">
+                <div class="mb-2 text-xl font-bold">You have a bill due</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-1/2">
+          <div class="w-full overflow-x-auto bg-white rounded shadow-md">
+            <table class="w-full whitespace-no-wrap">
+              <tr class="font-bold text-left bg-gray-300">
+                <th class="px-6 py-3">Plan</th>
+                <th class="px-6 py-3">Subscription</th>
+                <th class="px-6 py-3">Price</th>
+                <th class="px-6 py-3">Status</th>
+                <th class="px-6 py-3">Paid At</th>
+              </tr>
+              <tr
+                v-for="payment in payments.data"
+                :key="payment.id"
+                class="hover:bg-gray-100 focus-within:bg-gray-100"
+              >
+                <td class="border-t">
+                  <span class="flex items-center px-6 py-4" tabindex="-1">{{ payment.plan.name }}</span>
+                </td>
+                <td class="border-t">
+                  <span class="flex items-center px-6 py-4" tabindex="-1">{{ payment.subscription }}</span>
+                </td>
+                <td class="border-t">
+                  <span class="flex items-center px-6 py-4" tabindex="-1">{{ payment.price }}</span>
+                </td>
+                <td class="border-t">
+                  <span class="flex items-center" tabindex="-1">
+                    <span
+                      v-if="payment.status === 'paid'"
+                      class="px-4 py-2 font-bold text-green-500 bg-green-200 rounded-full"
+                    >Paid</span>
+                    <span
+                      v-if="payment.status === 'pending'"
+                      class="px-4 py-2 font-bold text-red-500 bg-red-200 rounded-full"
+                    >Pending</span>
+                  </span>
+                </td>
+                <td class="border-t">
+                  <span class="flex items-center px-6 py-4" tabindex="-1">{{ payment.paid_at }}</span>
+                </td>
+              </tr>
+              <tr v-if="payments.data.length === 0">
+                <td class="px-6 py-4 text-center border-t" colspan="5">No history of payments</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
       <div class="px-4 pt-12 sm:px-6 lg:px-8 lg:pt-20">
         <div class="text-center">
           <h1
@@ -46,7 +108,7 @@
             <div class="mt-auto">
               <div class="mt-6 rounded-lg shadow-md">
                 <a
-                  class="block w-full px-6 py-3 text-base font-semibold leading-6 text-center text-teal-600 transition duration-150 ease-in-out bg-white rounded-lg cursor-pointer font-display hover:text-teal-500 focus:outline-none focus:shadow-outline"
+                  class="block w-full px-6 py-4 text-base font-semibold leading-6 text-center text-teal-600 transition duration-150 ease-in-out bg-white rounded-lg cursor-pointer font-display hover:text-teal-500 focus:outline-none focus:shadow-outline"
                   target="_blank"
                 >Change Plan</a>
               </div>
@@ -79,8 +141,10 @@ export default {
   },
   props: {
     members: Object,
+    payments: Object,
     filters: Object,
-    plans: Array
+    plans: Array,
+    pendingPayment: Object
   },
   data() {
     return {
