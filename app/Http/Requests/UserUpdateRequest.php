@@ -25,13 +25,12 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . request()->user()->id],
             'phone_number' => 'required|string',
             'profile_picture' => request()->hasFile('profile_picture') ? 'required|image|mimes:jpeg,jpg,png' : 'active_url',
             'user_name' => 'required|string',
-            'fcm_token' => 'required|string',
             'address' => 'required|string',
-            'date_of_birth' => 'required',
+            'date_of_birth' => 'required|date',
         ];
     }
 }

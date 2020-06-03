@@ -4,8 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserUpdateRequest;
-use App\Http\Resources\User as UserResource;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileUpdateController extends Controller
@@ -26,6 +24,6 @@ class ProfileUpdateController extends Controller
             );
         }
         $request->user()->update($validated);
-        return new UserResource($request->user());
+        return $request->user()->toArray();
     }
 }
