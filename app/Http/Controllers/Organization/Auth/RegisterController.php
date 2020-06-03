@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -79,7 +80,10 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return Organization::create([
-            'logo' => $data['logo'],
+            'logo' => Storage::disk('images')->put(
+                time() . $data['logo']->getClientOriginalExtension(),
+                $data['logo']
+            ),
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
