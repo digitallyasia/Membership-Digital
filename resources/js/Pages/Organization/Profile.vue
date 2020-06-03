@@ -7,6 +7,15 @@
     <div class="max-w-4xl overflow-hidden bg-white rounded-lg shadow">
       <form @submit.prevent="submit">
         <div class="flex flex-wrap p-8 -mb-8 -mr-6">
+          <file-input
+            v-model="form.logo"
+            :errors="$page.errors.logo"
+            class="w-full pb-8 lg:w-full"
+            type="file"
+            :rounded="true"
+            accept="image/*"
+            label="Logo"
+          />
           <text-input
             v-model="form.name"
             :errors="$page.errors.name"
@@ -99,9 +108,27 @@ export default {
   data() {
     return {
       sending: false,
-      form: this.$page.auth.organization
+      form: JSON.parse(JSON.stringify(this.$page.auth.organization))
     };
   },
-  methods: {}
+  methods: {
+    submit() {
+      this.sending = true;
+      var data = new FormData();
+      data.append("logo", this.form.logo);
+      data.append("name", this.form.name);
+      data.append("email", this.form.email);
+      data.append("address", this.form.address);
+      data.append("phone", this.form.phone);
+      data.append("city", this.form.city);
+      data.append("state", this.form.state);
+      data.append("postal_code", this.form.postal_code);
+      data.append("description", this.form.description);
+      data.append("_method", "put");
+      this.$inertia
+        .post(this.route("organizations.update", this.form.id), data)
+        .then(() => (this.sending = false));
+    }
+  }
 };
 </script>
