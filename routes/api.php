@@ -44,7 +44,10 @@ Route::post('/login', function (Request $request) {
     $user->update([
         'fcm_token' => $request->fcm_token
     ]);
-    return $user->createToken('Application')->plainTextToken;
+    return response([
+        'token' => $user->createToken('Application')->plainTextToken,
+        'organizations' => $user->organizations()->wherePivot('status', 'accepted')->pluck('organizations.id'),
+    ], 200);
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
