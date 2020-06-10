@@ -27,7 +27,9 @@ class Payment extends Model
     protected $casts = [
         'original_bill' => 'array',
         'payment_response' => 'array',
-        'paid' => 'boolean'
+        'paid' => 'boolean',
+        'paid_at' => 'datetime',
+        'plan_id' => 'integer',
     ];
 
     public function organization()
