@@ -109,7 +109,7 @@ class Organization extends Authenticatable
     }
     public function pendingPayment()
     {
-        return $this->payments()->where('status', 'pending');
+        return $this->payments()->where('state', 'pending');
     }
 
     public function notificationsWithTrashed()

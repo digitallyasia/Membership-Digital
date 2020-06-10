@@ -7,6 +7,7 @@
             <div class="justify-start mr-4 card sm:mr-4 lg:mr-6">
               <div class="flex flex-col">
                 <div class="mb-2 text-base font-bold">Your Current Organisation Plan</div>
+                <button @click="generateBill">Genrate Bill</button>
               </div>
             </div>
           </div>
@@ -62,11 +63,11 @@
                 <td class="border-t">
                   <span class="flex items-center" tabindex="-1">
                     <span
-                      v-if="payment.status === 'paid'"
+                      v-if="payment.state === 'paid'"
                       class="px-4 py-2 font-bold text-green-500 bg-green-200 rounded-full"
                     >Paid</span>
                     <span
-                      v-if="payment.status === 'pending'"
+                      v-if="payment.state === 'pending'"
                       class="px-4 py-2 font-bold text-red-500 bg-red-200 rounded-full"
                     >Pending</span>
                   </span>
@@ -171,6 +172,14 @@ export default {
   methods: {
     changePlan() {
       this.isYearly = !this.isYearly;
+    },
+    generateBill() {
+      this.$inertia
+        .post(this.route("organization.generate.bill"), {
+          plan_id: 2,
+          subscription: "yearly"
+        })
+        .then(respose => console.log(response.data));
     }
   }
 };

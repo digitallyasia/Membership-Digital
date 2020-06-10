@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
-class OrganiztionBenefitsController extends Controller
+class OrganizationAnnouncementsController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -15,11 +15,11 @@ class OrganiztionBenefitsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        return Inertia::render('Organization/Benefits', [
+        return Inertia::render('Organization/Announcements', [
             'filters' => Request::all('search', 'trashed'),
-            'benefits' => Auth::guard('organization')->user()->benefits()
+            'announcements' => Auth::guard('organization')->user()->announcements()
                 ->filter(Request::only('search', 'trashed'))
                 ->paginate()
         ]);

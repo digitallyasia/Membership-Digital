@@ -18,9 +18,13 @@ class CreatePaymentsTable extends Migration
             $table->unsignedBigInteger('organization_id');
             $table->unsignedBigInteger('plan_id');
             $table->string('subscription');
-            $table->unsignedInteger('price');
-            $table->string('status');
+            $table->string('bill_id');
+            $table->unsignedInteger('amount');
+            $table->string('state');
+            $table->boolean('paid');
             $table->dateTime('paid_at')->nullable();
+            $table->json('original_bill');
+            $table->json('payment_response')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

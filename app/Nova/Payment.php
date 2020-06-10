@@ -3,7 +3,13 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Code;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Payment extends Resource
@@ -41,6 +47,20 @@ class Payment extends Resource
     {
         return [
             ID::make()->sortable(),
+            BelongsTo::make('Organization'),
+            BelongsTo::make('Plan'),
+            Text::make('Subscription'),
+            Text::make('Bill ID'),
+            Number::make('Amount'),
+            Text::make('State'),
+            Boolean::make('Paid'),
+            Date::make('Paid At'),
+            Code::make('Original Bill')
+                ->json()
+                ->readonly(),
+            Code::make('Payment Response')
+                ->json()
+                ->readonly()
         ];
     }
 

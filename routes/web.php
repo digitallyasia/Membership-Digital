@@ -17,11 +17,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/')->name('organization.dashboard')->uses('DashboardController')->middleware('auth:organization');
+Route::post('/billplz/callback', 'BillPlzCallbackController')->name('billplz.callback');
 Route::name('organization.')->namespace('Organization')->group(function () {
     Route::prefix('/organization')->group(function () {
         Auth::routes(['verify' => true]);
     });
     Route::middleware(['auth:organization'])->group(function () {
+        Route::post('/generate_bill', 'BillController')->name('generate.bill');
         Route::prefix('/members')->group(function () {
             Route::get('/active', 'OrganizationMembersController@activeMembers')->name('members.active');
             Route::get('/pending', 'OrganizationMembersController@pendingMembers')->name('members.pending');
@@ -31,9 +33,9 @@ Route::name('organization.')->namespace('Organization')->group(function () {
             Route::post('/delete', 'OrganizationMembersController@delete')->name('members.delete');
             Route::post('/accept', 'OrganizationMembersController@acceptJoinRequest')->name('members.accept');
         });
-        Route::get('/announcements', 'OrganiztionAnnouncementsController')->name('announcements');
-        Route::get('/benefits', 'OrganiztionBenefitsController')->name('benefits');
-        Route::get('/notifications', 'OrganiztionNotificationsController')->name('notifications');
+        Route::get('/announcements', 'OrganizationAnnouncementsController')->name('announcements');
+        Route::get('/benefits', 'OrganizationBenefitsController')->name('benefits');
+        Route::get('/notifications', 'OrganizationNotificationsController')->name('notifications');
         Route::get('/account/profile', 'OrganizationAccountController@profile')->name('profile');
         Route::get('/account/billing', 'OrganizationAccountController@billing')->name('billing');
     });
