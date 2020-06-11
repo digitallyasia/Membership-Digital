@@ -35,7 +35,7 @@ class BillGenerateController extends Controller
             'plan_id' => $request->plan_id,
             'subscription' => 'monthly',
             'bill_id' => $bill['id'],
-            'amount' => $bill['amount']->getAmount(),
+            'amount' => $bill['amount']->getAmount() / 100,
             // 'paid_amount' => $bill['paid_amount']->getAmount(),
             'state' => $bill['state'],
             'paid' => $bill['paid'],

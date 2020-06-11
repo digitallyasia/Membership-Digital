@@ -153,7 +153,7 @@
                   <button
                     class="block w-full px-6 py-4 text-base font-semibold leading-6 text-center text-teal-600 transition duration-150 ease-in-out bg-white rounded-lg cursor-pointer font-display hover:text-teal-500 focus:outline-none focus:shadow-outline"
                     @click="changePlan(plan)"
-                    v-text="plan.id ===1 ? 'Current Plan':'Change Plan'"
+                    v-text="plan.id === $page.auth.organization.plan_id ? 'Current Plan': selectedPlan && selectedPlan.id === plan.id?'Selected Plan': 'Change Plan'"
                   ></button>
                 </div>
               </div>
@@ -167,11 +167,16 @@
           ></h2>
           <div class="flex items-baseline justify-center mt-4">
             <span
-              class="text-2xl font-semibold leading-none text-white font-display sm:text-5xl lg:text-3xl"
+              class="pr-1 text-2xl font-semibold leading-none text-white font-display sm:text-5xl lg:text-3xl"
             >RM</span>
             <h1
               class="text-4xl font-semibold leading-none text-white font-display sm:text-5xl lg:text-6xl"
             >{{isYearly? selectedPlan.yearly_price:selectedPlan.monthly_price}}</h1>
+            <span
+              class="pl-1 text-2xl font-semibold leading-none text-white font-display sm:text-5xl lg:text-3xl"
+            >
+              <span class="text-white">{{isYearly?'Yearly':'Monthly'}}</span>
+            </span>
           </div>
           <button
             :disabled="generatingBill"
