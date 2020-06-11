@@ -4,7 +4,7 @@
       <div class="flex flex-row p-12">
         <div class="flex flex-col flex-wrap content-start w-1/2 xl:w-2/3 md:flex-row">
           <div class="w-1/2 mb-12">
-            <div class="justify-start mr-4 card sm:mr-4 lg:mr-12">
+            <div class="justify-center p-5 mr-4 text-center card sm:mr-4 lg:mr-12">
               <div class="flex flex-col text-center">
                 <div class="mb-2 text-base font-bold">Your Current Organisation Plan</div>
                 <h1
@@ -13,31 +13,37 @@
               </div>
             </div>
           </div>
-          <div class="w-1/2 mb-12">
+          <!-- <div class="w-1/2 mb-12">
             <div class="mr-4 card sm:mr-4 lg:mr-12">
-              <icon
-                name="users"
-                class="w-20 h-20"
-                :class="'fill-indigo-400 group-hover:fill-white'"
-              />
+              
               <div class="flex flex-col pt-2 pl-12">
                 <div class="mb-2 text-xl font-bold">You have a bill due</div>
               </div>
             </div>
-          </div>
+          </div>-->
           <div class="w-full mb-12" v-if="pendingPayment">
-            <div class="mr-4 card sm:mr-4 lg:mr-12">
-              <div class="flex flex-col pt-2 pl-12">
-                <div class="mb-2 text-xl font-bold">You have a bill due</div>
+            <div class="items-center justify-start mr-4 card sm:mr-4 lg:mr-12">
+              <div class="flex flex-col">
+                <div class="mb-2 font-serif text-xl font-bold text-gray-900">You have a bill due</div>
+                <div>
+                  Plan:
+                  <span
+                    class="font-serif font-semibold"
+                  >{{ plans.find(({ id }) => id === pendingPayment.plan_id).name}}</span>
+                </div>
+                <div>
+                  Price:
+                  <span class="font-serif font-semibold">{{ pendingPayment.amount}}</span>
+                </div>
               </div>
               <a
-                class="flex items-center justify-center font-bold text-center rounded-lg btn-indigo"
+                class="flex items-center justify-center ml-auto font-bold text-center rounded-lg btn-indigo"
                 :href="`https://www.billplz-sandbox.com/bills/${pendingPayment.bill_id}`"
                 target="_blank"
               >Upgrade</a>
               <button
                 :disabled="canceling"
-                class="flex items-center justify-center font-bold text-center rounded-lg btn-indigo"
+                class="flex items-center justify-center ml-2 font-bold text-center rounded-lg btn-indigo"
                 @click="cancelUpgrade"
               >
                 <div v-if="canceling" class="mr-2 btn-spinner" />Cancel Upgrade
@@ -48,11 +54,14 @@
             class="items-center w-full"
             v-if="!showPackages && !pendingPayment && $page.auth.organization.subscription.id ===1"
           >
-            <div class="mr-4 card sm:mr-4 lg:mr-12">
+            <div class="items-center mr-4 card sm:mr-4 lg:mr-12">
               <div class="flex flex-col">
                 <div class="text-xl font-bold">Would you like to upgrade your package?</div>
               </div>
-              <button @click="showPackages = true">Upgrade Package</button>
+              <button
+                class="font-bold text-center rounded-lg btn-indigo"
+                @click="showPackages = true"
+              >Upgrade Package</button>
             </div>
           </div>
         </div>
