@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Organization;
 use App\Payment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class BillPlzCallbackController extends Controller
 {
@@ -35,7 +35,7 @@ class BillPlzCallbackController extends Controller
                 'paid_at' => new \DateTime($request->paid_at),
                 'payment_response' => $request->input()
             ]);
-            Auth::guard('organization')->user()->update([
+            Organization::where('id', '=', $payment->organization_id)->update([
                 'plan_id' => $payment->plan_id,
                 'subscription_expire_at' => $payment->subscription === 'monthly' ? Carbon::now()->addMonth() : Carbon::now()->addYear()
             ]);
