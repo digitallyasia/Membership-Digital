@@ -1,38 +1,52 @@
 <template>
   <div class="-m-12">
-    <main class="bg-gray-900">
-      <div class="flex flex-row p-6">
+    <main>
+      <div class="flex flex-row p-12">
         <div class="flex flex-col flex-wrap content-start w-1/2 xl:w-2/3 md:flex-row">
-          <div class="w-1/2 mb-6">
-            <div class="justify-start mr-4 card sm:mr-4 lg:mr-6">
+          <div class="w-1/2 mb-12">
+            <div class="justify-start mr-4 card sm:mr-4 lg:mr-12">
               <div class="flex flex-col">
                 <div class="mb-2 text-base font-bold">Your Current Organisation Plan</div>
-                <button @click="generateBill">Genrate Bill</button>
               </div>
             </div>
           </div>
-          <div class="w-1/2 mb-6">
-            <div class="mr-4 card sm:mr-4 lg:mr-6">
+          <div class="w-1/2 mb-12">
+            <div class="mr-4 card sm:mr-4 lg:mr-12">
               <icon
                 name="users"
                 class="w-20 h-20"
                 :class="'fill-indigo-400 group-hover:fill-white'"
               />
-              <div class="flex flex-col pt-2 pl-6">
+              <div class="flex flex-col pt-2 pl-12">
                 <div class="mb-2 text-xl font-bold">You have a bill due</div>
               </div>
             </div>
           </div>
-          <div class="w-full" v-if="pendingPayment">
-            <div class="mr-4 card sm:mr-4 lg:mr-6">
-              <icon
-                name="users"
-                class="w-20 h-20"
-                :class="'fill-indigo-400 group-hover:fill-white'"
-              />
-              <div class="flex flex-col pt-2 pl-6">
+          <div class="w-full mb-12" v-if="pendingPayment">
+            <div class="mr-4 card sm:mr-4 lg:mr-12">
+              <div class="flex flex-col pt-2 pl-12">
                 <div class="mb-2 text-xl font-bold">You have a bill due</div>
               </div>
+              <a
+                class="flex items-center justify-center font-bold text-center rounded-lg btn-indigo"
+                :href="`https://www.billplz-sandbox.com/bills/${pendingPayment.bill_id}`"
+                target="_blank"
+              >Upgrade</a>
+              <button
+                :disabled="canceling"
+                class="flex items-center justify-center font-bold text-center rounded-lg btn-indigo"
+                @click="cancelUpgrade"
+              >
+                <div v-if="canceling" class="mr-2 btn-spinner" />Cancel Upgrade
+              </button>
+            </div>
+          </div>
+          <div class="items-center w-full" v-if="!showPackages && !pendingPayment">
+            <div class="mr-4 card sm:mr-4 lg:mr-12">
+              <div class="flex flex-col">
+                <div class="text-xl font-bold">Would you like to upgrade your package?</div>
+              </div>
+              <button @click="showPackages = true">Upgrade Package</button>
             </div>
           </div>
         </div>
@@ -42,7 +56,7 @@
               <tr class="font-bold text-left bg-gray-300">
                 <th class="px-6 py-3">Plan</th>
                 <th class="px-6 py-3">Subscription</th>
-                <th class="px-6 py-3">Price</th>
+                <th class="px-6 py-3">Amount</th>
                 <th class="px-6 py-3">Status</th>
                 <th class="px-6 py-3">Paid At</th>
               </tr>
@@ -55,21 +69,24 @@
                   <span class="flex items-center px-6 py-4" tabindex="-1">{{ payment.plan.name }}</span>
                 </td>
                 <td class="border-t">
-                  <span class="flex items-center px-6 py-4" tabindex="-1">{{ payment.subscription }}</span>
+                  <span
+                    class="flex items-center px-6 py-4 capitalize"
+                    tabindex="-1"
+                  >{{ payment.subscription }}</span>
                 </td>
                 <td class="border-t">
-                  <span class="flex items-center px-6 py-4" tabindex="-1">{{ payment.price }}</span>
+                  <span class="flex items-center px-6 py-4" tabindex="-1">{{ payment.amount }}</span>
                 </td>
                 <td class="border-t">
-                  <span class="flex items-center" tabindex="-1">
+                  <span class="flex items-center px-4" tabindex="-1">
                     <span
                       v-if="payment.state === 'paid'"
                       class="px-4 py-2 font-bold text-green-500 bg-green-200 rounded-full"
                     >Paid</span>
                     <span
-                      v-if="payment.state === 'pending'"
+                      v-if="payment.state === 'due'"
                       class="px-4 py-2 font-bold text-red-500 bg-red-200 rounded-full"
-                    >Pending</span>
+                    >Due</span>
                   </span>
                 </td>
                 <td class="border-t">
@@ -83,57 +100,86 @@
           </div>
         </div>
       </div>
-      <div class="px-4 pt-12 sm:px-6 lg:px-8 lg:pt-20">
-        <div class="text-center">
-          <h1
-            class="text-4xl font-semibold leading-none text-white mt-9 font-display sm:text-5xl lg:text-6xl"
-          >Pricing Table</h1>
-          <p
-            class="max-w-xl mx-auto mt-2 text-xl leading-7 text-gray-300 lg:max-w-3xl lg:text-2xl lg:leading-8"
-          >Automating your organisation is cheaper than hiring an admin executive.</p>
-          <div class="mt-8">
-            <button class="c-toggle" :class="{'c-toggle--active':isYearly}" @click="changePlan">
-              <div class="c-toggle__handle"></div>
-              <span class="c-toggle__label">{{isYearly ? 'Yearly':'Monthly'}}</span>
-            </button>
+
+      <div class="pb-12 pl-12 sm:mr-4 lg:mr-12" v-if="showPackages">
+        <div class="px-4 pt-12 bg-gray-900 sm:px-6 lg:px-8 rounded-t-md">
+          <div class="text-center">
+            <p
+              class="max-w-xl mx-auto mt-2 text-xl leading-7 text-gray-300 lg:max-w-4xl lg:text-2xl lg:leading-8"
+            >Automating your organisation is cheaper than hiring an admin executive.</p>
+            <div class="mt-8">
+              <button
+                class="c-toggle"
+                :class="{'c-toggle--active':isYearly}"
+                @click="changeSubscription"
+              >
+                <div class="c-toggle__handle"></div>
+                <span class="c-toggle__label">{{isYearly ? 'Yearly':'Monthly'}}</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="flex justify-center p-12 pt-8">
-        <div class="plans">
-          <div :class="'mycard flex flex-col '+(plan.code)" v-for="plan in plans" :key="plan.name">
-            <div class="title">
-              <i class="fa fa-rocket" aria-hidden="true"></i>
-              <h2>{{plan.name}}</h2>
-            </div>
-            <div class="flex items-baseline justify-center price">
-              <h4>
-                <span>RM</span>
-                {{isYearly? plan.yearly_price:plan.monthly_price}}
-              </h4>
-              <span class="text-white">{{isYearly?'Yearly':'Monthly'}}</span>
-            </div>
-            <div class="option">
-              <ul>
-                <!-- <li v-for="detail in plan.details" :key="detail">{{detail}}</li> -->
-                <li v-if="plan.card_customization">Card Customization</li>
-                <li v-if="plan.membership_number">Membership Number</li>
-                <li v-if="plan.import_membership_csv">Import Membership CSV</li>
-                <li>Up to {{plan.number_of_benefits}} Benefits</li>
-                <li>Up to {{plan.number_of_announcements}} Announcement</li>
-                <li>Up to {{plan.number_of_notifications}} Push Notifications</li>
-                <li>Up to {{plan.number_of_members}} Total Members</li>
-              </ul>
-            </div>
-            <div class="mt-auto">
-              <div class="mt-6 rounded-lg shadow-md">
-                <a
-                  class="block w-full px-6 py-4 text-base font-semibold leading-6 text-center text-teal-600 transition duration-150 ease-in-out bg-white rounded-lg cursor-pointer font-display hover:text-teal-500 focus:outline-none focus:shadow-outline"
-                  target="_blank"
-                >Change Plan</a>
+        <div class="flex justify-center p-12 pt-8 bg-gray-900">
+          <div class="plans">
+            <div
+              :class="'mycard flex flex-col '+(plan.code)"
+              v-for="plan in plans"
+              :key="plan.name"
+            >
+              <div class="title">
+                <h2>{{plan.name}}</h2>
+              </div>
+              <div class="flex items-baseline justify-center price">
+                <h4>
+                  <span>RM</span>
+                  {{isYearly? plan.yearly_price:plan.monthly_price}}
+                </h4>
+                <span class="text-white">{{isYearly?'Yearly':'Monthly'}}</span>
+              </div>
+              <div class="option">
+                <ul>
+                  <!-- <li v-for="detail in plan.details" :key="detail">{{detail}}</li> -->
+                  <li v-if="plan.card_customization">Card Customization</li>
+                  <li v-if="plan.membership_number">Membership Number</li>
+                  <li v-if="plan.import_membership_csv">Import Membership CSV</li>
+                  <li>Up to {{plan.number_of_benefits}} Benefits</li>
+                  <li>Up to {{plan.number_of_announcements}} Announcement</li>
+                  <li>Up to {{plan.number_of_notifications}} Push Notifications</li>
+                  <li>Up to {{plan.number_of_members}} Total Members</li>
+                </ul>
+              </div>
+              <div class="mt-auto">
+                <div class="mt-2 rounded-lg shadow-md">
+                  <button
+                    class="block w-full px-6 py-4 text-base font-semibold leading-6 text-center text-teal-600 transition duration-150 ease-in-out bg-white rounded-lg cursor-pointer font-display hover:text-teal-500 focus:outline-none focus:shadow-outline"
+                    @click="changePlan(plan)"
+                    v-text="plan.id ===1 ? 'Current Plan':'Change Plan'"
+                  ></button>
+                </div>
               </div>
             </div>
           </div>
+        </div>
+        <div class="text-center bg-gray-900 rounded-b-md" v-if="selectedPlan">
+          <h2
+            class="text-3xl font-semibold leading-none text-white font-display sm:text-4xl lg:text-5xl"
+            v-text="selectedPlan.name"
+          ></h2>
+          <div class="flex items-baseline justify-center mt-4">
+            <span
+              class="text-2xl font-semibold leading-none text-white font-display sm:text-5xl lg:text-3xl"
+            >RM</span>
+            <h1
+              class="text-4xl font-semibold leading-none text-white font-display sm:text-5xl lg:text-6xl"
+            >{{isYearly? selectedPlan.yearly_price:selectedPlan.monthly_price}}</h1>
+          </div>
+          <button
+            :disabled="generatingBill"
+            class="inline-flex items-center justify-center w-56 px-6 py-4 mt-3 mb-10 text-2xl font-bold text-center text-black text-gray-900 bg-white rounded-lg rounded-full btn-indigo focus:shadow-outline"
+            @click="generateBill"
+          >
+            <div v-if="generatingBill" class="mr-2 btn-spinner" />Upgrade
+          </button>
         </div>
       </div>
     </main>
@@ -147,15 +193,17 @@ import mapValues from "lodash/mapValues";
 import Pagination from "@/Shared/Pagination";
 import pickBy from "lodash/pickBy";
 import debounce from "lodash/debounce";
+import diff from "../../../../vendor/scrivo/highlight.php/Highlight/languages/diff.json";
 import PackageListItem from "@/shared/PackageListItem";
-
+import LoadingButton from "@/Shared/LoadingButton";
 export default {
   metaInfo: { title: "Members" },
   layout: Layout,
   components: {
     Icon,
     Pagination,
-    PackageListItem
+    PackageListItem,
+    LoadingButton
   },
   props: {
     members: Object,
@@ -166,20 +214,55 @@ export default {
   data() {
     return {
       isYearly: false,
-      activeTab: "Accepted"
+      activeTab: "Accepted",
+      showPackages: false,
+      selectedPlan: null,
+      selectedSubscription: this.isYearly ? "yearly" : "monthly",
+      canceling: false,
+      generatingBill: false
     };
   },
   methods: {
-    changePlan() {
+    changeSubscription() {
       this.isYearly = !this.isYearly;
+      this.selectedSubscription = this.isYearly ? "yearly" : "monthly";
+    },
+    changePlan(plan) {
+      console.log(plan);
+      if (plan.id !== 1) {
+        this.selectedPlan = plan;
+      } else {
+        this.selectedPlan = null;
+      }
+    },
+    cancelUpgrade() {
+      this.canceling = true;
+      console.log("Cancel Upgrade");
+      this.$inertia
+        .post(this.route("organization.bill.delete"), {
+          bill_id: this.pendingPayment.bill_id
+        })
+        .then(respose => {
+          this.canceling = false;
+        });
+    },
+    upgradeWithBillPlz() {
+      console.log("BillPlz");
     },
     generateBill() {
+      this.generatingBill = true;
       this.$inertia
-        .post(this.route("organization.generate.bill"), {
-          plan_id: 2,
-          subscription: "yearly"
+        .post(this.route("organization.bill.generate"), {
+          plan_id: this.selectedPlan.id,
+          subscription: this.selectedSubscription
         })
-        .then(respose => console.log(response.data));
+        .then(respose => {
+          this.generatingBill = false;
+          this.showPackages = false;
+          this.selectedPlan = null;
+          this.selectedSubscription = null;
+          console.log(response.data);
+        });
     }
   }
 };
@@ -272,9 +355,8 @@ export default {
 
 .title h2 {
   position: relative;
-  margin: 20px 0 0;
   color: #fff;
-  font-size: 28px;
+  font-size: 32px;
   z-index: 2;
 }
 
@@ -285,9 +367,9 @@ export default {
 
 .price h4 {
   margin: 0;
-  padding: 20px 0;
+  padding: 10px 0;
   color: #fff;
-  font-size: 60px;
+  font-size: 50px;
 }
 
 .option {
@@ -308,7 +390,7 @@ export default {
   font-size: 16px;
 }
 
-.mycard a {
+.mycard button {
   position: relative;
   z-index: 2;
   border-radius: 8px;

@@ -23,7 +23,8 @@ Route::name('organization.')->namespace('Organization')->group(function () {
         Auth::routes(['verify' => true]);
     });
     Route::middleware(['auth:organization'])->group(function () {
-        Route::post('/generate_bill', 'BillController')->name('generate.bill');
+        Route::post('/bill_generate', 'BillGenerateController')->name('bill.generate');
+        Route::post('/bill_delete', 'BillDeleteController')->name('bill.delete');
         Route::prefix('/members')->group(function () {
             Route::get('/active', 'OrganizationMembersController@activeMembers')->name('members.active');
             Route::get('/pending', 'OrganizationMembersController@pendingMembers')->name('members.pending');
