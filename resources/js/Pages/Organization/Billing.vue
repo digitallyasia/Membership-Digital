@@ -131,7 +131,7 @@
               </div>
               <div class="flex items-baseline justify-center price">
                 <h4>
-                  <span>RM</span>
+                  <span class="text-3xl">RM</span>
                   {{isYearly? plan.yearly_price:plan.monthly_price}}
                 </h4>
                 <span class="text-white">{{isYearly?'Yearly':'Monthly'}}</span>

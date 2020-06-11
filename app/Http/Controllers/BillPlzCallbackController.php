@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Payment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BillPlzCallbackController extends Controller
 {
@@ -26,12 +27,17 @@ class BillPlzCallbackController extends Controller
         );
         sort($key_value_pair);
         if ($request->x_signature === hash_hmac('sha256', implode('|', $key_value_pair), env('BILLPLZ_X_SIGNATURE'))) {
-            Payment::where('bill_id', '=', $request->id)->update([
+            $payment = Payment::where('bill_id', '=', $request->id)->first();
+            $payment->update([
                 'amount' => $request->paid_amount,
                 'state' => $request->state,
                 'paid' => (bool) $request->paid,
                 'paid_at' => new \DateTime($request->paid_at),
                 'payment_response' => $request->input()
+            ]);
+            Auth::guard('organization')->user()->update([
+                'plan_id' => $payment->plan_id,
+                'subscription_expire_at' => $payment->subscription === 'monthly' ? Carbon::now()->addMonth() : Carbon::now()->addYear()
             ]);
             return response('Done', 200);
         }
