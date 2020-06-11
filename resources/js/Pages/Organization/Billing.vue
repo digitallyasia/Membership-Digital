@@ -5,8 +5,11 @@
         <div class="flex flex-col flex-wrap content-start w-1/2 xl:w-2/3 md:flex-row">
           <div class="w-1/2 mb-12">
             <div class="justify-start mr-4 card sm:mr-4 lg:mr-12">
-              <div class="flex flex-col">
+              <div class="flex flex-col text-center">
                 <div class="mb-2 text-base font-bold">Your Current Organisation Plan</div>
+                <h1
+                  class="font-serif text-3xl font-semibold leading-none text-gray-900 sm:text-4xl lg:text-5xl"
+                >{{$page.auth.organization.subscription.name}}</h1>
               </div>
             </div>
           </div>
@@ -41,7 +44,10 @@
               </button>
             </div>
           </div>
-          <div class="items-center w-full" v-if="!showPackages && !pendingPayment">
+          <div
+            class="items-center w-full"
+            v-if="!showPackages && !pendingPayment && $page.auth.organization.subscription.id ===1"
+          >
             <div class="mr-4 card sm:mr-4 lg:mr-12">
               <div class="flex flex-col">
                 <div class="text-xl font-bold">Would you like to upgrade your package?</div>
@@ -122,11 +128,11 @@
         <div class="flex justify-center p-12 pt-8 bg-gray-900">
           <div class="plans">
             <div
-              :class="'mycard flex flex-col '+(plan.code)"
+              :class="'mycard flex  flex-col '+(plan.code)"
               v-for="plan in plans"
               :key="plan.name"
             >
-              <div class="title">
+              <div class="font-serif font-semibold title">
                 <h2>{{plan.name}}</h2>
               </div>
               <div class="flex items-baseline justify-center price">
@@ -162,18 +168,18 @@
         </div>
         <div class="text-center bg-gray-900 rounded-b-md" v-if="selectedPlan">
           <h2
-            class="text-3xl font-semibold leading-none text-white font-display sm:text-4xl lg:text-5xl"
+            class="font-serif text-3xl font-semibold leading-none text-white sm:text-4xl lg:text-5xl"
             v-text="selectedPlan.name"
           ></h2>
           <div class="flex items-baseline justify-center mt-4">
             <span
-              class="pr-1 text-2xl font-semibold leading-none text-white font-display sm:text-5xl lg:text-3xl"
+              class="pr-1 font-serif text-2xl font-semibold leading-none text-white sm:text-5xl lg:text-3xl"
             >RM</span>
             <h1
-              class="text-4xl font-semibold leading-none text-white font-display sm:text-5xl lg:text-6xl"
+              class="font-serif text-4xl font-semibold leading-none text-white sm:text-5xl lg:text-6xl"
             >{{isYearly? selectedPlan.yearly_price:selectedPlan.monthly_price}}</h1>
             <span
-              class="pl-1 text-2xl font-semibold leading-none text-white font-display sm:text-5xl lg:text-3xl"
+              class="pl-1 font-serif text-2xl font-semibold leading-none text-white sm:text-5xl lg:text-3xl"
             >
               <span class="text-white">{{isYearly?'Yearly':'Monthly'}}</span>
             </span>
