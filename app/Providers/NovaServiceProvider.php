@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
@@ -17,6 +18,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+        \Epigra\NovaSettings\NovaSettingsTool::setSettingsFields([
+            Trix::make('Terms & Conditions', 'tnc'),
+            Trix::make('Privacy Policy', 'pp'),
+            Trix::make('Frequently Asked Questions', 'faq'),
+        ]);
     }
 
     /**
@@ -77,7 +83,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [];
+        return [
+            new \Epigra\NovaSettings\NovaSettingsTool
+        ];
     }
 
     /**
