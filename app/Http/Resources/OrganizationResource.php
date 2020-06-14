@@ -26,6 +26,12 @@ class OrganizationResource extends JsonResource
             'state' => $this->state,
             'postal_code' => $this->postal_code,
             'status' => $this->pivot ? $this->pivot->status : null,
+            'tnc' => $this->tnc,
+            'pp' => $this->pp,
+            'faq' => $this->faq,
+            // 'qrcode' => $this->qrcode,
+            // 'announcements' => new AnnouncementCollection(Announcement::where('organization_id', $this->id)->paginate()),
+            // 'benefits' => new BenefitCollection(Benefit::where('organization_id', $this->id)->paginate()),
         ];
     }
 }

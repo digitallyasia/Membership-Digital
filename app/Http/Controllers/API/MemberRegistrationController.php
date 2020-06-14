@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MemberRegistrationRequest;
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 

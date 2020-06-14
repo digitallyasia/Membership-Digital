@@ -6,8 +6,7 @@ use App\Http\Resources\AnnouncementCollection;
 use App\Http\Resources\BenefitCollection;
 use App\Http\Resources\OrganizationCollection;
 use App\Http\Resources\OrganizationResource;
-use App\Http\Resources\User as UserResource;
-use App\Organization;
+use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -26,6 +25,15 @@ use Illuminate\Validation\ValidationException;
 */
 
 Route::post('/register', 'API\MemberRegistrationController');
+Route::get('/pp', function (Request $request) {
+    return response(Setting::get('pp'), 200);
+});
+Route::get('/tnc', function (Request $request) {
+    return response(Setting::get('tnc'), 200);
+});
+Route::get('/faq', function (Request $request) {
+    return response(Setting::get('faq'), 200);
+});
 
 Route::post('/login', function (Request $request) {
     $request->validate([

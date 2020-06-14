@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class OrganizationCollection extends ResourceCollection
 {
+    public $collects = 'App\Http\Resources\OrganizationResource';
     /**
      * Transform the resource collection into an array.
      *

@@ -228,6 +228,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Fcm' => Kawankoding\Fcm\FcmFacade::class,
+        'Setting' => Akaunting\Setting\Facade::class,
     ],
 
 ];
