@@ -6,6 +6,7 @@ use App\Traits\Imageable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class Announcement extends Model
@@ -16,6 +17,23 @@ class Announcement extends Model
         parent::boot();
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->orderBy('id', 'desc');
+        });
+        static::created(function ($announcement) {
+            fcm()
+                ->toTopic('organization_' . $announcement->organization_id)
+                ->priority('normal')
+                ->timeToLive(0)
+                ->notification([
+                    'title' => $announcement->title,
+                    'body' => $announcement->details,
+                ])
+                ->data([
+                    'organization_id' => $announcement->organization_id,
+                    'type' => 'announcement',
+                    'id' => $announcement->id,
+                ])
+                ->send();
+            Log::info('organization_' . $announcement->organization_id);
         });
     }
 

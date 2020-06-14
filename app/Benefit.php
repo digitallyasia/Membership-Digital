@@ -17,6 +17,22 @@ class Benefit extends Model
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->orderBy('id', 'desc');
         });
+        static::created(function ($benefit) {
+            fcm()
+                ->toTopic('organization_' . $benefit->organization_id)
+                ->priority('normal')
+                ->timeToLive(0)
+                ->notification([
+                    'title' => $benefit->title,
+                    'body' => $benefit->details,
+                ])
+                ->data([
+                    'organization_id' => $benefit->organization_id,
+                    'type' => 'benefit',
+                    'id' => $benefit->id,
+                ])
+                ->send();
+        });
     }
 
     /**

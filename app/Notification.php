@@ -15,6 +15,22 @@ class Notification extends Model
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->orderBy('id', 'desc');
         });
+        static::created(function ($notification) {
+            fcm()
+                ->toTopic('organization_' . $notification->organization_id)
+                ->priority('normal')
+                ->timeToLive(0)
+                ->notification([
+                    'title' => $notification->title,
+                    'body' => $notification->body,
+                ])
+                ->data([
+                    'organization_id' => $notification->organization_id,
+                    'type' => 'notification',
+                    'id' => $notification->id,
+                ])
+                ->send();
+        });
     }
 
     /**
