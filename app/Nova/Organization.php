@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Trix;
 
 class Organization extends Resource
 {
@@ -77,6 +78,9 @@ class Organization extends Resource
                         Boolean::make('Status'),
                     ];
                 }),
+            Trix::make('Terms & Conditions', 'tnc'),
+            Trix::make('Privacy Policy', 'pp'),
+            Trix::make('Frequently Asked Questions', 'faq'),
 
         ];
     }

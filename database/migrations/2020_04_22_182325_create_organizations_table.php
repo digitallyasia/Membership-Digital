@@ -30,6 +30,9 @@ class CreateOrganizationsTable extends Migration
             $table->boolean('auto_join')->default(false);
             $table->uuid('uuid');
             $table->string('qrcode')->nullable();
+            $table->string('tnc')->nullable();
+            $table->string('pp')->nullable();
+            $table->string('faq')->nullable();
             $table->softDeletes();
             $table->unsignedBigInteger('plan_id')->default(1);
             $table->timestamp('subscription_expire_at')->nullable();
