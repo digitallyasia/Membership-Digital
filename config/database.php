@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Str;
 
-$DATABASE_URL = parse_url(getenv("CLEARDB_DATABASE_URL"));
+$DATABASE_URL = parse_url(getenv("JAWSDB_URL"));
 
 $host = $DATABASE_URL["host"];
 $username = $DATABASE_URL["user"];
