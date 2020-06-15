@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Announcement;
+use App\Benefit;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrganizationResource extends JsonResource
@@ -25,13 +27,19 @@ class OrganizationResource extends JsonResource
             'city' => $this->city,
             'state' => $this->state,
             'postal_code' => $this->postal_code,
+            'uuid' => $this->uuid,
             'status' => $this->pivot ? $this->pivot->status : null,
             'tnc' => $this->tnc,
             'pp' => $this->pp,
             'faq' => $this->faq,
-            // 'qrcode' => $this->qrcode,
-            // 'announcements' => new AnnouncementCollection(Announcement::where('organization_id', $this->id)->paginate()),
-            // 'benefits' => new BenefitCollection(Benefit::where('organization_id', $this->id)->paginate()),
+            'announcements' => $this->when(
+                !$this->onlyOrganization,
+                new AnnouncementCollection(Announcement::where('organization_id', $this->id)->paginate())
+            ),
+            'benefits' => $this->when(
+                !$this->onlyOrganization,
+                new BenefitCollection(Benefit::where('organization_id', $this->id)->paginate())
+            ),
         ];
     }
 }
