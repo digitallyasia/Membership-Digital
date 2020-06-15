@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Organization;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Schema\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\UrlWindow;
 use Illuminate\Support\Collection;
@@ -21,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Date::use(CarbonImmutable::class);
+        Builder::defaultStringLength(191);
     }
 
     public function register()
