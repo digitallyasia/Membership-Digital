@@ -17,7 +17,7 @@ class CreateOrganizationsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('logo');
-            $table->string('description');
+            $table->text('description');
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
