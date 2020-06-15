@@ -23,8 +23,8 @@ class CreatePaymentsTable extends Migration
             $table->string('state');
             $table->boolean('paid');
             $table->dateTime('paid_at')->nullable();
-            $table->json('original_bill');
-            $table->json('payment_response')->nullable();
+            $table->text('original_bill');
+            $table->text('payment_response')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
