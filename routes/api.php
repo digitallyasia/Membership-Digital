@@ -25,12 +25,15 @@ use Illuminate\Validation\ValidationException;
 */
 
 Route::post('/register', 'API\MemberRegistrationController');
+
 Route::get('/pp', function (Request $request) {
     return response(Setting::get('pp'), 200);
 });
+
 Route::get('/tnc', function (Request $request) {
     return response(Setting::get('tnc'), 200);
 });
+
 Route::get('/faq', function (Request $request) {
     return response(Setting::get('faq'), 200);
 });
@@ -71,26 +74,29 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
     });
 
-    Route::prefix('organizations/{organization:uuid}')->group(function () {
-        Route::get('/', function (App\Organization $organization, Request $request) {
-            return $organization->membership($request->user())
-                ?   new OrganizationResource($request->user()->organizations()->where('organization_members.organization_id', '=', $organization->id)->first())
-                :   new OrganizationResource($organization);
+    Route::prefix('organizations/{organization}')->group(function () {
+        Route::get('/', function ($organization, Request $request) {
+            if (!$organization->membership($request->user()))
+                $organization->onlyOrganization = true;
+            return new OrganizationResource($organization);
         });
 
         Route::get('/join', 'API\OrganizationJoinController');
-    });
-    Route::prefix('organizations/{organization}/')->group(function () {
-        Route::get('announcements', function (App\Organization $organization, Request $request) {
+
+        Route::get('/announcements', function ($organization, Request $request) {
             // return $organization->isMember($request->user())
             return new AnnouncementCollection(Announcement::where('organization_id', $organization->id)->paginate());
             // : response(['message' => 'You are not member of this organization'], 403);
         });
 
-        Route::get('benefits', function (App\Organization $organization, Request $request) {
+        Route::get('/benefits', function ($organization, Request $request) {
             // return $organization->isMember($request->user())
             return new BenefitCollection(Benefit::where('organization_id', $organization->id)->paginate());
             // : response(['message' => 'You are not member of this organization'], 403);
         });
     });
 });
+
+Route::fallback(function () {
+    return response()->json(['message' => 'Not Found.'], 404);
+})->name('api.fallback.404');
