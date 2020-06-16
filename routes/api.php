@@ -62,6 +62,27 @@ Route::post('/login', function (Request $request) {
     ], 200);
 });
 
+Route::post('/forget_password', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+    if ($user) {
+        // $request->user()->update([
+        //     'password' => Hash::make($request->new_password)
+        // ]);
+
+        return response([
+            'message' => "New generated password successfully to your email",
+        ], 200);
+    } else {
+        return response([
+            'message' => "The given email address is not associated with any account. Double-check your email address and try again.",
+        ], 200);
+    }
+});
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('me')->group(function () {
         Route::get('/', function (Request $request) {
