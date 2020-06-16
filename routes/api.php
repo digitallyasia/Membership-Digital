@@ -7,6 +7,7 @@ use App\Http\Resources\BenefitCollection;
 use App\Http\Resources\OrganizationCollection;
 use App\Http\Resources\OrganizationResource;
 use App\Http\Resources\UserResource;
+use App\Rules\MatchOldPassword;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -72,6 +73,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/organizations', function (Request $request) {
             return new OrganizationCollection($request->user()->organizations()->paginate());
         });
+    });
+
+    Route::post('/change_password', function (Request $request) {
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword],
+            'new_password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $request->user()->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return response([
+            'message' => "Password Successfully Updated",
+        ], 200);
     });
 
     Route::prefix('organizations/{organization}')->group(function () {
