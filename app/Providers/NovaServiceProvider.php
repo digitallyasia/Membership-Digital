@@ -2,6 +2,18 @@
 
 namespace App\Providers;
 
+use App\Nova\Metrics\AnnouncementsPerDay;
+use App\Nova\Metrics\BenefitsPerDay;
+use App\Nova\Metrics\NewAnnouncements;
+use App\Nova\Metrics\NewBenefits;
+use App\Nova\Metrics\NewNotifications;
+use App\Nova\Metrics\NewPayments;
+use App\Nova\Metrics\NewUsers;
+use App\Nova\Metrics\NotificationsPerDay;
+use App\Nova\Metrics\PaymentsPerDay;
+use App\Nova\Metrics\PaymentsPerPlan;
+use App\Nova\Metrics\PaymentsPerStatus;
+use App\Nova\Metrics\UsersPerDay;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Fields\Trix;
@@ -62,7 +74,18 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            new Help,
+            new NewUsers,
+            new UsersPerDay,
+            new NewAnnouncements,
+            new AnnouncementsPerDay,
+            new NewBenefits,
+            new BenefitsPerDay,
+            new NewNotifications,
+            new NotificationsPerDay,
+            new NewPayments,
+            new PaymentsPerPlan,
+            new PaymentsPerStatus(),
+            new PaymentsPerDay,
         ];
     }
 
