@@ -8,7 +8,7 @@
             class="flex items-center justify-between px-6 py-4 bg-indigo-900 lg:flex-shrink-0 lg:w-64 lg:justify-center"
           >
             <inertia-link class="mt-1" href="/">
-              <logo class="fill-white" width="120" height="28" />
+              <logo class="fill-white" />
             </inertia-link>
             <dropdown class="lg:hidden" placement="bottom-end">
               <svg
