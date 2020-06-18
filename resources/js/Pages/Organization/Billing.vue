@@ -40,7 +40,7 @@
                 class="flex items-center justify-center ml-auto font-bold text-center rounded-lg btn-indigo"
                 :href="`https://www.billplz-sandbox.com/bills/${pendingPayment.bill_id}`"
                 target="_blank"
-              >Upgrade</a>
+              >Pay Now</a>
               <button
                 :disabled="canceling"
                 class="flex items-center justify-center ml-2 font-bold text-center rounded-lg btn-indigo"
@@ -237,7 +237,7 @@ export default {
       activeTab: "Accepted",
       showPackages: false,
       selectedPlan: null,
-      selectedSubscription: this.isYearly ? "yearly" : "monthly",
+      selectedSubscription: "monthly",
       canceling: false,
       generatingBill: false
     };
@@ -257,7 +257,6 @@ export default {
     },
     cancelUpgrade() {
       this.canceling = true;
-      console.log("Cancel Upgrade");
       this.$inertia
         .post(this.route("organization.bill.delete"), {
           bill_id: this.pendingPayment.bill_id
@@ -265,9 +264,6 @@ export default {
         .then(respose => {
           this.canceling = false;
         });
-    },
-    upgradeWithBillPlz() {
-      console.log("BillPlz");
     },
     generateBill() {
       this.generatingBill = true;
@@ -280,8 +276,6 @@ export default {
           this.generatingBill = false;
           this.showPackages = false;
           this.selectedPlan = null;
-          this.selectedSubscription = null;
-          console.log(response.data);
         });
     }
   }
