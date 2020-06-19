@@ -14,46 +14,46 @@
 </template>
 
 <script>
-import Trix from 'trix'
-import 'trix/dist/trix.css'
+import Trix from "trix";
+import "trix/dist/trix.css";
 
 export default {
-  name: 'trix-vue',
+  name: "trix-vue",
 
   props: {
     name: { type: String },
     value: { type: String },
     placeholder: { type: String },
-    withFiles: { type: Boolean, default: true },
-    disabled: { type: Boolean, default: false },
+    withFiles: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false }
   },
 
   methods: {
     initialize() {
-      this.$refs.theEditor.editor.insertHTML(this.value)
+      this.$refs.theEditor.editor.insertHTML(this.value);
 
       if (this.disabled) {
-        this.$refs.theEditor.setAttribute('contenteditable', false)
+        this.$refs.theEditor.setAttribute("contenteditable", false);
       }
     },
 
     handleChange() {
-      this.$emit('change', this.$refs.theEditor.value)
+      this.$emit("change", this.$refs.theEditor.value);
     },
 
     handleFileAccept(e) {
       if (!this.withFiles) {
-        e.preventDefault()
+        e.preventDefault();
       }
     },
 
     handleAddFile(event) {
-      this.$emit('file-add', event)
+      this.$emit("file-add", event);
     },
 
     handleRemoveFile(event) {
-      this.$emit('file-remove', event)
-    },
-  },
-}
+      this.$emit("file-remove", event);
+    }
+  }
+};
 </script>

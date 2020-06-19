@@ -27,5 +27,8 @@
         "vue": "^2.6.11",
         "vue-meta": "^2.3.3",
         "vue-template-compiler": "^2.6.11"
+    },
+    "dependencies": {
+        "trix": "^1.2.3"
     }
 }

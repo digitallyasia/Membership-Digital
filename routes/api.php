@@ -12,6 +12,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 /*
@@ -69,12 +70,14 @@ Route::post('/forget_password', function (Request $request) {
 
     $user = User::where('email', $request->email)->first();
     if ($user) {
-        // $request->user()->update([
-        //     'password' => Hash::make($request->new_password)
-        // ]);
+        $newPassword = Str::random(8);
+
+        $request->user()->update([
+            'password' => Hash::make($newPassword)
+        ]);
 
         return response([
-            'message' => "New generated password successfully to your email",
+            'message' => "New generated password successfully send to your email",
         ], 200);
     } else {
         return response([
