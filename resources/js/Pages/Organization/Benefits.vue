@@ -18,7 +18,8 @@
         <tr class="font-bold text-left bg-gray-300">
           <th class="px-6 py-4">Title</th>
           <th class="px-6 py-4">Details</th>
-          <th class="px-6 py-4" colspan="2">Promo Code</th>
+          <th class="px-6 py-4">Promo Code</th>
+          <th class="px-6 py-4" colspan="2">Created At</th>
         </tr>
         <tr
           v-for="benefit in benefits.data"
@@ -52,6 +53,12 @@
               tabindex="-1"
               :href="route('benefits.edit',benefit.id)"
             >{{ benefit.promo_code }}</inertia-link>
+          </td>
+          <td class="border-t">
+            <span
+              class="flex items-center px-6 py-4"
+              tabindex="-1"
+            >{{ moment(benefit.created_at).format('LLL') }}</span>
           </td>
           <td class="w-px border-t">
             <span class="flex items-center px-4" tabindex="-1">

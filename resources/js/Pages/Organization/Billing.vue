@@ -132,7 +132,10 @@
                   </span>
                 </td>
                 <td class="border-t">
-                  <span class="flex items-center px-6 py-4" tabindex="-1">{{ payment.paid_at }}</span>
+                  <span
+                    class="flex items-center px-6 py-4"
+                    tabindex="-1"
+                  >{{ moment(payment.paid_at).format('LLL') }}</span>
                 </td>
               </tr>
               <tr v-if="payments.data.length === 0">

@@ -10,6 +10,15 @@ Vue.use(PortalVue);
 Vue.use(VueMeta);
 Vue.config.ignoredElements = ["trix-editor"];
 
+var moment = require("moment");
+Vue.mixin({
+    methods: {
+        moment(...args) {
+            return moment.utc(...args).local();
+        }
+    }
+});
+
 let app = document.getElementById("app");
 new Vue({
     metaInfo: {

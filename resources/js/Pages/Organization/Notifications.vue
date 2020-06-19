@@ -17,7 +17,8 @@
       <table class="w-full whitespace-no-wrap">
         <tr class="font-bold text-left bg-gray-300">
           <th class="px-6 py-4">Title</th>
-          <th class="px-6 py-4" colspan="2">Body</th>
+          <th class="px-6 py-4">Body</th>
+          <th class="px-6 py-4" colspan="2">Created At</th>
         </tr>
         <tr
           v-for="notification in notifications.data"
@@ -29,6 +30,12 @@
           </td>
           <td class="border-t">
             <span class="flex items-center px-6 py-4" tabindex="-1">{{ notification.body }}</span>
+          </td>
+          <td class="border-t">
+            <span
+              class="flex items-center px-6 py-4"
+              tabindex="-1"
+            >{{ moment(notification.created_at).format('LLL') }}</span>
           </td>
           <td class="w-px border-t">
             <span class="flex items-center px-4" tabindex="-1">
