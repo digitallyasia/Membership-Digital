@@ -33,7 +33,7 @@ class BillGenerateController extends Controller
         $bill = $bill1->toArray();
         $payment = $organization->payments()->create([
             'plan_id' => $request->plan_id,
-            'subscription' => 'monthly',
+            'subscription' => $request->subscription,
             'bill_id' => $bill['id'],
             'amount' => $bill['amount']->getAmount() / 100,
             // 'paid_amount' => $bill['paid_amount']->getAmount(),
