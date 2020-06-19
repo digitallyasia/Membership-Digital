@@ -50,6 +50,9 @@ class Organization extends Authenticatable
         'state',
         'postal_code',
         'qrcode',
+        'pp',
+        'tnc',
+        'faq'
     ];
 
     /**

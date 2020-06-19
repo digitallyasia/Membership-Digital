@@ -25,6 +25,10 @@ Route::name('organization.')->namespace('Organization')->group(function () {
     Route::middleware(['auth:organization'])->group(function () {
         Route::post('/bill_generate', 'BillGenerateController')->name('bill.generate');
         Route::post('/bill_delete', 'BillDeleteController')->name('bill.delete');
+        Route::get('/privacy-policy', 'PagesController@privacyPolicy')->name('policy');
+        Route::get('/terms-and-conditions', 'PagesController@termsAndConditions')->name('tnc');
+        Route::post('/save-page', 'PagesController@saveHtml')->name('save-page');
+        Route::get('/faq', 'PagesController@faq')->name('faq');
         Route::prefix('/members')->group(function () {
             Route::get('/active', 'OrganizationMembersController@activeMembers')->name('members.active');
             Route::get('/pending', 'OrganizationMembersController@pendingMembers')->name('members.pending');
