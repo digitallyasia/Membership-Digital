@@ -36,7 +36,7 @@ class Organization extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'email', 'phone'
+        'id', 'email', 'phone', 'name'
     ];
 
     /**

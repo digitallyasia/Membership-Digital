@@ -32,7 +32,7 @@ class Benefit extends Resource
      * @var array
      */
     public static $search = [
-        'title', 'promo_code', 'details'
+        'id', 'title', 'promo_code', 'details'
     ];
 
     /**
