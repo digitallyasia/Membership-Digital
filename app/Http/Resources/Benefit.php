@@ -16,11 +16,13 @@ class Benefit extends JsonResource
     {
         return [
             'id' => $this->id,
-            // 'organization_id' => $this->organization_id,
+            'type' => 'benefit',
+            'organization_id' => $this->organization_id,
             'title' => $this->title,
             'details' => $this->details,
             'image' => $this->image,
             'promo_code' => $this->promo_code,
+            'created_at' => $this->created_at,
         ];
     }
 }

@@ -16,11 +16,13 @@ class Announcement extends JsonResource
     {
         return [
             'id' => $this->id,
-            // 'organization_id' => $this->organization_id,
+            'type' => 'announcement',
+            'organization_id' => $this->organization_id,
             'title' => $this->title,
             'details' => $this->details,
             'url' => $this->url,
             'image' => $this->image,
+            'created_at' => $this->created_at,
         ];
     }
 }

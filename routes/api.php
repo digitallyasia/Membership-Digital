@@ -2,7 +2,9 @@
 
 use App\Announcement;
 use App\Benefit;
+use App\Http\Resources\Announcement as AnnouncementResource;
 use App\Http\Resources\AnnouncementCollection;
+use App\Http\Resources\Benefit as BenefitResource;
 use App\Http\Resources\BenefitCollection;
 use App\Http\Resources\OrganizationCollection;
 use App\Http\Resources\OrganizationResource;
@@ -10,6 +12,7 @@ use App\Http\Resources\UserResource;
 use App\Rules\MatchOldPassword;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -96,6 +99,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/organizations', function (Request $request) {
             return new OrganizationCollection($request->user()->organizations()->paginate());
+        });
+
+        Route::get('/feeds', function (Request $request) {
+            $organizations = $request->user()->organizations()->wherePivot('status', 'accepted')->pluck('organizations.id');
+            $announcements =  AnnouncementResource::collection(Announcement::whereIn('organization_id', $organizations)->limit(50)->get());
+            $benefits = BenefitResource::collection(Benefit::whereIn('organization_id', $organizations)->limit(50)->get());
+            $collection = collect($benefits)->map(function ($benefit) {
+                return (object) $benefit;
+            });
+            foreach ($announcements as $announcement) {
+                $collection->push($announcement);
+            };
+            $collection->sortBy('created_at');
+            return $collection;
         });
     });
 
