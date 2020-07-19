@@ -28,7 +28,7 @@ class Benefit extends Model
                 ])
                 ->data([
                     'organization_id' => $benefit->organization_id,
-                    'type' => 'benefit',
+                    'type' => 'Benefit',
                     'id' => $benefit->id,
                 ])
                 ->send();

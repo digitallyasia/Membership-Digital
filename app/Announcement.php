@@ -29,7 +29,7 @@ class Announcement extends Model
                 ])
                 ->data([
                     'organization_id' => $announcement->organization_id,
-                    'type' => 'announcement',
+                    'type' => 'Announcements',
                     'id' => $announcement->id,
                 ])
                 ->send();
