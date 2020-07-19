@@ -169,7 +169,7 @@ class Organization extends Authenticatable
     public function getLogoAttribute($value)
     {
         return $value !== null
-            ? (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $value)
+            ? (preg_match('|^http(s)?://|', $value)
                 ? $value
                 : Storage::disk('images')->url($value))
             : null;
@@ -177,7 +177,7 @@ class Organization extends Authenticatable
     public function getQrcodeAttribute($value)
     {
         return $value !== null
-            ? (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $value)
+            ? (preg_match('|^http(s)?://|', $value)
                 ? $value
                 : Storage::disk('qrcodes')->url($value))
             : null;
