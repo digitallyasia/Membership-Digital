@@ -2,16 +2,14 @@
 
 namespace App;
 
-use App\Traits\Imageable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class Announcement extends Model
 {
-    use SoftDeletes, Imageable;
+    use SoftDeletes;
     protected static function boot()
     {
         parent::boot();

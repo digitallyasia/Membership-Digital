@@ -19,16 +19,16 @@ class Organization extends Authenticatable
                 $organiztion->uuid = \Str::uuid();
             }
         );
-        // static::created(
-        //     function ($organiztion) {
-        //         QrCode::format('png')
-        //             ->size(399)
-        //             ->color(40, 40, 40)
-        //             ->margin(1)
-        //             ->generate((string) $organiztion->uuid, storage_path('app/public/qrcodes/' . $organiztion->uuid . '.png'));
-        //         $organiztion->update(['qrcode' => $organiztion->uuid . '.png']);
-        //     }
-        // );
+        static::created(
+            function ($organiztion) {
+                QrCode::format('png')
+                    ->size(399)
+                    ->color(40, 40, 40)
+                    ->margin(1)
+                    ->generate((string) $organiztion->uuid, storage_path('app/public/qrcodes/' . $organiztion->uuid . '.png'));
+                $organiztion->update(['qrcode' => $organiztion->uuid . '.png']);
+            }
+        );
     }
 
     /**
@@ -164,22 +164,5 @@ class Organization extends Authenticatable
                     ->orWhere('email', 'like', '%' . $search . '%');
             });
         });
-    }
-
-    public function getLogoAttribute($value)
-    {
-        return $value !== null
-            ? (preg_match('|^http(s)?://|', $value)
-                ? $value
-                : Storage::disk('images')->url($value))
-            : null;
-    }
-    public function getQrcodeAttribute($value)
-    {
-        return $value !== null
-            ? (preg_match('|^http(s)?://|', $value)
-                ? $value
-                : Storage::disk('qrcodes')->url($value))
-            : null;
     }
 }
