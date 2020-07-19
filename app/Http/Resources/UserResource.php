@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class UserResource extends JsonResource
 {
@@ -16,7 +17,9 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'profile_picture' => $this->profile_picture,
+            'profile_picture' => Storage::disk('images')->url(
+                $this->profile_picture
+            ),
             'name' => $this->name,
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at,

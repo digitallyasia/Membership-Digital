@@ -8,7 +8,7 @@
       <img
         class="object-cover shadow-md"
         :class="rounded ? 'rounded-full':'rounded-lg'"
-        :src="typeof value === 'string'&& value!==''?value:preview ? preview : 'https://via.placeholder.com/200x200'"
+        :src="typeof value === 'string'&& value!==''? `/storage/images/${value}`:preview ? preview : 'https://via.placeholder.com/200x200'"
         width="200"
         height="200"
       />

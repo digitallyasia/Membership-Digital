@@ -68,7 +68,7 @@
                 <img
                   v-if="member.profile_picture"
                   class="block w-5 h-5 mr-2 -my-2 rounded-full"
-                  :src="member.profile_picture"
+                  :src="`/storage/images/${member.profile_picture}`"
                 />
                 {{ member.name }}
               </span>

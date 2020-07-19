@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class Announcement extends JsonResource
 {
@@ -21,7 +22,9 @@ class Announcement extends JsonResource
             'title' => $this->title,
             'details' => $this->details,
             'url' => $this->url,
-            'image' => $this->image,
+            'image' => Storage::disk('images')->url(
+                $this->image
+            ),
             'created_at' => $this->created_at,
         ];
     }

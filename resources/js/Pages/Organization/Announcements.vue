@@ -35,7 +35,7 @@
               <img
                 v-if="announcement.image"
                 class="block w-5 h-5 mr-2 -my-2 rounded-full"
-                :src="announcement.image"
+                :src="`/storage/images/${announcement.image}`"
               />
               {{ announcement.title }}
             </inertia-link>

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class Benefit extends JsonResource
 {
@@ -20,7 +21,9 @@ class Benefit extends JsonResource
             'organization_id' => $this->organization_id,
             'title' => $this->title,
             'details' => $this->details,
-            'image' => $this->image,
+            'image' => Storage::disk('images')->url(
+                $this->image
+            ),
             'promo_code' => $this->promo_code,
             'created_at' => $this->created_at,
         ];

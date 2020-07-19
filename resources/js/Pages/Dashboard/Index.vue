@@ -76,7 +76,7 @@
         </div>
         <div class="w-full mt-6 lg:mr-12 lg:w-full xl:mt-6 md:mt-0">
           <div class="p-0 mr-4 card sm:mr-4 lg:mr-0">
-            <img :src="$page.auth.organization.qrcode" class="w-full h-full" />
+            <img :src="`/storage/qrcodes/${$page.auth.organization.qrcode}`" class="w-full h-full" />
           </div>
         </div>
       </div>
