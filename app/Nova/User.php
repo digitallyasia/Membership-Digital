@@ -50,7 +50,8 @@ class User extends Resource
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Avatar::make('Profile Picture'),
+            Avatar::make('Profile Picture')
+                ->disk('images'),
 
             Text::make('Email')
                 ->sortable()
@@ -65,15 +66,13 @@ class User extends Resource
 
             Text::make('Phone Number'),
 
-            Text::make('Username'),
+            Text::make('Username', 'user_name'),
 
             Text::make('Fcm Token'),
 
             Text::make('Address'),
 
             Date::make('Date of Birth'),
-
-            Textarea::make('Description'),
         ];
     }
 
