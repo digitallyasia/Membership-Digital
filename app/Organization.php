@@ -37,22 +37,25 @@ class Organization extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
-        'logo',
-        'description',
-        'email',
-        'email_verified_at',
-        'password',
-        'remember_token',
-        'phone',
         'address',
+        'auto_join',
         'city',
-        'state',
+        'description',
+        'email_verified_at',
+        'email',
+        'faq',
+        'logo',
+        'name',
+        'password',
+        'phone',
+        'plan_id',
         'postal_code',
-        'qrcode',
         'pp',
+        'qrcode',
+        'state',
+        'subscription_expire_at',
         'tnc',
-        'faq'
+        'uuid',
     ];
 
     /**
@@ -80,6 +83,9 @@ class Organization extends Authenticatable
     protected $casts = [
         'id' => 'integer',
         'user_id' => 'integer',
+        'subscription_expire_at' => 'datetime',
+        'email_verified_at' => 'datetime',
+        'auto_join' => 'boolean'
     ];
 
     public function benefits()
