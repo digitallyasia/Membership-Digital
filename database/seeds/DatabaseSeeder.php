@@ -70,14 +70,14 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'user@membership.digital'
         ]);
-        $members = factory(App\User::class, 19)->create()->pluck('id')->toArray();
+        $members = factory(App\User::class, 1)->create()->pluck('id')->toArray();
         $organization =  factory(Organization::class)->create([
             'name' => 'Organization',
             'email' => 'organization@membership.digital'
         ]);
-        $organization->announcements()->saveMany(factory(Announcement::class, 19)->create());
-        $organization->benefits()->saveMany(factory(Benefit::class, 19)->create());
-        $organization->notifications()->saveMany(factory(Notification::class, 19)->create());
+        $organization->announcements()->saveMany(factory(Announcement::class, 1)->create());
+        $organization->benefits()->saveMany(factory(Benefit::class, 1)->create());
+        $organization->notifications()->saveMany(factory(Notification::class, 1)->create());
         $organization->members()->attach($members, ['status' => 'accepted']);
         $organization->members()->attach($test_user->id, ['status' => 'accepted']);
     }
