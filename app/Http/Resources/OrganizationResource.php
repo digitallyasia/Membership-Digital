@@ -20,9 +20,9 @@ class OrganizationResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'logo' => Storage::disk('images')->url(
+            'logo' => $this->logo ? Storage::disk('images')->url(
                 $this->logo
-            ),
+            ) : null,
             'description' => $this->description,
             'email' => $this->email,
             'phone' => $this->phone,

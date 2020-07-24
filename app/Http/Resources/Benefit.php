@@ -21,9 +21,9 @@ class Benefit extends JsonResource
             'organization_id' => $this->organization_id,
             'title' => $this->title,
             'details' => $this->details,
-            'image' => Storage::disk('images')->url(
+            'image' => $this->image ? Storage::disk('images')->url(
                 $this->image
-            ),
+            ) : null,
             'promo_code' => $this->promo_code,
             'created_at' => $this->created_at,
         ];
