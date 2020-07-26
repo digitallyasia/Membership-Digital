@@ -43,6 +43,11 @@ class LoginController extends Controller
         $this->middleware('guest:organization')->except('logout');
     }
 
+    public function redirectTo()
+    {
+        return route('organization.dashboard');
+    }
+
     /**
      * Show the login form.
      *
