@@ -243,23 +243,18 @@ import mapValues from "lodash/mapValues";
 import Pagination from "@/Shared/Pagination";
 import pickBy from "lodash/pickBy";
 import debounce from "lodash/debounce";
-import diff from "../../../../vendor/scrivo/highlight.php/Highlight/languages/diff.json";
-import PackageListItem from "@/shared/PackageListItem";
-import LoadingButton from "@/Shared/LoadingButton";
 export default {
   metaInfo: { title: "Members" },
   layout: Layout,
   components: {
     Icon,
     Pagination,
-    PackageListItem,
-    LoadingButton
   },
   props: {
     members: Object,
     payments: Object,
     plans: Array,
-    pendingPayment: Object
+    pendingPayment: Object,
   },
   data() {
     return {
@@ -269,7 +264,7 @@ export default {
       selectedPlan: null,
       selectedSubscription: "monthly",
       canceling: false,
-      generatingBill: false
+      generatingBill: false,
     };
   },
   methods: {
@@ -288,9 +283,9 @@ export default {
       this.canceling = true;
       this.$inertia
         .post(this.route("organization.bill.delete"), {
-          bill_id: this.pendingPayment.bill_id
+          bill_id: this.pendingPayment.bill_id,
         })
-        .then(respose => {
+        .then((respose) => {
           this.canceling = false;
         });
     },
@@ -299,15 +294,15 @@ export default {
       this.$inertia
         .post(this.route("organization.bill.generate"), {
           plan_id: this.selectedPlan.id,
-          subscription: this.selectedSubscription
+          subscription: this.selectedSubscription,
         })
-        .then(respose => {
+        .then((respose) => {
           this.generatingBill = false;
           this.showPackages = false;
           this.selectedPlan = null;
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
