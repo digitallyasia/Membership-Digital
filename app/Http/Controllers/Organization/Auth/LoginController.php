@@ -81,8 +81,7 @@ class LoginController extends Controller
         if (Auth::guard('organization')->attempt($request->only('email', 'password'), $request->filled('remember'))) {
             //Authenticated, redirect to the intended route
             //if available else teacher dashboard.
-            return redirect()
-                ->intended(route('organization.dashboard'));
+            return redirect(route('organization.dashboard'));
         }
         //keep track of login attempts from the user.
         $this->incrementLoginAttempts($request);
