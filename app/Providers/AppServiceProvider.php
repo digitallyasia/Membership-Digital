@@ -7,6 +7,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\UrlWindow;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
@@ -19,10 +20,13 @@ use League\Glide\Server;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(UrlGenerator $url)
     {
         Date::use(CarbonImmutable::class);
         Builder::defaultStringLength(191);
+        if (env('APP_ENV') === 'production') {
+            $url->forceScheme('https')
+        }
     }
 
     public function register()
