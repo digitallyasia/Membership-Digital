@@ -47,6 +47,6 @@ class OrganizationController extends Controller
         $organization->update([
             'auto_join' => !$organization->auto_join
         ]);
-        return back()->with('success', 'Auto Join Updated.');
+        return redirect(route('organization.members.active'))->with('success', 'Auto Join Updated.');
     }
 }
