@@ -31,34 +31,34 @@ use Illuminate\Validation\ValidationException;
 
 Route::post('/register', 'API\MemberRegistrationController');
 
-Route::get('/pp', function (Request $request) {
+Route::get('/pp', function () {
     return response(Setting::get('pp'), 200);
 });
 
-Route::get('/tnc', function (Request $request) {
+Route::get('/tnc', function () {
     return response(Setting::get('tnc'), 200);
 });
 
-Route::get('/faq', function (Request $request) {
+Route::get('/faq', function () {
     return response(Setting::get('faq'), 200);
 });
 
-Route::post('/login', function (Request $request) {
-    $request->validate([
+Route::post('/login', function () {
+    request()->validate([
         'email' => 'required|email',
         'password' => 'required',
         'fcm_token' => 'required',
     ]);
 
-    $user = User::where('email', $request->email)->first();
+    $user = User::where('email', request()->email)->first();
 
-    if (!$user || !Hash::check($request->password, $user->password)) {
+    if (!$user || !Hash::check(request()->password, $user->password)) {
         throw ValidationException::withMessages([
             'email' => ['The provided credentials are incorrect.'],
         ]);
     }
     $user->update([
-        'fcm_token' => $request->fcm_token
+        'fcm_token' => request()->fcm_token
     ]);
     return response([
         'token' => $user->createToken('Application')->plainTextToken,
@@ -66,16 +66,16 @@ Route::post('/login', function (Request $request) {
     ], 200);
 });
 
-Route::post('/forget_password', function (Request $request) {
-    $request->validate([
+Route::post('/forget_password', function () {
+    request()->validate([
         'email' => 'required|email',
     ]);
 
-    $user = User::where('email', $request->email)->first();
+    $user = User::where('email', request()->email)->first();
     if ($user) {
         $newPassword = Str::random(8);
 
-        $request->user()->update([
+        request()->user()->update([
             'password' => Hash::make($newPassword)
         ]);
 
@@ -91,18 +91,18 @@ Route::post('/forget_password', function (Request $request) {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('me')->group(function () {
-        Route::get('/', function (Request $request) {
-            return new UserResource($request->user());
+        Route::get('/', function () {
+            return new UserResource(request()->user());
         });
 
         Route::put('/update', 'API\ProfileUpdateController');
 
-        Route::get('/organizations', function (Request $request) {
-            return new OrganizationCollection($request->user()->organizations()->paginate());
+        Route::get('/organizations', function () {
+            return new OrganizationCollection(request()->user()->organizations()->paginate());
         });
 
-        Route::get('/feeds', function (Request $request) {
-            $organizations = $request->user()->organizations()->wherePivot('status', 'accepted')->pluck('organizations.id');
+        Route::get('/feeds', function () {
+            $organizations = request()->user()->organizations()->wherePivot('status', 'accepted')->pluck('organizations.id');
             $announcements =  AnnouncementResource::collection(Announcement::whereIn('organization_id', $organizations)->limit(50)->get());
             $benefits = BenefitResource::collection(Benefit::whereIn('organization_id', $organizations)->limit(50)->get());
             $collection = collect($benefits)->map(function ($benefit) {
@@ -116,14 +116,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
     });
 
-    Route::post('/change_password', function (Request $request) {
-        $request->validate([
+    Route::post('/change_password', function () {
+        request()->validate([
             'current_password' => ['required', new MatchOldPassword],
             'new_password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $request->user()->update([
-            'password' => Hash::make($request->new_password)
+        request()->user()->update([
+            'password' => Hash::make(request()->new_password)
         ]);
 
         return response([
@@ -132,23 +132,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::prefix('organizations/{organization}')->group(function () {
-        Route::get('/', function ($organization, Request $request) {
-            $organization->onlyOrganization = $organization->isMember($request->user())
-                ? false
-                : true;
+        Route::get('/', function ($organization) {
             return new OrganizationResource($organization);
         });
 
         Route::get('/join', 'API\OrganizationJoinController');
 
-        Route::get('/announcements', function ($organization, Request $request) {
-            return $organization->isMember($request->user())
+        Route::get('/announcements', function ($organization) {
+            return $organization->isMember(request()->user())
                 ? new AnnouncementCollection(Announcement::where('organization_id', $organization->id)->paginate())
                 : response(['message' => 'You are not member of this organization'], 403);
         });
 
-        Route::get('/benefits', function ($organization, Request $request) {
-            return $organization->isMember($request->user())
+        Route::get('/benefits', function ($organization) {
+            return $organization->isMember(request()->user())
                 ? new BenefitCollection(Benefit::where('organization_id', $organization->id)->paginate())
                 : response(['message' => 'You are not member of this organization'], 403);
         });

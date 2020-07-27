@@ -29,10 +29,8 @@ class OrganizationJoinController extends Controller
             $organization->members()->attach($request->user()->id, [
                 'status' => $organization->auto_join ? 'accepted' : 'pending'
             ]);
-            if (!$organization->auto_join) {
-                $organization->onlyOrganization = true;
+            if (!$organization->auto_join)
                 $organization->status = 'pending';
-            }
             return new OrganizationResource($organization);
         }
     }
