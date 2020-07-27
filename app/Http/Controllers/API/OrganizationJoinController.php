@@ -18,10 +18,12 @@ class OrganizationJoinController extends Controller
     public function __invoke(Organization $organization, Request $request)
     {
         if ($membership = $organization->membership($request->user())) {
-            if (!$membership->pivot->status) {
+            if ($membership->pivot->status === 'pending') {
                 return response(['message' => 'You have a pending request to join this organization'], 400);
-            } else {
+            } elseif ($membership->pivot->status === 'accepted') {
                 return response(['message' => 'You are already member of this organization'], 400);
+            } else {
+                return response(['message' => 'You are blocked to join this organization'], 400);
             }
         } else {
             $organization->members()->attach($request->user()->id, [

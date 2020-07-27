@@ -45,7 +45,7 @@ class OrganizationMembersController extends Controller
         Auth::guard('organization')->user()->members()->updateExistingPivot(Request::input('member_id'), [
             'status' => 'blocked',
         ]);
-        return redirect()->back()->with('success', 'Member successfully blocked.');
+        return back()->with('success', 'Member successfully blocked.');
     }
 
     public function unblock(Request $request)
@@ -53,13 +53,13 @@ class OrganizationMembersController extends Controller
         Auth::guard('organization')->user()->members()->updateExistingPivot(Request::input('member_id'), [
             'status' => 'accepted',
         ]);
-        return redirect()->back()->with('success', 'Member successfully unblocked.');
+        return back()->with('success', 'Member successfully unblocked.');
     }
 
     public function delete(Request $request)
     {
         Auth::guard('organization')->user()->members()->detach(Request::input('member_id'));
-        return redirect()->back()->with('success', 'Member successfully deleted.');
+        return back()->with('success', 'Member successfully deleted.');
     }
 
     public function acceptJoinRequest(Request $request)
@@ -67,6 +67,6 @@ class OrganizationMembersController extends Controller
         Auth::guard('organization')->user()->members()->updateExistingPivot(Request::input('member_id'), [
             'status' => 'accepted',
         ]);
-        return redirect()->back()->with('success', 'Join Request Accepted.');
+        return back()->with('success', 'Join Request Accepted.');
     }
 }

@@ -5,8 +5,8 @@
       <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset"></search-filter>
     </div>
     <div class="pt-2 bg-white rounded-lg shadow-lg">
-      <div>
-        <ul class="flex border-b-4 border-gray-300" role="tablist">
+      <div class="flex flex-row ml-auto">
+        <ul class="flex list-none border-b-4 border-gray-300" role="tablist">
           <li
             class="px-4 py-2 pb-4 bg-white"
             :class="{ 'border-b-4 border-gray-600': activeTab==='Accepted' }"
@@ -48,6 +48,24 @@
             >Pending</inertia-link>
           </li>
         </ul>
+        <div class="flex items-center justify-center p-4 ml-auto mr-6 bg-gray-200 rounded-full">
+          <label for="toogleA" class="flex items-center cursor-pointer">
+            <div class="mr-3 font-medium text-gray-700">Auto Join</div>
+            <div class="relative">
+              <input
+                id="toogleA"
+                type="checkbox"
+                class="hidden"
+                v-model="auto_join"
+                @click.prevent="toggleAutoJoin"
+              />
+              <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner toggle__line"></div>
+              <div
+                class="absolute inset-y-0 left-0 w-6 h-6 bg-white rounded-full shadow toggle__dot"
+              ></div>
+            </div>
+          </label>
+        </div>
       </div>
       <div class="m-4 overflow-x-auto bg-white rounded shadow-md">
         <table class="w-full whitespace-no-wrap">
@@ -149,7 +167,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import Icon from "@/Shared/Icon";
 import Layout from "@/Shared/Layout";
@@ -158,32 +175,36 @@ import Pagination from "@/Shared/Pagination";
 import pickBy from "lodash/pickBy";
 import SearchFilter from "@/Shared/SearchFilter";
 import debounce from "lodash/debounce";
-
 export default {
   metaInfo: { title: "Members" },
   layout: Layout,
   components: {
     Icon,
     Pagination,
-    SearchFilter
+    SearchFilter,
   },
   props: {
     members: Object,
     filters: Object,
-    tab: String
+    tab: String,
   },
   data() {
     return {
       activeTab: this.tab,
       form: {
         search: this.filters.search,
-        trashed: this.filters.trashed
-      }
+        trashed: this.filters.trashed,
+      },
     };
+  },
+  computed: {
+    auto_join() {
+      return this.$page.auth.organization.auto_join;
+    },
   },
   watch: {
     form: {
-      handler: debounce(function() {
+      handler: debounce(function () {
         let query = pickBy(this.form);
         this.$inertia.replace(
           this.route(
@@ -192,33 +213,41 @@ export default {
           )
         );
       }, 400),
-      deep: true
-    }
+      deep: true,
+    },
   },
   methods: {
+    toggleAutoJoin() {
+      this.$inertia.post(
+        this.route(
+          "organization.toggle_auto_join",
+          this.$page.auth.organization.id
+        )
+      );
+    },
     reset() {
       this.form = mapValues(this.form, () => null);
     },
     block(id) {
       this.$inertia.post(this.route("organization.members.block"), {
-        member_id: id
+        member_id: id,
       });
     },
     unblock(id) {
       this.$inertia.post(this.route("organization.members.unblock"), {
-        member_id: id
+        member_id: id,
       });
     },
     acceptJoinRequest(id) {
       this.$inertia.post(this.route("organization.members.accept"), {
-        member_id: id
+        member_id: id,
       });
     },
     deleteMember(id) {
       this.$inertia.post(this.route("organization.members.delete"), {
-        member_id: id
+        member_id: id,
       });
-    }
-  }
+    },
+  },
 };
 </script>

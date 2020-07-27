@@ -1,7 +1,6 @@
 <?php
 
 use App\Organization;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -47,7 +46,8 @@ Route::name('organization.')->namespace('Organization')->group(function () {
 });
 
 Route::middleware(['auth:organization'])->group(function () {
-    Route::resource('organizations', 'OrganizationController')->except('index', 'create');
+    Route::resource('organizations', 'OrganizationController')->only('edit', 'update');
+    Route::post('organizations/{organization}/toggle-auto-join', 'OrganizationController@toggleAutoJoin')->name('organization.toggle_auto_join');
 
     Route::resource('announcements', 'AnnouncementController')->except('index', 'show');
 

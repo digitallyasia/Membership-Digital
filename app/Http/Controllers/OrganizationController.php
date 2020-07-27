@@ -39,6 +39,14 @@ class OrganizationController extends Controller
         }
         $organization->update($validatedData);
 
-        return redirect()->back()->with('success', 'Organization updated.');
+        return back()->with('success', 'Organization updated.');
+    }
+
+    public function toggleAutoJoin(Request $request, Organization $organization)
+    {
+        $organization->update([
+            'auto_join' => !$organization->auto_join
+        ]);
+        return back()->with('success', 'Auto Join Updated.');
     }
 }
