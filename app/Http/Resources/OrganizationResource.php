@@ -35,14 +35,6 @@ class OrganizationResource extends JsonResource
             'tnc' => $this->tnc,
             'pp' => $this->pp,
             'faq' => $this->faq,
-            'announcements' => $this->when(
-                !$this->onlyOrganization,
-                new AnnouncementCollection(Announcement::where('organization_id', $this->id)->paginate())
-            ),
-            'benefits' => $this->when(
-                !$this->onlyOrganization,
-                new BenefitCollection(Benefit::where('organization_id', $this->id)->paginate())
-            ),
         ];
     }
 }
