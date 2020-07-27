@@ -31,7 +31,7 @@ class OrganizationResource extends JsonResource
             'state' => $this->state,
             'postal_code' => $this->postal_code,
             'uuid' => $this->uuid,
-            'status' => $this->pivot ? $this->pivot->status : null,
+            'status' => $this->status ?? ($this->pivot ? $this->pivot->status : null),
             'tnc' => $this->tnc,
             'pp' => $this->pp,
             'faq' => $this->faq,

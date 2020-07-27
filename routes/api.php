@@ -133,23 +133,24 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::prefix('organizations/{organization}')->group(function () {
         Route::get('/', function ($organization, Request $request) {
-            if (!$organization->membership($request->user()))
-                $organization->onlyOrganization = true;
+            $organization->onlyOrganization = $organization->isMember($request->user())
+                ? false
+                : true;
             return new OrganizationResource($organization);
         });
 
         Route::get('/join', 'API\OrganizationJoinController');
 
         Route::get('/announcements', function ($organization, Request $request) {
-            // return $organization->isMember($request->user())
-            return new AnnouncementCollection(Announcement::where('organization_id', $organization->id)->paginate());
-            // : response(['message' => 'You are not member of this organization'], 403);
+            return $organization->isMember($request->user())
+                ? new AnnouncementCollection(Announcement::where('organization_id', $organization->id)->paginate())
+                : response(['message' => 'You are not member of this organization'], 403);
         });
 
         Route::get('/benefits', function ($organization, Request $request) {
-            // return $organization->isMember($request->user())
-            return new BenefitCollection(Benefit::where('organization_id', $organization->id)->paginate());
-            // : response(['message' => 'You are not member of this organization'], 403);
+            return $organization->isMember($request->user())
+                ? new BenefitCollection(Benefit::where('organization_id', $organization->id)->paginate())
+                : response(['message' => 'You are not member of this organization'], 403);
         });
     });
 });
