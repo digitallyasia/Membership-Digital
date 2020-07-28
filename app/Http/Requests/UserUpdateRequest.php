@@ -27,7 +27,7 @@ class UserUpdateRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . request()->user()->id],
             'phone_number' => 'required|string',
-            'profile_picture' => request()->hasFile('profile_picture') ? 'required|image|mimes:jpeg,jpg,png' : 'active_url',
+            'profile_picture' => request()->hasFile('profile_picture') ? 'required|image|mimes:jpeg,jpg,png' : 'required|string|ends_with:.jpg,.jpeg,.png',
             'user_name' => 'required|string',
             'address' => 'required|string',
             'date_of_birth' => 'required|date',

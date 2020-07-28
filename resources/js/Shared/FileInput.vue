@@ -95,7 +95,7 @@ export default {
     },
     remove() {
       this.preview = null;
-      this.$emit("input", null);
+      this.$emit("input", '');
     }
   }
 };

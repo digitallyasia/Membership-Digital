@@ -23,7 +23,7 @@ class BenefitRequest extends FormRequest
      */
     public function rules()
     {
-        $image = request()->hasFile('image') ? 'required|image|mimes:jpeg,jpg,png|max:2048' : 'required|url';
+        $image = request()->hasFile('image') ? 'required|image|mimes:jpeg,jpg,png|max:2048' : 'required|string|ends_with:.jpg,.jpeg,.png';
         return [
             'title' => ['required', 'string', 'max:255'],
             'details' => ['required', 'string'],

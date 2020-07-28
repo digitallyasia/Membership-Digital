@@ -39,6 +39,12 @@
           />
         </div>
         <div class="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
+          <button
+            class="text-red-600 hover:underline"
+            tabindex="-1"
+            type="button"
+            @click="destroy"
+          >Delete Benefit</button>
           <loading-button :loading="sending" class="ml-auto btn-indigo" type="submit">Update Benefit</loading-button>
         </div>
       </form>
@@ -58,7 +64,7 @@ import TextareaInput from "@/Shared/TextareaInput";
 export default {
   metaInfo() {
     return {
-      title: `${this.form.title}`
+      title: `${this.form.title}`,
     };
   },
   layout: Layout,
@@ -68,10 +74,10 @@ export default {
     TextInput,
     TrashedMessage,
     FileInput,
-    TextareaInput
+    TextareaInput,
   },
   props: {
-    benefit: Object
+    benefit: Object,
   },
   remember: "form",
   data() {
@@ -81,8 +87,8 @@ export default {
         title: this.benefit.title,
         details: this.benefit.details,
         promo_code: this.benefit.promo_code,
-        image: this.benefit.image
-      }
+        image: this.benefit.image,
+      },
     };
   },
   methods: {
@@ -102,7 +108,12 @@ export default {
       if (confirm("Are you sure you want to restore this benefit?")) {
         this.$inertia.put(this.route("benefits.restore", this.benefit.id));
       }
-    }
-  }
+    },
+    destroy() {
+      if (confirm("Are you sure you want to delete this benefit?")) {
+        this.$inertia.delete(this.route("benefits.destroy", this.benefit.id));
+      }
+    },
+  },
 };
 </script>

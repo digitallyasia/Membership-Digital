@@ -21,7 +21,7 @@ class OrganizationController extends Controller
     public function update(Request $request, Organization $organization)
     {
         $validatedData = $request->validate([
-            'logo' => request()->hasFile('logo') ? 'required|image|mimes:jpeg,jpg,png' : 'active_url',
+            'logo' => request()->hasFile('logo') ? 'required|image|mimes:jpeg,jpg,png' : 'required|string|ends_with:.jpg,.jpeg,.png',
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:organizations,email,' . Auth::guard('organization')->user()->id],
             'address' => ['required', 'string', 'max:255'],
