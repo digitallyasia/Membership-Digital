@@ -29,6 +29,7 @@ class UserResource extends JsonResource
             'address' => $this->address,
             'date_of_birth' => $this->date_of_birth,
             'token' => $this->when($this->token !== null, $this->token),
+            'organizations_count' => $this->organizations()->count(),
             // 'organizations' => Organization::collection($this->organizations),
         ];
     }
