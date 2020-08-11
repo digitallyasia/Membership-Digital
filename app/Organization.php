@@ -56,6 +56,11 @@ class Organization extends Authenticatable
         'subscription_expire_at',
         'tnc',
         'uuid',
+        'website',
+        'facebook',
+        'whatsapp',
+        'instagram',
+        'youtube',
     ];
 
     /**

@@ -12,7 +12,7 @@
             :errors="$page.errors.logo"
             class="w-full pb-8 lg:w-full"
             type="file"
-            :rounded="true"
+            :rounded="false"
             accept="image/*"
             label="Logo"
           />
@@ -64,6 +64,36 @@
             class="w-full pb-8 pr-6"
             label="Description"
           />
+          <text-input
+            v-model="form.website"
+            :errors="$page.errors.website"
+            class="w-full pb-8 pr-6"
+            label="Website"
+          />
+          <text-input
+            v-model="form.facebook"
+            :errors="$page.errors.facebook"
+            class="w-full pb-8 pr-6"
+            label="Facebook"
+          />
+          <text-input
+            v-model="form.whatsapp"
+            :errors="$page.errors.whatsapp"
+            class="w-full pb-8 pr-6"
+            label="WhatsApp"
+          />
+          <text-input
+            v-model="form.instagram"
+            :errors="$page.errors.instagram"
+            class="w-full pb-8 pr-6"
+            label="Instagram"
+          />
+          <text-input
+            v-model="form.youtube"
+            :errors="$page.errors.youtube"
+            class="w-full pb-8 pr-6"
+            label="Youtube"
+          />
         </div>
         <div class="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
           <loading-button :loading="sending" class="ml-auto btn-indigo" type="submit">Update</loading-button>
@@ -99,16 +129,16 @@ export default {
     TextInput,
     TrashedMessage,
     FileInput,
-    TextareaInput
+    TextareaInput,
   },
   props: {
     members: Object,
-    filters: Object
+    filters: Object,
   },
   data() {
     return {
       sending: false,
-      form: JSON.parse(JSON.stringify(this.$page.auth.organization))
+      form: JSON.parse(JSON.stringify(this.$page.auth.organization)),
     };
   },
   methods: {
@@ -128,7 +158,7 @@ export default {
       this.$inertia
         .post(this.route("organizations.update", this.form.id), data)
         .then(() => (this.sending = false));
-    }
-  }
+    },
+  },
 };
 </script>

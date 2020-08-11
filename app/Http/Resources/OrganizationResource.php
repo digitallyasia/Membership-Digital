@@ -35,6 +35,12 @@ class OrganizationResource extends JsonResource
             'tnc' => $this->tnc,
             'pp' => $this->pp,
             'faq' => $this->faq,
+            'website' => $this->website,
+            'facebook' => $this->facebook,
+            'whatsapp' => $this->whatsapp,
+            'instagram' => $this->instagram,
+            'youtube' => $this->youtube,
+
         ];
     }
 }

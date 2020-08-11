@@ -30,6 +30,11 @@ class OrganizationController extends Controller
             'state' => ['required', 'string', 'max:255'],
             'postal_code' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:255'],
+            'website' => ['nullable', 'string', 'max:255'],
+            'facebook' => ['nullable', 'string', 'max:255'],
+            'whatsapp' => ['nullable', 'string', 'max:255'],
+            'instagram' => ['nullable', 'string', 'max:255'],
+            'youtube' => ['nullable', 'string', 'max:255'],
         ]);
         if ($request->hasFile('logo')) {
             $validatedData['logo'] = Storage::disk('images')->put(
