@@ -68,8 +68,6 @@ class User extends Resource
 
             Text::make('Username', 'user_name'),
 
-            Text::make('Fcm Token'),
-
             Text::make('Address'),
 
             Date::make('Date of Birth'),
