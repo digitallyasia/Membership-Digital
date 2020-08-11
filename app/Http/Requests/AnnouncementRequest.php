@@ -27,7 +27,7 @@ class AnnouncementRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'details' => ['required', 'string'],
-            'url' => ['nullable', 'string', 'active_url'],
+            'url' => ['nullable', 'string'],
             'image' => $image,
         ];
     }
