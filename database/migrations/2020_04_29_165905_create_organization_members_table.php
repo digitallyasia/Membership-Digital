@@ -17,7 +17,6 @@ class CreateOrganizationMembersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('organization_id');
-            $table->unsignedBigInteger('membership_id')->nullable();
             $table->enum('status', ['blocked', 'accepted', 'pending']);
             $table->timestamps();
             $table->softDeletes();
