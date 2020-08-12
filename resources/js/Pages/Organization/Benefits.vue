@@ -19,6 +19,7 @@
           <th class="px-6 py-4">Title</th>
           <th class="px-6 py-4">Details</th>
           <th class="px-6 py-4">Promo Code</th>
+          <th class="px-6 py-4">Redemptions Count</th>
           <th class="px-6 py-4" colspan="2">Created At</th>
         </tr>
         <tr
@@ -53,6 +54,13 @@
               tabindex="-1"
               :href="route('benefits.edit',benefit.id)"
             >{{ benefit.promo_code }}</inertia-link>
+          </td>
+          <td class="border-t">
+            <inertia-link
+              class="flex items-center px-6 py-4"
+              tabindex="-1"
+              :href="route('benefits.edit',benefit.id)"
+            >{{ benefit.redemptions_count }}</inertia-link>
           </td>
           <td class="border-t">
             <span
@@ -106,23 +114,23 @@ export default {
   components: {
     Icon,
     Pagination,
-    SearchFilter
+    SearchFilter,
   },
   props: {
     benefits: Object,
-    filters: Object
+    filters: Object,
   },
   data() {
     return {
       form: {
         search: this.filters.search,
-        trashed: this.filters.trashed
-      }
+        trashed: this.filters.trashed,
+      },
     };
   },
   watch: {
     form: {
-      handler: debounce(function() {
+      handler: debounce(function () {
         let query = pickBy(this.form);
         this.$inertia.replace(
           this.route(
@@ -131,8 +139,8 @@ export default {
           )
         );
       }, 400),
-      deep: true
-    }
+      deep: true,
+    },
   },
   methods: {
     reset() {
@@ -142,7 +150,7 @@ export default {
       if (confirm("Are you sure you want to delete this benefit?")) {
         this.$inertia.delete(this.route("benefits.destroy", id));
       }
-    }
-  }
+    },
+  },
 };
 </script>
