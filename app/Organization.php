@@ -133,7 +133,7 @@ class Organization extends Authenticatable
 
     public function members()
     {
-        return $this->belongsToMany(\App\User::class, 'organization_members')->withPivot('status');
+        return $this->belongsToMany(\App\User::class, 'organization_members')->withPivot('status')->withTimestamps();
     }
     public function activeMembers()
     {
