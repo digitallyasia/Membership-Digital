@@ -44,6 +44,7 @@ class Benefit extends Model
         'details',
         'image',
         'promo_code',
+        'redemptions_count',
     ];
 
     /**
@@ -67,6 +68,11 @@ class Benefit extends Model
     public function organization()
     {
         return $this->belongsTo(\App\Organization::class);
+    }
+
+    public function redemptions()
+    {
+        return $this->hasMany(\App\Redemption::class);
     }
 
     public function scopeFilter($query, array $filters)

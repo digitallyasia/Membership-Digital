@@ -30,11 +30,11 @@ class AddSocialLinksToOrganization extends Migration
     public function down()
     {
         Schema::table('organizations', function (Blueprint $table) {
-            $table->dropColumn('website')->nullable();
-            $table->dropColumn('facebook')->nullable();
-            $table->dropColumn('instagram')->nullable();
-            $table->dropColumn('youtube')->nullable();
-            $table->dropColumn('whatsapp')->nullable();
+            $table->dropColumn('website');
+            $table->dropColumn('facebook');
+            $table->dropColumn('instagram');
+            $table->dropColumn('youtube');
+            $table->dropColumn('whatsapp');
         });
     }
 }

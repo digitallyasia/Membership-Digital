@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -56,6 +57,9 @@ class Benefit extends Resource
                 ->rules('required'),
             Textarea::make('Details')
                 ->rules('required'),
+            Number::make('Redemptions Count')
+                ->sortable()
+                ->readonly(),
 
         ];
     }

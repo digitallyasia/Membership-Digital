@@ -150,6 +150,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
                 : response(['message' => 'You are not member of this organization'], 403);
         });
     });
+    Route::get('benefits/{benefit}/redeem', 'BenefitController@redeem')->name('benefits.redeem');
 });
 
 Route::fallback(function () {

@@ -165,7 +165,7 @@ class Organization extends Authenticatable
 
     public function getHasPremiumSubscriptionAttribute()
     {
-        return $this->subscription->membership_number ? true : false;
+        return $this->subscription_expire_at && $this->subscription_expire_at->isFuture() && $this->subscription->membership_number ? true : false;
     }
 
     public function scopeOrderByName($query)

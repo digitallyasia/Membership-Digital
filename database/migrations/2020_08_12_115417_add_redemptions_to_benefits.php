@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddMembershipIdToMembers extends Migration
+class AddRedemptionsToBenefits extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddMembershipIdToMembers extends Migration
      */
     public function up()
     {
-        Schema::table('organization_members', function (Blueprint $table) {
-            $table->unsignedBigInteger('membership_id')->nullable();
+        Schema::table('benefits', function (Blueprint $table) {
+            $table->unsignedInteger('redemptions_count')->default(0);
         });
     }
 
@@ -25,8 +25,8 @@ class AddMembershipIdToMembers extends Migration
      */
     public function down()
     {
-        Schema::table('organization_members', function (Blueprint $table) {
-            $table->dropColumn('membership_id');
+        Schema::table('benefits', function (Blueprint $table) {
+            $table->dropColumn('redemptions_count');
         });
     }
 }

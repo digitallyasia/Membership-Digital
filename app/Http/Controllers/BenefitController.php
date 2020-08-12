@@ -57,4 +57,13 @@ class BenefitController extends Controller
 
         return redirect()->route('organization.benefits')->with('success', 'Benefit deleted.');
     }
+
+    public function redeem(Request $request, Benefit $benefit)
+    {
+        $benefit->redemptions()->create([
+            'user_id' => request()->user()->id
+        ]);
+        $benefit->increment('redemptions_count');
+        return response('', 200);
+    }
 }
