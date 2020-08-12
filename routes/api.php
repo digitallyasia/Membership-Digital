@@ -137,6 +137,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
 
         Route::get('/join', 'API\OrganizationJoinController');
+        Route::get('/leave', 'OrganizationController@leave');
 
         Route::get('/announcements', function ($organization) {
             return $organization->isMember(request()->user())

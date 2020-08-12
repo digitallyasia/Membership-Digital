@@ -49,9 +49,19 @@ class OrganizationController extends Controller
 
     public function toggleAutoJoin(Request $request, Organization $organization)
     {
+        if (!$organization->auto_join)
+            $organization->pendingMembers()->update([
+                'status' => 'accepted'
+            ]);
         $organization->update([
             'auto_join' => !$organization->auto_join
         ]);
         return redirect(route('organization.members.active'))->with('success', 'Auto Join Updated.');
+    }
+
+    public function leave(Request $request, Organization $organization)
+    {
+        $organization->members()->detach($request->user()->id);
+        return response(['message' => 'You have successfully leaved organization']);
     }
 }

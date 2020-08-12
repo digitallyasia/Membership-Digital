@@ -25,6 +25,5 @@ $factory->define(Organization::class, function (Faker $faker) {
         'instagram' => 'www.instagram.com',
         'youtube' => 'www.youtube.com',
         'whatsapp' => 'web.whatsapp.com',
-
     ];
 });
