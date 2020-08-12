@@ -20,5 +20,11 @@ $factory->define(Organization::class, function (Faker $faker) {
         'state' => $faker->state,
         'postal_code' => $faker->postcode,
         'auto_join' => 1,
+        'website' => 'www.google.com',
+        'facebook' => 'www.facebook.com',
+        'instagram' => 'www.instagram.com',
+        'youtube' => 'www.youtube.com',
+        'whatsapp' => 'web.whatsapp.com',
+
     ];
 });
