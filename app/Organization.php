@@ -137,15 +137,15 @@ class Organization extends Authenticatable
     }
     public function activeMembers()
     {
-        return $this->belongsToMany(\App\User::class, 'organization_members')->wherePivot('status', 'accepted');
+        return $this->belongsToMany(\App\User::class, 'organization_members')->withPivot('membership_id')->wherePivot('status', 'accepted');
     }
     public function pendingMembers()
     {
-        return $this->belongsToMany(\App\User::class, 'organization_members')->wherePivot('status', 'pending');
+        return $this->belongsToMany(\App\User::class, 'organization_members')->withPivot('membership_id')->wherePivot('status', 'pending');
     }
     public function blockedMembers()
     {
-        return $this->belongsToMany(\App\User::class, 'organization_members')->wherePivot('status', 'blocked');
+        return $this->belongsToMany(\App\User::class, 'organization_members')->withPivot('membership_id')->wherePivot('status', 'blocked');
     }
 
     public function isMember($user)
@@ -157,9 +157,15 @@ class Organization extends Authenticatable
     {
         return $this->members()->where('user_id', $user->id)->withPivot('status')->first();
     }
+
     public function subscription()
     {
         return $this->belongsTo(\App\Plan::class, 'plan_id');
+    }
+
+    public function getHasPremiumSubscriptionAttribute()
+    {
+        return $this->subscription->membership_number ? true : false;
     }
 
     public function scopeOrderByName($query)

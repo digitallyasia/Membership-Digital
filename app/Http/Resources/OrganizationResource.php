@@ -33,7 +33,7 @@ class OrganizationResource extends JsonResource
             'uuid' => $this->uuid,
             'status' => $this->status ?? ($this->pivot ? $this->pivot->status : null),
             'joined_at' => $this->pivot ? $this->pivot->created_at : null,
-            'membership_id' => $this->pivot ? ($this->pivot->membership_id ? strtoupper(substr($this->name, 0, 3) . sprintf("%'06d", $this->pivot->membership_id)) : null) : null,
+            'membership_id' => $this->pivot && $this->hasPremiumSubscription ? ($this->pivot->membership_id ? strtoupper(substr($this->name, 0, 3) . sprintf("%'06d", $this->pivot->membership_id)) : null) : null,
             'tnc' => $this->tnc,
             'pp' => $this->pp,
             'faq' => $this->faq,

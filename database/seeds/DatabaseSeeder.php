@@ -78,7 +78,7 @@ class DatabaseSeeder extends Seeder
         $organization->announcements()->saveMany(factory(Announcement::class, 1)->create());
         $organization->benefits()->saveMany(factory(Benefit::class, 1)->create());
         $organization->notifications()->saveMany(factory(Notification::class, 1)->create());
-        $organization->members()->attach($members, ['status' => 'accepted']);
-        $organization->members()->attach($test_user->id, ['status' => 'accepted']);
+        $organization->members()->attach($members, ['status' => 'accepted', 'membership_id' => $organization->members()->count() + 1]);
+        $organization->members()->attach($test_user->id, ['status' => 'accepted', 'membership_id' => $organization->members()->count() + 1]);
     }
 }

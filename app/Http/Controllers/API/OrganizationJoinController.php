@@ -27,7 +27,8 @@ class OrganizationJoinController extends Controller
             }
         } else {
             $organization->members()->attach($request->user()->id, [
-                'status' => $organization->auto_join ? 'accepted' : 'pending'
+                'status' => $organization->auto_join ? 'accepted' : 'pending',
+                'membership_id' => $organization->members()->count() + 1
             ]);
             if (!$organization->auto_join)
                 $organization->status = 'pending';
