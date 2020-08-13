@@ -61,7 +61,11 @@ class OrganizationController extends Controller
 
     public function leave(Request $request, Organization $organization)
     {
-        $organization->members()->detach($request->user()->id);
-        return response(['message' => 'You have successfully leaved organization']);
+        if ($organization->membership($request->user())) {
+            $organization->members()->detach($request->user()->id);
+            return response(['message' => 'You have successfully leaved organization']);
+        } else {
+            return response(['message' => 'You are not member of this organization']);
+        }
     }
 }
