@@ -60,12 +60,17 @@ class Organization extends Resource
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:organizations,email,{{resourceId}}'),
             Text::make('Phone'),
-            Text::make('Address'),
-            Text::make('City'),
-            Text::make('State'),
-            Text::make('Postal Code'),
+            Text::make('Address')
+                ->hideFromIndex(),
+            Text::make('City')
+                ->hideFromIndex(),
+            Text::make('State')
+                ->hideFromIndex(),
+            Text::make('Postal Code')
+                ->hideFromIndex(),
             Textarea::make('Description'),
             Image::make('Qrcode')
+                ->hideFromIndex()
                 ->disk('qrcodes'),
             HasMany::make('Announcements'),
             HasMany::make('Benefits'),
@@ -81,6 +86,32 @@ class Organization extends Resource
             Trix::make('Terms & Conditions', 'tnc'),
             Trix::make('Privacy Policy', 'pp'),
             Trix::make('Frequently Asked Questions', 'faq'),
+
+            Text::make('website')
+                ->hideFromIndex()
+                ->withMeta(['extraAttributes' => [
+                    'placeholder' => 'https://www.example.com'
+                ]]),
+            Text::make('facebook')
+                ->hideFromIndex()
+                ->withMeta(['extraAttributes' => [
+                    'placeholder' => 'https://www.facebook.com'
+                ]]),
+            Text::make('instagram')
+                ->hideFromIndex()
+                ->withMeta(['extraAttributes' => [
+                    'placeholder' => 'https://www.instagram.com'
+                ]]),
+            Text::make('youtube')
+                ->hideFromIndex()
+                ->withMeta(['extraAttributes' => [
+                    'placeholder' => 'https://www.youtube.com'
+                ]]),
+            Text::make('whatsapp')
+                ->hideFromIndex()
+                ->withMeta(['extraAttributes' => [
+                    'placeholder' => 'https://web.whatsapp.com'
+                ]]),
 
         ];
     }

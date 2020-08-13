@@ -69,30 +69,35 @@
             :errors="$page.errors.website"
             class="w-full pb-8 pr-6"
             label="Website"
+            placeholder="https://www.example.com"
           />
           <text-input
             v-model="form.facebook"
             :errors="$page.errors.facebook"
             class="w-full pb-8 pr-6"
             label="Facebook"
+            placeholder="https://www.facebook.com"
           />
           <text-input
             v-model="form.whatsapp"
             :errors="$page.errors.whatsapp"
             class="w-full pb-8 pr-6"
             label="WhatsApp"
+            placeholder="https://web.whatsapp.com"
           />
           <text-input
             v-model="form.instagram"
             :errors="$page.errors.instagram"
             class="w-full pb-8 pr-6"
             label="Instagram"
+            placeholder="https://www.instagram.com"
           />
           <text-input
             v-model="form.youtube"
             :errors="$page.errors.youtube"
             class="w-full pb-8 pr-6"
             label="Youtube"
+            placeholder="https://www.youtube.com"
           />
         </div>
         <div class="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
@@ -154,6 +159,11 @@ export default {
       data.append("state", this.form.state);
       data.append("postal_code", this.form.postal_code);
       data.append("description", this.form.description);
+      data.append("website", this.form.website);
+      data.append("facebook", this.form.facebook);
+      data.append("instagram", this.form.instagram);
+      data.append("youtube", this.form.youtube);
+      data.append("whatsapp", this.form.whatsapp);
       data.append("_method", "put");
       this.$inertia
         .post(this.route("organizations.update", this.form.id), data)
