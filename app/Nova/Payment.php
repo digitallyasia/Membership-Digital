@@ -47,8 +47,10 @@ class Payment extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make('Organization'),
-            BelongsTo::make('Plan'),
+            BelongsTo::make('Organization')
+                ->withoutTrashed(),
+            BelongsTo::make('Plan')
+                ->withoutTrashed(),
             Text::make('Subscription'),
             Text::make('Bill ID'),
             Number::make('Amount'),

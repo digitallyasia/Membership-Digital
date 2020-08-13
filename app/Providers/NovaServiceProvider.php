@@ -7,9 +7,11 @@ use App\Nova\Metrics\BenefitsPerDay;
 use App\Nova\Metrics\NewAnnouncements;
 use App\Nova\Metrics\NewBenefits;
 use App\Nova\Metrics\NewNotifications;
+use App\Nova\Metrics\NewOrganizations;
 use App\Nova\Metrics\NewPayments;
 use App\Nova\Metrics\NewUsers;
 use App\Nova\Metrics\NotificationsPerDay;
+use App\Nova\Metrics\OrganizationsPerDay;
 use App\Nova\Metrics\PaymentsPerDay;
 use App\Nova\Metrics\PaymentsPerPlan;
 use App\Nova\Metrics\PaymentsPerStatus;
@@ -74,6 +76,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
+            new NewOrganizations,
+            new OrganizationsPerDay,
             new NewUsers,
             new UsersPerDay,
             new NewAnnouncements,

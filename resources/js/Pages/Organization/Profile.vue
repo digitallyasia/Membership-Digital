@@ -99,6 +99,20 @@
             label="Youtube"
             placeholder="https://www.youtube.com"
           />
+          <text-input
+            v-model="form.instagram"
+            :errors="$page.errors.instagram"
+            class="w-full pb-8 pr-6"
+            label="Twitter"
+            placeholder="https://www.twitter.com"
+          />
+          <text-input
+            v-model="form.youtube"
+            :errors="$page.errors.youtube"
+            class="w-full pb-8 pr-6"
+            label="Telegram"
+            placeholder="https://www.telegram.com"
+          />
         </div>
         <div class="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
           <loading-button :loading="sending" class="ml-auto btn-indigo" type="submit">Update</loading-button>
@@ -164,6 +178,8 @@ export default {
       data.append("instagram", this.form.instagram);
       data.append("youtube", this.form.youtube);
       data.append("whatsapp", this.form.whatsapp);
+      data.append("twitter", this.form.twitter);
+      data.append("telegram", this.form.telegram);
       data.append("_method", "put");
       this.$inertia
         .post(this.route("organizations.update", this.form.id), data)

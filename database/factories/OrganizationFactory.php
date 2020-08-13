@@ -25,5 +25,7 @@ $factory->define(Organization::class, function (Faker $faker) {
         'instagram' => 'https://www.instagram.com',
         'youtube' => 'https://www.youtube.com',
         'whatsapp' => 'https://web.whatsapp.com',
+        'twitter' => 'https://www.twitter.com',
+        'telegram' => 'https://www.telegram.com',
     ];
 });

@@ -44,7 +44,8 @@ class Notification extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make('Organization'),
+            BelongsTo::make('Organization')
+                ->withoutTrashed(),
             Text::make('Title')
                 ->sortable()
                 ->rules('required', 'max:255'),

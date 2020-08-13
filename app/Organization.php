@@ -61,6 +61,8 @@ class Organization extends Authenticatable
         'whatsapp',
         'instagram',
         'youtube',
+        'twitter',
+        'telegram',
     ];
 
     /**

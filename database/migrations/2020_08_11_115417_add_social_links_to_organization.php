@@ -19,6 +19,8 @@ class AddSocialLinksToOrganization extends Migration
             $table->string('instagram')->nullable();
             $table->string('youtube')->nullable();
             $table->string('whatsapp')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('telegram')->nullable();
         });
     }
 
@@ -35,6 +37,8 @@ class AddSocialLinksToOrganization extends Migration
             $table->dropColumn('instagram');
             $table->dropColumn('youtube');
             $table->dropColumn('whatsapp');
+            $table->dropColumn('twitter');
+            $table->dropColumn('telegram');
         });
     }
 }

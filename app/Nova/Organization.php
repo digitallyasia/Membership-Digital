@@ -75,42 +75,53 @@ class Organization extends Resource
             HasMany::make('Announcements'),
             HasMany::make('Benefits'),
             HasMany::make('Notifications'),
-            BelongsTo::make('Subscription', 'subscription', 'App\Nova\Plan'),
+            BelongsTo::make('Subscription', 'subscription', 'App\Nova\Plan')
+                ->withoutTrashed(),
             DateTime::make('Subscription Expire At'),
             BelongsToMany::make('Members', 'members', 'App\Nova\User')
                 ->fields(function () {
                     return [
                         Boolean::make('Status'),
                     ];
-                }),
+                })->searchable(),
             Trix::make('Terms & Conditions', 'tnc'),
             Trix::make('Privacy Policy', 'pp'),
             Trix::make('Frequently Asked Questions', 'faq'),
 
-            Text::make('website')
+            Text::make('Website')
                 ->hideFromIndex()
                 ->withMeta(['extraAttributes' => [
                     'placeholder' => 'https://www.example.com'
                 ]]),
-            Text::make('facebook')
+            Text::make('Facebook')
                 ->hideFromIndex()
                 ->withMeta(['extraAttributes' => [
                     'placeholder' => 'https://www.facebook.com'
                 ]]),
-            Text::make('instagram')
+            Text::make('Instagram')
                 ->hideFromIndex()
                 ->withMeta(['extraAttributes' => [
                     'placeholder' => 'https://www.instagram.com'
                 ]]),
-            Text::make('youtube')
+            Text::make('Youtube')
                 ->hideFromIndex()
                 ->withMeta(['extraAttributes' => [
                     'placeholder' => 'https://www.youtube.com'
                 ]]),
-            Text::make('whatsapp')
+            Text::make('WhatsApp', 'whatsapp')
                 ->hideFromIndex()
                 ->withMeta(['extraAttributes' => [
                     'placeholder' => 'https://web.whatsapp.com'
+                ]]),
+            Text::make('Twitter')
+                ->hideFromIndex()
+                ->withMeta(['extraAttributes' => [
+                    'placeholder' => 'https://www.twitter.com'
+                ]]),
+            Text::make('Telegram')
+                ->hideFromIndex()
+                ->withMeta(['extraAttributes' => [
+                    'placeholder' => 'https://www.telegram.com'
                 ]]),
 
         ];
