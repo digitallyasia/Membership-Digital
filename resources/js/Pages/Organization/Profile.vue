@@ -100,15 +100,15 @@
             placeholder="https://www.youtube.com"
           />
           <text-input
-            v-model="form.instagram"
-            :errors="$page.errors.instagram"
+            v-model="form.twitter"
+            :errors="$page.errors.twitter"
             class="w-full pb-8 pr-6"
             label="Twitter"
             placeholder="https://www.twitter.com"
           />
           <text-input
-            v-model="form.youtube"
-            :errors="$page.errors.youtube"
+            v-model="form.telegram"
+            :errors="$page.errors.telegram"
             class="w-full pb-8 pr-6"
             label="Telegram"
             placeholder="https://www.telegram.com"
