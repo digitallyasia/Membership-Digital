@@ -1,9 +1,9 @@
 <template>
   <div class="-m-12">
     <main>
-      <div class="flex flex-col p-12 md:flex-row">
-        <div class="flex flex-col flex-wrap content-start w-full md:w-1/2 xl:w-2/3 md:flex-row">
-          <div class="w-full mb-12 md:w-1/2">
+      <div class="flex flex-col p-12 lg:flex-row">
+        <div class="flex flex-col flex-wrap content-start w-full lg:w-1/2 xl:w-2/3 md:flex-row">
+          <div class="w-full mb-4 lg:mb-0 md:w-1/2">
             <div class="justify-center p-5 mr-4 text-center card sm:mr-4 lg:mr-12">
               <div class="flex flex-col text-center">
                 <div class="mb-2 text-base font-bold">Your Current Organisation Plan</div>
@@ -13,8 +13,8 @@
               </div>
             </div>
           </div>
-          <div class="w-full mb-12 md:w-1/2">
-            <div class="justify-start p-5 mr-4 card sm:mr-4 lg:mr-12">
+          <div class="w-full mb-4 lg:mb-0 md:w-1/2">
+            <div class="justify-start p-5 card lg:mr-12">
               <div class="flex flex-col w-full">
                 <div class="mb-1 text-base font-bold text-center">Plan Detail</div>
                 <div>
@@ -48,7 +48,7 @@
               </div>
             </div>
           </div>
-          <div class="w-full mb-12" v-if="pendingPayment">
+          <div class="w-full mb-4 lg:mb-0" v-if="pendingPayment">
             <div class="items-center justify-start mr-4 card sm:mr-4 lg:mr-12">
               <div class="flex flex-col">
                 <div class="mb-2 font-serif text-xl font-bold text-gray-900">You have a bill due</div>
@@ -77,24 +77,8 @@
               </button>
             </div>
           </div>
-          <div
-            class="items-center w-full"
-            v-if="!showPackages && !pendingPayment && $page.auth.organization.subscription.id ===1"
-          >
-            <div
-              class="flex-col items-center mr-4 text-center card sm:mr-4 lg:mr-12 md:flex-row md:text-left"
-            >
-              <div class="flex flex-col">
-                <div class="text-xl font-bold">Would you like to upgrade your package?</div>
-              </div>
-              <button
-                class="font-bold text-center rounded-lg btn-indigo"
-                @click="showPackages = true"
-              >Upgrade Package</button>
-            </div>
-          </div>
         </div>
-        <div class="w-full mt-12 md:w-1/2 md:mt-0">
+        <div class="w-full mt-4 lg:w-1/2 lg:mt-0">
           <div class="w-full overflow-x-auto bg-white rounded shadow-md">
             <table class="w-full whitespace-no-wrap">
               <tr class="font-bold text-left bg-gray-300">
@@ -145,6 +129,20 @@
               </tr>
             </table>
           </div>
+        </div>
+      </div>
+      <div
+        class="items-center w-full p-12 pt-0 xl:w-1/2"
+        v-if="!showPackages && !pendingPayment && $page.auth.organization.subscription.id ===1"
+      >
+        <div class="flex-col items-center text-center card md:flex-row md:text-left">
+          <div class="flex flex-col">
+            <div class="text-xl font-bold">Would you like to upgrade your package?</div>
+          </div>
+          <button
+            class="mt-4 font-bold text-center rounded-lg btn-indigo md:mt-0"
+            @click="showPackages = true"
+          >Upgrade Package</button>
         </div>
       </div>
 
