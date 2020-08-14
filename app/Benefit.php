@@ -21,12 +21,12 @@ class Benefit extends Model
                 ->priority('normal')
                 ->timeToLive(0)
                 ->notification([
-                    'title' => $benefit->title,
+                    'title' => $benefit->organization->name . ': ' . $benefit->title,
                     'body' => $benefit->details,
                 ])
                 ->data([
                     'organization_id' => $benefit->organization_id,
-                    'type' => 'Benefit',
+                    'type' => 'Rewards',
                     'id' => $benefit->id,
                 ])
                 ->send();

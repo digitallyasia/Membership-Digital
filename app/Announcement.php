@@ -22,7 +22,7 @@ class Announcement extends Model
                 ->priority('normal')
                 ->timeToLive(0)
                 ->notification([
-                    'title' => $announcement->title,
+                    'title' => $announcement->organization->name . ': ' . $announcement->title,
                     'body' => $announcement->details,
                 ])
                 ->data([

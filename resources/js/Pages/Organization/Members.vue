@@ -73,10 +73,7 @@
         <table class="w-full whitespace-no-wrap">
           <tr class="font-bold text-left bg-gray-300">
             <th class="px-6 py-4">Name</th>
-            <th
-              class="px-6 py-4"
-              v-if="$page.auth.organization.subscription && $page.auth.organization.subscription.membership_number"
-            >‏Membership ID</th>
+            <th class="px-6 py-4">‏Membership ID</th>
             <th class="px-6 py-4">Email</th>
             <th class="px-6 py-4">Phone Number</th>
             <th class="px-6 py-4">Date of Birth</th>
@@ -97,10 +94,7 @@
                 {{ member.name }}
               </span>
             </td>
-            <td
-              class="border-t"
-              v-if="$page.auth.organization.subscription && $page.auth.organization.subscription.membership_number"
-            >
+            <td class="border-t">
               <span
                 class="flex items-center px-6 py-4"
                 tabindex="-1"

@@ -17,7 +17,6 @@ use App\Nova\Metrics\PaymentsPerPlan;
 use App\Nova\Metrics\PaymentsPerStatus;
 use App\Nova\Metrics\UsersPerDay;
 use Illuminate\Support\Facades\Gate;
-use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
