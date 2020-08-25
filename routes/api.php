@@ -103,8 +103,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/feeds', function () {
             $organizations = request()->user()->organizations()->wherePivot('status', 'accepted')->pluck('organizations.id');
-            $announcements =  AnnouncementResource::collection(Announcement::whereIn('organization_id', $organizations)->limit(50)->get());
-            $benefits = BenefitResource::collection(Benefit::whereIn('organization_id', $organizations)->limit(50)->get());
+            $announcements =  AnnouncementResource::collection(Announcement::whereIn('organization_id', $organizations)->limit(50)->get()->load('organization'));
+            $benefits = BenefitResource::collection(Benefit::whereIn('organization_id', $organizations)->limit(50)->get()->load('organization'));
             $collection = collect($benefits)->map(function ($benefit) {
                 return (object) $benefit;
             });
