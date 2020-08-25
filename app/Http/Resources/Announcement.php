@@ -19,6 +19,7 @@ class Announcement extends JsonResource
             'id' => $this->id,
             'type' => 'announcement',
             'organization_id' => $this->organization_id,
+            'organization_name' => $this->whenLoaded('organization') ? $this->organization->name : null,
             'title' => $this->title,
             'details' => $this->details,
             'url' => $this->url,
