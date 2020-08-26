@@ -20,9 +20,11 @@ class BenefitController extends Controller
     {
         $validated = $request->validated();
         if ($request->hasFile('image')) {
-            $validated['image'] = Storage::disk('images')->put(
-                time() . $request->file('image')->getClientOriginalExtension(),
-                $request->file('image')
+            $image = round(microtime(true) * 1000) . '.' . $request->file('image')->getClientOriginalExtension();
+            $validated['image'] = $image;
+            Storage::disk('images')->put(
+                $image,
+                file_get_contents($request->file('image'))
             );
         }
         Auth::guard('organization')->user()->benefits()->create($validated);
@@ -41,9 +43,11 @@ class BenefitController extends Controller
     {
         $validated = $request->validated();
         if ($request->hasFile('image')) {
-            $validated['image'] = Storage::disk('images')->put(
-                time() . $request->file('image')->getClientOriginalExtension(),
-                $request->file('image')
+            $image = round(microtime(true) * 1000) . '.' . $request->file('image')->getClientOriginalExtension();
+            $validated['image'] = $image;
+            Storage::disk('images')->put(
+                $image,
+                file_get_contents($request->file('image'))
             );
         }
         $benefit->update($validated);

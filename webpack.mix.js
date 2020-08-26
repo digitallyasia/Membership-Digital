@@ -40,6 +40,9 @@ mix.js("resources/js/app.js", "public/js")
                 : [])
         ]
     })
+    .browserSync({
+        proxy: "http://www.membership-digital.com"
+    })
     .webpackConfig({
         output: { chunkFilename: "js/[name].js?id=[chunkhash]" },
         resolve: {

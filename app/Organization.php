@@ -45,6 +45,7 @@ class Organization extends Authenticatable
         'email',
         'faq',
         'logo',
+        'card_image',
         'name',
         'password',
         'phone',

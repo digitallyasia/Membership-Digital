@@ -23,6 +23,9 @@ class OrganizationResource extends JsonResource
             'logo' => $this->logo ? Storage::disk('images')->url(
                 $this->logo
             ) : null,
+            'card_image' => $this->card_image ? Storage::disk('images')->url(
+                $this->card_image
+            ) : null,
             'description' => $this->description,
             'email' => $this->email,
             'phone' => $this->phone,

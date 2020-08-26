@@ -17,7 +17,6 @@ class OrganizationController extends Controller
             'organization' => $organization,
         ]);
     }
-
     public function update(Request $request, Organization $organization)
     {
         $validatedData = $request->validate([
@@ -37,16 +36,16 @@ class OrganizationController extends Controller
             'youtube' => ['nullable', 'string', 'max:255'],
         ]);
         if ($request->hasFile('logo')) {
-            $validatedData['logo'] = Storage::disk('images')->put(
-                time() . $request->file('logo')->getClientOriginalExtension(),
-                $request->file('logo')
+            $logo = time() . '.' . $request->file('logo')->getClientOriginalExtension();
+            $validatedData['logo'] = $logo;
+            Storage::disk('images')->put(
+                $logo,
+                file_get_contents($request->file('logo'))
             );
         }
         $organization->update($validatedData);
-
         return back()->with('success', 'Organization updated.');
     }
-
     public function toggleAutoJoin(Request $request, Organization $organization)
     {
         if (!$organization->auto_join)
@@ -58,7 +57,6 @@ class OrganizationController extends Controller
         ]);
         return redirect(route('organization.members.active'))->with('success', 'Auto Join Updated.');
     }
-
     public function leave(Request $request, Organization $organization)
     {
         if ($organization->membership($request->user())) {
@@ -67,5 +65,21 @@ class OrganizationController extends Controller
         } else {
             return response(['message' => 'You are not member of this organization']);
         }
+    }
+    public function updateCard(Request $request, Organization $organization)
+    {
+        $validatedData = $request->validate([
+            'card_image' => 'required|image|mimes:jpeg,jpg,png'
+        ]);
+        if ($request->hasFile('card_image')) {
+            $card_image = time() . '.' . $request->file('card_image')->getClientOriginalExtension();
+            $validatedData['card_image'] = $card_image;
+            Storage::disk('images')->put(
+                $card_image,
+                file_get_contents($request->file('card_image'))
+            );
+        }
+        $organization->update($validatedData);
+        return back()->with('success', 'Card changed successfully.');
     }
 }

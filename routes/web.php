@@ -47,6 +47,7 @@ Route::name('organization.')->namespace('Organization')->group(function () {
 
 Route::middleware(['auth:organization'])->group(function () {
     Route::resource('organizations', 'OrganizationController')->only('edit', 'update');
+    Route::post('organizations/{organization}/update_card', 'OrganizationController@updateCard')->name('organizations.update_card');
     Route::post('organizations/{organization}/toggle-auto-join', 'OrganizationController@toggleAutoJoin')->name('organization.toggle_auto_join');
 
     Route::resource('announcements', 'AnnouncementController')->except('index', 'show');
