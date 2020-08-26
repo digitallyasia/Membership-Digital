@@ -77,6 +77,7 @@
             <th class="px-6 py-4">Email</th>
             <th class="px-6 py-4">Phone Number</th>
             <th class="px-6 py-4">Date of Birth</th>
+            <th class="px-6 py-4">Joined At</th>
             <th class="px-6 py-4" colspan="2">Address</th>
           </tr>
           <tr
@@ -108,6 +109,12 @@
             </td>
             <td class="border-t">
               <span class="flex items-center px-6 py-4" tabindex="-1">{{ member.dob }}</span>
+            </td>
+            <td class="border-t">
+              <span
+                class="flex items-center px-6 py-4"
+                tabindex="-1"
+              >{{ moment(member.pivot.created_at).format('LLL') }}</span>
             </td>
             <td class="border-t">
               <span class="flex items-center px-6 py-4" tabindex="-1">{{ member.address }}</span>

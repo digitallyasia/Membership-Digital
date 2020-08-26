@@ -139,15 +139,15 @@ class Organization extends Authenticatable
     }
     public function activeMembers()
     {
-        return $this->belongsToMany(\App\User::class, 'organization_members')->withPivot('membership_id')->wherePivot('status', 'accepted');
+        return $this->belongsToMany(\App\User::class, 'organization_members')->withPivot('membership_id', 'created_at')->wherePivot('status', 'accepted');
     }
     public function pendingMembers()
     {
-        return $this->belongsToMany(\App\User::class, 'organization_members')->withPivot('membership_id')->wherePivot('status', 'pending');
+        return $this->belongsToMany(\App\User::class, 'organization_members')->withPivot('membership_id', 'created_at')->wherePivot('status', 'pending');
     }
     public function blockedMembers()
     {
-        return $this->belongsToMany(\App\User::class, 'organization_members')->withPivot('membership_id')->wherePivot('status', 'blocked');
+        return $this->belongsToMany(\App\User::class, 'organization_members')->withPivot('membership_id', 'created_at')->wherePivot('status', 'blocked');
     }
 
     public function isMember($user)
