@@ -10,6 +10,9 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\PasswordConfirmation;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\Trix;
@@ -50,40 +53,63 @@ class Organization extends Resource
         return [
             ID::make()->sortable(),
             Image::make('Logo')
+                ->disk('images')
+                ->creationRules('required')
+                ->updateRules('sometimes'),
+
+            Image::make('Card Image')
                 ->disk('images'),
+
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
+
             Text::make('Email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
+                ->creationRules('unique:organizations,email')
                 ->updateRules('unique:organizations,email,{{resourceId}}'),
-            Text::make('Phone'),
+
+            Password::make('Password')
+                ->onlyOnForms()
+                ->creationRules('required', 'string', 'min:8')
+                ->updateRules('nullable', 'string', 'min:8'),
+
+            PasswordConfirmation::make('Password Confirmation'),
+
+            Text::make('Phone')
+                ->rules('required', 'max:255'),
+
             Text::make('Address')
+                ->rules('required', 'max:255')
                 ->hideFromIndex(),
+
             Text::make('City')
+                ->rules('required', 'max:255')
                 ->hideFromIndex(),
+
             Text::make('State')
+                ->rules('required', 'max:255')
                 ->hideFromIndex(),
+
             Text::make('Postal Code')
+                ->rules('required', 'max:255')
                 ->hideFromIndex(),
-            Textarea::make('Description'),
+
+            Textarea::make('Description')
+                ->rules('required'),
+
+            Boolean::make('Auto Join')
+                ->rules('required', 'max:255'),
+
             Image::make('Qrcode')
                 ->hideFromIndex()
-                ->disk('qrcodes'),
-            HasMany::make('Announcements'),
-            HasMany::make('Benefits'),
-            HasMany::make('Notifications'),
-            BelongsTo::make('Subscription', 'subscription', 'App\Nova\Plan')
-                ->withoutTrashed(),
-            DateTime::make('Subscription Expire At'),
-            BelongsToMany::make('Members', 'members', 'App\Nova\User')
-                ->fields(function () {
-                    return [
-                        Boolean::make('Status'),
-                    ];
-                })->searchable(),
+                ->disk('qrcodes')
+                ->onlyOnDetail(),
+
+
+
+
             Trix::make('Terms & Conditions', 'tnc'),
             Trix::make('Privacy Policy', 'pp'),
             Trix::make('Frequently Asked Questions', 'faq'),
@@ -123,6 +149,25 @@ class Organization extends Resource
                 ->withMeta(['extraAttributes' => [
                     'placeholder' => 'https://www.telegram.com'
                 ]]),
+
+            BelongsTo::make('Subscription', 'subscription', 'App\Nova\Plan')
+                ->withoutTrashed(),
+            DateTime::make('Subscription Expire At'),
+
+            HasMany::make('Announcements'),
+            HasMany::make('Benefits'),
+            HasMany::make('Notifications'),
+
+            BelongsToMany::make('Members', 'members', 'App\Nova\User')
+                ->fields(function () {
+                    return [
+                        Select::make('Status')->options([
+                            'accepted' => 'Accepted',
+                            'blocked' => 'Blocked',
+                            'pending' => 'Pending',
+                        ])->displayUsingLabels(),
+                    ];
+                })->searchable(),
 
         ];
     }

@@ -9,7 +9,6 @@
             :errors="$page.errors.logo"
             class="w-full pb-8 lg:w-full"
             type="file"
-            :rounded="true"
             accept="image/*"
             label="Logo"
           />
@@ -25,11 +24,12 @@
             :errors="$page.errors.email"
             class="w-1/2 pb-8 pr-6"
             label="Main Admin Email"
+            type="email"
             placeholder="Main Admin Email"
           />
           <text-input
-            v-model="form.phone"
-            :errors="$page.errors.phone"
+            v-model="form.unique_id"
+            :errors="$page.errors.unique_id"
             class="w-1/2 pb-8"
             label="Unique ID"
             placeholder="Unique ID"
@@ -63,7 +63,7 @@
                       type="radio"
                       required
                       v-model="form.auto_join"
-                      value="auto"
+                      value="1"
                     /> Automatic
                   </label>
                 </div>
@@ -76,7 +76,7 @@
                       type="radio"
                       required
                       v-model="form.auto_join"
-                      value="manual"
+                      value="0"
                     /> Manual
                   </label>
                 </div>
@@ -167,10 +167,10 @@ export default {
     TrashedMessage,
     FileInput,
     Logo,
-    TextareaInput
+    TextareaInput,
   },
   props: {
-    errors: Object
+    errors: Object,
   },
   data() {
     return {
@@ -179,6 +179,7 @@ export default {
         logo: "",
         name: "",
         email: "",
+        unique_id: "",
         password: "",
         password_confirmation: "",
         address: "",
@@ -187,8 +188,8 @@ export default {
         state: "",
         postal_code: "",
         description: "",
-        auto_join: ""
-      }
+        auto_join: "",
+      },
     };
   },
   methods: {
@@ -202,6 +203,7 @@ export default {
       data.append("password_confirmation", this.form.password_confirmation);
       data.append("address", this.form.address);
       data.append("phone", this.form.phone);
+      data.append("unique_id", this.form.unique_id);
       data.append("city", this.form.city);
       data.append("state", this.form.state);
       data.append("postal_code", this.form.postal_code);
@@ -210,7 +212,7 @@ export default {
       this.$inertia
         .post(this.route("organization.register"), data)
         .then(() => (this.sending = false));
-    }
-  }
+    },
+  },
 };
 </script>
