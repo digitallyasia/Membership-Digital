@@ -2,15 +2,15 @@
 
 namespace App;
 
+use App\Notifications\OrganizationResetPasswordNotification;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Notifications\Notifiable;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Organization extends Authenticatable
 {
-    use SoftDeletes;
-
+    use Notifiable, SoftDeletes;
     public static function boot()
     {
         parent::boot();
@@ -30,7 +30,6 @@ class Organization extends Authenticatable
             }
         );
     }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -65,14 +64,12 @@ class Organization extends Authenticatable
         'twitter',
         'telegram',
     ];
-
     /**
      * The number of models to return for pagination.
      *
      * @var int
      */
     protected $perPage = 10;
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -82,7 +79,6 @@ class Organization extends Authenticatable
         'password',
         'remember_token',
     ];
-
     /**
      * The attributes that should be cast to native types.
      *
@@ -95,27 +91,22 @@ class Organization extends Authenticatable
         'email_verified_at' => 'datetime',
         'auto_join' => 'boolean'
     ];
-
     public function benefits()
     {
         return $this->hasMany(\App\Benefit::class);
     }
-
     public function benefitsWithTrashed()
     {
         return $this->benefits()->withTrashed();
     }
-
     public function announcements()
     {
         return $this->hasMany(\App\Announcement::class);
     }
-
     public function announcementsWithTrashed()
     {
         return $this->announcements()->withTrashed();
     }
-
     public function notifications()
     {
         return $this->hasMany(\App\Notification::class);
@@ -128,12 +119,10 @@ class Organization extends Authenticatable
     {
         return $this->payments()->where('state', 'due');
     }
-
     public function notificationsWithTrashed()
     {
         return $this->notifications()->withTrashed();
     }
-
     public function members()
     {
         return $this->belongsToMany(\App\User::class, 'organization_members')->withPivot('status')->withTimestamps();
@@ -150,32 +139,26 @@ class Organization extends Authenticatable
     {
         return $this->belongsToMany(\App\User::class, 'organization_members')->withPivot('membership_id', 'created_at')->wherePivot('status', 'blocked');
     }
-
     public function isMember($user)
     {
         return $this->members()->where('user_id', $user->id)->where('status', 'accepted')->exists();
     }
-
     public function membership($user)
     {
         return $this->members()->where('user_id', $user->id)->withPivot('status')->first();
     }
-
     public function subscription()
     {
         return $this->belongsTo(\App\Plan::class, 'plan_id');
     }
-
     public function getHasPremiumSubscriptionAttribute()
     {
         return $this->subscription_expire_at && $this->subscription_expire_at->isFuture() && $this->subscription->membership_number ? true : false;
     }
-
     public function scopeOrderByName($query)
     {
         $query->orderBy('name');
     }
-
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
@@ -184,5 +167,10 @@ class Organization extends Authenticatable
                     ->orWhere('email', 'like', '%' . $search . '%');
             });
         });
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new OrganizationResetPasswordNotification($token));
     }
 }

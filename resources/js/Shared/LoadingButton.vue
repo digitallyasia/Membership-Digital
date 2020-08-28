@@ -1,6 +1,6 @@
 <template>
-  <button :disabled="loading" class="flex items-center">
-    <div v-if="loading" class="btn-spinner mr-2" />
+  <button :disabled="loading" class="flex items-center" @click="$emit('click')">
+    <div v-if="loading" class="mr-2 btn-spinner" />
     <slot />
   </button>
 </template>
@@ -10,5 +10,5 @@ export default {
   props: {
     loading: Boolean,
   },
-}
+};
 </script>

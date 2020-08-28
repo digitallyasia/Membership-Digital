@@ -23,7 +23,7 @@
             </label>
             <inertia-link
               class="font-bold hover:underline"
-              :href="route('organization.password.email')"
+              :href="route('organization.password.request')"
             >Forget password?</inertia-link>
           </div>
           <loading-button
@@ -55,10 +55,10 @@ export default {
   components: {
     LoadingButton,
     Logo,
-    TextInput
+    TextInput,
   },
   props: {
-    errors: Object
+    errors: Object,
   },
   data() {
     return {
@@ -66,8 +66,8 @@ export default {
       form: {
         email: "",
         password: "",
-        remember: null
-      }
+        remember: null,
+      },
     };
   },
   methods: {
@@ -77,10 +77,10 @@ export default {
         .post(this.route("organization.login"), {
           email: this.form.email,
           password: this.form.password,
-          remember: this.form.remember
+          remember: this.form.remember,
         })
         .then(() => (this.sending = false));
-    }
-  }
+    },
+  },
 };
 </script>

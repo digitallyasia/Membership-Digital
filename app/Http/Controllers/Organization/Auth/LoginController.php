@@ -15,8 +15,8 @@ class LoginController extends Controller
     | Login Controller
     |--------------------------------------------------------------------------
     |
-    | This controller handles authenticating teacher users for the application and
-    | redirecting them to your teacher dashboard.
+    | This controller handles authenticating organization users for the application and
+    | redirecting them to your organization dashboard.
     |
     */
     /*
@@ -33,7 +33,7 @@ class LoginController extends Controller
     public $decayMinutes = 3;
 
     /**
-     * Only guests for "teacher" guard are allowed except
+     * Only guests for "organization" guard are allowed except
      * for logout.
      *
      * @return void
@@ -59,7 +59,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Login the teacher.
+     * Login the organization.
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
@@ -80,7 +80,7 @@ class LoginController extends Controller
         //attempt login.
         if (Auth::guard('organization')->attempt($request->only('email', 'password'), $request->filled('remember'))) {
             //Authenticated, redirect to the intended route
-            //if available else teacher dashboard.
+            //if available else organization dashboard.
             return redirect(route('organization.dashboard'));
         }
         //keep track of login attempts from the user.
@@ -90,7 +90,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Logout the teacher.
+     * Logout the organization.
      *
      * @return \Illuminate\Http\RedirectResponse
      */

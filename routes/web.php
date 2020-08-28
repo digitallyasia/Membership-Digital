@@ -19,7 +19,7 @@ Route::get('/')->name('organization.dashboard')->uses('DashboardController')->mi
 Route::post('/billplz/callback', 'BillPlzCallbackController')->name('billplz.callback');
 Route::name('organization.')->namespace('Organization')->group(function () {
     Route::prefix('/organization')->group(function () {
-        Auth::routes(['verify' => true]);
+        Auth::routes(['verify' => false]);
     });
     Route::middleware(['auth:organization'])->group(function () {
         Route::post('/bill_generate', 'BillGenerateController')->name('bill.generate');

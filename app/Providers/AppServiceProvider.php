@@ -52,7 +52,6 @@ class AppServiceProvider extends ServiceProvider
                     ->where('id', Auth::guard('organization')->user()->id)
                     ->first()
                     : null;
-                // $organization = Auth::guard('organization')->user()->withCount(['notifications', 'announcements', 'benefits']);
                 return [
                     'organization' => $organization,
                 ];
@@ -67,6 +66,9 @@ class AppServiceProvider extends ServiceProvider
                 return Session::get('errors')
                     ? Session::get('errors')->getBag('default')->getMessages()
                     : (object) [];
+            },
+            'status' => function () {
+                return Session::get('status') ?? null;
             },
         ]);
     }
