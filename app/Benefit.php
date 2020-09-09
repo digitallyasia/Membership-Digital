@@ -18,7 +18,6 @@ class Benefit extends Model
         static::created(function ($benefit) {
             fcm()
                 ->toTopic('organization_' . $benefit->organization_id)
-                ->priority('normal')
                 ->timeToLive(0)
                 ->notification([
                     'title' => $benefit->organization->name . ': ' . $benefit->title,

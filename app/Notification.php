@@ -18,7 +18,6 @@ class Notification extends Model
         static::created(function ($notification) {
             fcm()
                 ->toTopic('organization_' . $notification->organization_id)
-                ->priority('normal')
                 ->timeToLive(0)
                 ->notification([
                     'title' => $notification->organization->name . ': ' . $notification->title,
