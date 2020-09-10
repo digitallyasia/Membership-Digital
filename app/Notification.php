@@ -5,6 +5,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use LaravelFCM\Facades\FCM;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use LaravelFCM\Message\Topics;
 
 class Notification extends Model
 {
@@ -16,19 +20,29 @@ class Notification extends Model
             $builder->orderBy('id', 'desc');
         });
         static::created(function ($notification) {
-            fcm()
-                ->toTopic('organization_' . $notification->organization_id)
-                ->timeToLive(0)
-                ->notification([
-                    'title' => $notification->organization->name . ': ' . $notification->title,
-                    'body' => $notification->body,
-                ])
-                ->data([
-                    'organization_id' => $notification->organization_id,
-                    'type' => 'notification',
-                    'id' => $notification->id,
-                ])
-                ->send();
+            $notificationBuilder = new PayloadNotificationBuilder($notification->organization->name . ': ' . $notification->title);
+            $notificationBuilder->setBody($notification->body)
+                ->setSound('default');
+
+            $fcm_notification = $notificationBuilder->build();
+
+            $topic = new Topics();
+            $topic->topic('organization_' . $notification->organization_id);
+
+            $dataBuilder = new PayloadDataBuilder();
+            $dataBuilder->addData([
+                'organization_id' => $notification->organization_id,
+                'type' => 'notification',
+                'id' => $notification->id,
+            ]);
+
+            $data = $dataBuilder->build();
+
+            $topicResponse = FCM::sendToTopic($topic, null, $fcm_notification, $data);
+
+            $topicResponse->isSuccess();
+            $topicResponse->shouldRetry();
+            $topicResponse->error();
         });
     }
 
