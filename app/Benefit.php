@@ -5,6 +5,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use LaravelFCM\Facades\FCM;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use LaravelFCM\Message\Topics;
 
 class Benefit extends Model
 {
@@ -16,19 +20,29 @@ class Benefit extends Model
             $builder->orderBy('id', 'desc');
         });
         static::created(function ($benefit) {
-            fcm()
-                ->toTopic('organization_' . $benefit->organization_id)
-                ->timeToLive(0)
-                ->notification([
-                    'title' => $benefit->organization->name . ': ' . $benefit->title,
-                    'body' => $benefit->details,
-                ])
-                ->data([
-                    'organization_id' => $benefit->organization_id,
-                    'type' => 'Rewards',
-                    'id' => $benefit->id,
-                ])
-                ->send();
+            $notificationBuilder = new PayloadNotificationBuilder($benefit->organization->name . ': ' . $benefit->title);
+            $notificationBuilder->setBody($benefit->details)
+                ->setSound('default');
+
+            $notification = $notificationBuilder->build();
+
+            $topic = new Topics();
+            $topic->topic('organization_' . $benefit->organization_id);
+
+            $dataBuilder = new PayloadDataBuilder();
+            $dataBuilder->addData([
+                'organization_id' => $benefit->organization_id,
+                'type' => 'Rewards',
+                'id' => $benefit->id,
+            ]);
+
+            $data = $dataBuilder->build();
+
+            $topicResponse = FCM::sendToTopic($topic, null, $notification, $data);
+
+            $topicResponse->isSuccess();
+            $topicResponse->shouldRetry();
+            $topicResponse->error();
         });
     }
 

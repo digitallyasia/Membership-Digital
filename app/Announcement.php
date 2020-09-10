@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
+use LaravelFCM\Facades\FCM;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use LaravelFCM\Message\Topics;
 
 class Announcement extends Model
 {
@@ -17,20 +21,29 @@ class Announcement extends Model
             $builder->orderBy('id', 'desc');
         });
         static::created(function ($announcement) {
-            fcm()
-                ->toTopic('organization_' . $announcement->organization_id)
-                ->timeToLive(0)
-                ->notification([
-                    'title' => $announcement->organization->name . ': ' . $announcement->title,
-                    'body' => $announcement->details,
-                ])
-                ->data([
-                    'organization_id' => $announcement->organization_id,
-                    'type' => 'Announcements',
-                    'id' => $announcement->id,
-                ])
-                ->send();
-            Log::info('organization_' . $announcement->organization_id);
+            $notificationBuilder = new PayloadNotificationBuilder($announcement->organization->name . ': ' . $announcement->title);
+            $notificationBuilder->setBody($announcement->details)
+                ->setSound('default');
+
+            $notification = $notificationBuilder->build();
+
+            $topic = new Topics();
+            $topic->topic('organization_' . $announcement->organization_id);
+
+            $dataBuilder = new PayloadDataBuilder();
+            $dataBuilder->addData([
+                'organization_id' => $announcement->organization_id,
+                'type' => 'Announcements',
+                'id' => $announcement->id,
+            ]);
+
+            $data = $dataBuilder->build();
+
+            $topicResponse = FCM::sendToTopic($topic, null, $notification, $data);
+
+            $topicResponse->isSuccess();
+            $topicResponse->shouldRetry();
+            $topicResponse->error();
         });
     }
 

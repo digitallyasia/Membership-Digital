@@ -17,7 +17,6 @@
         "guzzlehttp/guzzle": "^6.3",
         "inertiajs/inertia-laravel": "^0.2.5",
         "jomweb/billplz-laravel": "^1.5",
-        "kawankoding/laravel-fcm": "^0.2.2",
         "laravel-shift/blueprint": "dev-master",
         "laravel/framework": "^7.0",
         "laravel/nova": "~3.0",
