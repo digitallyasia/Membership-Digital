@@ -16,6 +16,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/')->name('organization.dashboard')->uses('DashboardController')->middleware('auth:organization');
+// Auth::routes([
+//     'register' => false,
+//     'confirm' => false,
+//     'reset' => true,
+//     'verify' => false
+// ]);
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+// Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+
 Route::post('/billplz/callback', 'BillPlzCallbackController')->name('billplz.callback');
 Route::name('organization.')->namespace('Organization')->group(function () {
     Route::prefix('/organization')->group(function () {

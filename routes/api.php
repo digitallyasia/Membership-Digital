@@ -64,30 +64,7 @@ Route::post('/login', function () {
         'organizations' => $user->organizations()->wherePivot('status', 'accepted')->pluck('organizations.id'),
     ], 200);
 });
-
-Route::post('/forget_password', function () {
-    request()->validate([
-        'email' => 'required|email',
-    ]);
-
-    $user = User::where('email', request()->email)->first();
-    if ($user) {
-        $password = Str::random(8);
-
-        $user->update([
-            'password' => Hash::make($password)
-        ]);
-        $user->notify(new AppForgotPasswordNotification($password));
-
-        return response([
-            'message' => "New generated password successfully send to your email",
-        ], 200);
-    } else {
-        return response([
-            'message' => "The given email address is not associated with any account. Double-check your email address and try again.",
-        ], 200);
-    }
-});
+Route::post('forget_password', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('me')->group(function () {
