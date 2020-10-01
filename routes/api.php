@@ -9,10 +9,9 @@ use App\Http\Resources\BenefitCollection;
 use App\Http\Resources\OrganizationCollection;
 use App\Http\Resources\OrganizationResource;
 use App\Http\Resources\UserResource;
+use App\Notifications\AppForgotPasswordNotification;
 use App\Rules\MatchOldPassword;
 use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -73,11 +72,12 @@ Route::post('/forget_password', function () {
 
     $user = User::where('email', request()->email)->first();
     if ($user) {
-        $newPassword = Str::random(8);
+        $password = Str::random(8);
 
-        request()->user()->update([
-            'password' => Hash::make($newPassword)
+        $user->update([
+            'password' => Hash::make($password)
         ]);
+        $user->notify(new AppForgotPasswordNotification($password));
 
         return response([
             'message' => "New generated password successfully send to your email",
