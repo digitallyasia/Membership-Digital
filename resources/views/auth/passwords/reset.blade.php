@@ -4,6 +4,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <div class="pb-4">
+                <img src="/images/logo-black.png" alt="Logo" style="max-width: 400px" class="d-flex justify-content-center mx-auto">
+            </div>
             <div class="card">
                 <div class="card-header">{{ __('Reset Password') }}</div>
 
