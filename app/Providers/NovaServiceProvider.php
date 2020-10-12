@@ -17,6 +17,7 @@ use App\Nova\Metrics\PaymentsPerPlan;
 use App\Nova\Metrics\PaymentsPerStatus;
 use App\Nova\Metrics\UsersPerDay;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
@@ -35,6 +36,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             Trix::make('Terms & Conditions', 'tnc'),
             Trix::make('Privacy Policy', 'pp'),
             Trix::make('Frequently Asked Questions', 'faq'),
+            Text::make('BillPlz Collection ID', 'billplz_collection_id'),
         ]);
     }
 
