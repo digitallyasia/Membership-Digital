@@ -65,7 +65,7 @@
               </div>
               <a
                 class="flex items-center justify-center ml-auto font-bold text-center rounded-lg btn-indigo"
-                :href="`https://www.billplz-sandbox.com/bills/${pendingPayment.bill_id}`"
+                :href="`https://www.billplz.com/bills/${pendingPayment.bill_id}`"
                 target="_blank"
               >Pay Now</a>
               <button
