@@ -12,13 +12,13 @@
         <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
           <text-input
             v-model="form.title"
-            :errors="$page.errors.title"
+            :errors="$page.props.errors.title"
             class="pr-6 pb-8 w-full"
             label="Title"
           />
           <textarea-input
             v-model="form.body"
-            :errors="$page.errors.body"
+            :errors="$page.props.errors.body"
             class="pr-6 pb-8 w-full"
             label="Body"
           />
@@ -47,7 +47,7 @@ export default {
     SelectInput,
     TextInput,
     FileInput,
-    TextareaInput
+    TextareaInput,
   },
   props: {},
   remember: "form",
@@ -56,17 +56,19 @@ export default {
       sending: false,
       form: {
         title: null,
-        body: null
-      }
+        body: null,
+      },
     };
   },
   methods: {
     submit() {
       this.sending = true;
-      this.$inertia
-        .post(this.route("notifications.store"), this.form)
-        .then(() => (this.sending = false));
-    }
-  }
+      this.$inertia.post(this.route("notifications.store"), this.form, {
+        onFinish: () => {
+          this.sending = false;
+        },
+      });
+    },
+  },
 };
 </script>

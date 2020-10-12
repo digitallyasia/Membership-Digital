@@ -13,7 +13,7 @@
         <div class="flex flex-wrap p-8 -mb-8 -mr-6">
           <file-input
             v-model="form.image"
-            :errors="$page.errors.image"
+            :errors="$page.props.errors.image"
             class="w-full pb-8 lg:w-full"
             type="file"
             accept="image/*"
@@ -21,19 +21,19 @@
           />
           <text-input
             v-model="form.title"
-            :errors="$page.errors.title"
+            :errors="$page.props.errors.title"
             class="w-full pb-8 pr-6"
             label="Title"
           />
           <text-input
             v-model="form.promo_code"
-            :errors="$page.errors.promo_code"
+            :errors="$page.props.errors.promo_code"
             class="w-full pb-8 pr-6"
             label="Promo Code"
           />
           <textarea-input
             v-model="form.details"
-            :errors="$page.errors.details"
+            :errors="$page.props.errors.details"
             class="w-full pb-8 pr-6"
             label="Details"
           />
@@ -100,9 +100,11 @@ export default {
       data.append("promo_code", this.form.promo_code || "");
       data.append("image", this.form.image || "");
       data.append("_method", "put");
-      this.$inertia
-        .post(this.route("benefits.update", this.benefit.id), data)
-        .then(() => (this.sending = false));
+      this.$inertia.post(this.route("benefits.update", this.benefit.id), data, {
+        onFinish: () => {
+          this.sending = false;
+        },
+      });
     },
     restore() {
       if (confirm("Are you sure you want to restore this benefit?")) {

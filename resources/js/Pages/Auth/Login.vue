@@ -8,7 +8,7 @@
           <div class="w-24 mx-auto mt-6 border-b-2" />
           <text-input
             v-model="form.email"
-            :errors="$page.errors.email"
+            :errors="$page.props.errors.email"
             class="mt-10"
             label="Email"
             type="email"
@@ -73,13 +73,19 @@ export default {
   methods: {
     submit() {
       this.sending = true;
-      this.$inertia
-        .post(this.route("organization.login"), {
+      this.$inertia.post(
+        this.route("organization.login"),
+        {
           email: this.form.email,
           password: this.form.password,
           remember: this.form.remember,
-        })
-        .then(() => (this.sending = false));
+        },
+        {
+          onFinish: () => {
+            this.sending = false;
+          },
+        }
+      );
     },
   },
 };

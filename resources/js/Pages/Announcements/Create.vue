@@ -12,7 +12,7 @@
         <div class="flex flex-wrap p-8 -mb-8 -mr-6">
           <file-input
             v-model="form.image"
-            :errors="$page.errors.image"
+            :errors="$page.props.errors.image"
             class="w-full pb-8 lg:w-full"
             type="file"
             accept="image/*"
@@ -20,19 +20,19 @@
           />
           <text-input
             v-model="form.title"
-            :errors="$page.errors.title"
+            :errors="$page.props.errors.title"
             class="w-full pb-8 pr-6"
             label="Title"
           />
           <text-input
             v-model="form.url"
-            :errors="$page.errors.url"
+            :errors="$page.props.errors.url"
             class="w-full pb-8 pr-6"
             label="Url (Optional)"
           />
           <textarea-input
             v-model="form.details"
-            :errors="$page.errors.details"
+            :errors="$page.props.errors.details"
             class="w-full pb-8 pr-6"
             label="Details"
           />
@@ -61,7 +61,7 @@ export default {
     SelectInput,
     TextInput,
     FileInput,
-    TextareaInput
+    TextareaInput,
   },
   props: {},
   remember: "form",
@@ -72,8 +72,8 @@ export default {
         title: "",
         details: "",
         url: "",
-        image: ""
-      }
+        image: "",
+      },
     };
   },
   methods: {
@@ -84,10 +84,12 @@ export default {
       data.append("details", this.form.details);
       data.append("url", this.form.url);
       data.append("image", this.form.image);
-      this.$inertia
-        .post(this.route("announcements.store"), data)
-        .then(() => (this.sending = false));
-    }
-  }
+      this.$inertia.post(this.route("announcements.store"), data, {
+        onFinish: () => {
+          this.sending = false;
+        },
+      });
+    },
+  },
 };
 </script>

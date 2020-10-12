@@ -6,7 +6,7 @@
       <inertia-link
         class="btn-indigo"
         :href="route('notifications.create')"
-        v-if="$page.auth.organization.subscription.number_of_notifications - $page.auth.organization.notifications_with_trashed_count > 0"
+        v-if="$page.props.auth.organization.subscription.number_of_notifications - $page.props.auth.organization.notifications_with_trashed_count > 0"
       >
         <span>Create</span>
         <span class="hidden md:inline">Notification</span>
@@ -77,23 +77,23 @@ export default {
   components: {
     Icon,
     Pagination,
-    SearchFilter
+    SearchFilter,
   },
   props: {
     notifications: Object,
-    filters: Object
+    filters: Object,
   },
   data() {
     return {
       form: {
         search: this.filters.search,
-        trashed: this.filters.trashed
-      }
+        trashed: this.filters.trashed,
+      },
     };
   },
   watch: {
     form: {
-      handler: debounce(function() {
+      handler: debounce(function () {
         let query = pickBy(this.form);
         this.$inertia.replace(
           this.route(
@@ -102,18 +102,19 @@ export default {
           )
         );
       }, 400),
-      deep: true
-    }
+      deep: true,
+    },
   },
   methods: {
     reset() {
       this.form = mapValues(this.form, () => null);
     },
     destroy(id) {
-      if (confirm("Are you sure you want to delete this notification?")) {
-        this.$inertia.delete(this.route("notifications.destroy", id));
-      }
-    }
-  }
+      this.$inertia.delete(this.route("notifications.destroy", id), {
+        onStart: () =>
+          confirm("Are you sure you want to delete this notification?"),
+      });
+    },
+  },
 };
 </script>

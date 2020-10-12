@@ -6,7 +6,7 @@
       <inertia-link
         class="btn-indigo"
         :href="route('benefits.create')"
-        v-if="$page.auth.organization.subscription.number_of_benefits - $page.auth.organization.benefits_with_trashed_count > 0"
+        v-if="$page.props.auth.organization.subscription.number_of_benefits - $page.props.auth.organization.benefits_with_trashed_count > 0"
       >
         <span>Create</span>
         <span class="hidden md:inline">Benefit</span>

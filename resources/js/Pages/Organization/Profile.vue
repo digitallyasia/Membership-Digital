@@ -9,7 +9,7 @@
         <div class="flex flex-wrap p-8 -mb-8 -mr-6">
           <file-input
             v-model="form.logo"
-            :errors="$page.errors.logo"
+            :errors="$page.props.errors.logo"
             class="w-full pb-8 lg:w-full"
             type="file"
             :rounded="false"
@@ -18,97 +18,97 @@
           />
           <text-input
             v-model="form.name"
-            :errors="$page.errors.name"
+            :errors="$page.props.errors.name"
             class="w-full pb-8 pr-6"
             label="Name"
           />
           <text-input
             v-model="form.email"
-            :errors="$page.errors.email"
+            :errors="$page.props.errors.email"
             class="w-1/2 pb-8 pr-6"
             label="Email"
           />
           <text-input
             v-model="form.phone"
-            :errors="$page.errors.phone"
+            :errors="$page.props.errors.phone"
             class="w-1/2 pb-8 pr-6"
             label="Phone"
           />
           <text-input
             v-model="form.address"
-            :errors="$page.errors.address"
+            :errors="$page.props.errors.address"
             class="w-full pb-8 pr-6"
             label="Address"
           />
           <text-input
             v-model="form.city"
-            :errors="$page.errors.city"
+            :errors="$page.props.errors.city"
             class="w-1/3 pb-8 pr-6"
             label="City"
           />
           <text-input
             v-model="form.state"
-            :errors="$page.errors.state"
+            :errors="$page.props.errors.state"
             class="w-1/3 pb-8 pr-6"
             label="State"
           />
           <text-input
             v-model="form.postal_code"
-            :errors="$page.errors.postal_code"
+            :errors="$page.props.errors.postal_code"
             class="w-1/3 pb-8 pr-6"
             label="Postal Code"
           />
           <textarea-input
             v-model="form.description"
-            :errors="$page.errors.description"
+            :errors="$page.props.errors.description"
             class="w-full pb-8 pr-6"
             label="Description"
           />
           <text-input
             v-model="form.website"
-            :errors="$page.errors.website"
+            :errors="$page.props.errors.website"
             class="w-full pb-8 pr-6"
             label="Website"
             placeholder="https://www.example.com"
           />
           <text-input
             v-model="form.facebook"
-            :errors="$page.errors.facebook"
+            :errors="$page.props.errors.facebook"
             class="w-full pb-8 pr-6"
             label="Facebook"
             placeholder="https://www.facebook.com"
           />
           <text-input
             v-model="form.whatsapp"
-            :errors="$page.errors.whatsapp"
+            :errors="$page.props.errors.whatsapp"
             class="w-full pb-8 pr-6"
             label="WhatsApp"
             placeholder="https://web.whatsapp.com"
           />
           <text-input
             v-model="form.instagram"
-            :errors="$page.errors.instagram"
+            :errors="$page.props.errors.instagram"
             class="w-full pb-8 pr-6"
             label="Instagram"
             placeholder="https://www.instagram.com"
           />
           <text-input
             v-model="form.youtube"
-            :errors="$page.errors.youtube"
+            :errors="$page.props.errors.youtube"
             class="w-full pb-8 pr-6"
             label="Youtube"
             placeholder="https://www.youtube.com"
           />
           <text-input
             v-model="form.twitter"
-            :errors="$page.errors.twitter"
+            :errors="$page.props.errors.twitter"
             class="w-full pb-8 pr-6"
             label="Twitter"
             placeholder="https://www.twitter.com"
           />
           <text-input
             v-model="form.telegram"
-            :errors="$page.errors.telegram"
+            :errors="$page.props.errors.telegram"
             class="w-full pb-8 pr-6"
             label="Telegram"
             placeholder="https://www.telegram.com"
@@ -157,7 +157,7 @@ export default {
   data() {
     return {
       sending: false,
-      form: JSON.parse(JSON.stringify(this.$page.auth.organization)),
+      form: JSON.parse(JSON.stringify(this.$page.props.auth.organization)),
     };
   },
   methods: {
@@ -181,9 +181,15 @@ export default {
       data.append("twitter", this.form.twitter);
       data.append("telegram", this.form.telegram);
       data.append("_method", "put");
-      this.$inertia
-        .post(this.route("organizations.update", this.form.id), data)
-        .then(() => (this.sending = false));
+      this.$inertia.post(
+        this.route("organizations.update", this.form.id),
+        data,
+        {
+          onFinish: () => {
+            this.sending = false;
+          },
+        }
+      );
     },
   },
 };

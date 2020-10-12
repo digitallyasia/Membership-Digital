@@ -34,7 +34,7 @@
             >Blocked</inertia-link>
           </li>
           <li
-            v-if="!$page.auth.organization.auto_join"
+            v-if="!$page.props.auth.organization.auto_join"
             class="px-4 py-2 pb-4 bg-white"
             :class="{ 'border-b-4 border-gray-600': activeTab==='Pending' }"
             :style="activeTab==='Pending' ? 'margin-bottom: -4px' : ''"
@@ -214,7 +214,7 @@ export default {
   },
   computed: {
     auto_join() {
-      return this.$page.auth.organization.auto_join;
+      return this.$page.props.auth.organization.auto_join;
     },
     activeTab() {
       return this.tab;
@@ -239,7 +239,7 @@ export default {
       this.$inertia.post(
         this.route(
           "organization.toggle_auto_join",
-          this.$page.auth.organization.id
+          this.$page.props.auth.organization.id
         )
       );
     },
@@ -268,7 +268,7 @@ export default {
     },
     padNum(num) {
       return (
-        this.$page.auth.organization.name.substring(0, 3).toUpperCase() +
+        this.$page.props.auth.organization.name.substring(0, 3).toUpperCase() +
         Array(7 - num.toString().length).join("0") +
         num
       );

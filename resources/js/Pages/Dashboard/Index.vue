@@ -9,7 +9,7 @@
               <div class="mb-2 text-xl font-bold">Members</div>
               <p
                 class="text-2xl text-center text-gray-700"
-              >{{$page.auth.organization.active_members_count}}/{{$page.auth.organization.subscription.number_of_members}}</p>
+              >{{$page.props.auth.organization.active_members_count}}/{{$page.props.auth.organization.subscription.number_of_members}}</p>
             </div>
           </div>
         </div>
@@ -24,7 +24,7 @@
               <div class="mb-2 text-xl font-bold">Notifications</div>
               <p
                 class="text-2xl text-center text-gray-700"
-              >{{$page.auth.organization.notifications_with_trashed_count}}/{{$page.auth.organization.subscription.number_of_notifications}}</p>
+              >{{$page.props.auth.organization.notifications_with_trashed_count}}/{{$page.props.auth.organization.subscription.number_of_notifications}}</p>
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@
               <div class="mb-2 text-xl font-bold">Announcements</div>
               <p
                 class="text-2xl text-center text-gray-700"
-              >{{$page.auth.organization.announcements_with_trashed_count}}/{{$page.auth.organization.subscription.number_of_announcements}}</p>
+              >{{$page.props.auth.organization.announcements_with_trashed_count}}/{{$page.props.auth.organization.subscription.number_of_announcements}}</p>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@
               <div class="mb-2 text-xl font-bold">Benefits</div>
               <p
                 class="text-2xl text-center text-gray-700"
-              >{{$page.auth.organization.benefits_with_trashed_count}}/{{$page.auth.organization.subscription.number_of_benefits}}</p>
+              >{{$page.props.auth.organization.benefits_with_trashed_count}}/{{$page.props.auth.organization.subscription.number_of_benefits}}</p>
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@
               class="relative object-contain w-full h-64"
             >
               <div
-                v-if="$page.auth.organization.subscription && $page.auth.organization.subscription.card_customization"
+                v-if="$page.props.auth.organization.subscription && $page.props.auth.organization.subscription.card_customization"
                 class="absolute top-0 right-0 flex items-center justify-center h-8 mt-1 mr-1"
               >
                 <input ref="card" type="file" accept="image/*" class="hidden" @change="change" />
@@ -100,7 +100,7 @@
               <p
                 class="absolute bottom-0 left-0 px-6 pb-6 m-0 text-2xl font-semibold leading-5 text-white truncate"
                 style="text-shadow: rgb(0, 0, 0,0.5) 2px 2px 2px"
-              >{{ $page.auth.organization.name }}</p>
+              >{{ $page.props.auth.organization.name }}</p>
             </div>
           </div>
         </div>
@@ -112,11 +112,11 @@
           <div class="relative p-0 mr-4 card sm:mr-4 lg:mr-0">
             <a
               class="absolute top-0 right-0 flex items-center justify-center h-8 px-2 mt-1 mr-1 font-semibold text-white bg-indigo-500 rounded shadow"
-              :href="`/storage/qrcodes/${$page.auth.organization.qrcode}`"
+              :href="`/storage/qrcodes/${$page.props.auth.organization.qrcode}`"
               download
             >Download</a>
             <img
-              :src="`/storage/qrcodes/${$page.auth.organization.qrcode}`"
+              :src="`/storage/qrcodes/${$page.props.auth.organization.qrcode}`"
               class="w-full h-full p-3"
             />
           </div>
@@ -136,8 +136,8 @@ export default {
   },
   data() {
     return {
-      card: this.$page.auth.organization.card_image
-        ? `/storage/images/${this.$page.auth.organization.card_image}`
+      card: this.$page.props.auth.organization.card_image
+        ? `/storage/images/${this.$page.props.auth.organization.card_image}`
         : null,
       card_file: null,
       card_preview: null,
@@ -157,17 +157,18 @@ export default {
     updateCard() {
       var data = new FormData();
       data.append("card_image", this.card_file);
-      this.$inertia
-        .post(
-          this.route(
-            "organizations.update_card",
-            this.$page.auth.organization.id
-          ),
-          data
-        )
-        .then(() => {
-          this.card_file = null;
-        });
+      this.$inertia.post(
+        this.route(
+          "organizations.update_card",
+          this.$page.props.auth.organization.id
+        ),
+        data,
+        {
+          onFinish: () => {
+            this.card_file = null;
+          },
+        }
+      );
     },
   },
 };

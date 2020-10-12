@@ -13,43 +13,43 @@
         <div class="flex flex-wrap p-8 -mb-8 -mr-6">
           <text-input
             v-model="form.name"
-            :errors="$page.errors.name"
+            :errors="$page.props.errors.name"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Name"
           />
           <text-input
             v-model="form.email"
-            :errors="$page.errors.email"
+            :errors="$page.props.errors.email"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Email"
           />
           <text-input
             v-model="form.phone"
-            :errors="$page.errors.phone"
+            :errors="$page.props.errors.phone"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Phone"
           />
           <text-input
             v-model="form.address"
-            :errors="$page.errors.address"
+            :errors="$page.props.errors.address"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Address"
           />
           <text-input
             v-model="form.city"
-            :errors="$page.errors.city"
+            :errors="$page.props.errors.city"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="City"
           />
           <text-input
             v-model="form.region"
-            :errors="$page.errors.region"
+            :errors="$page.props.errors.region"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Province/State"
           />
           <select-input
             v-model="form.country"
-            :errors="$page.errors.country"
+            :errors="$page.props.errors.country"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Country"
           >
@@ -59,7 +59,7 @@
           </select-input>
           <text-input
             v-model="form.postal_code"
-            :errors="$page.errors.postal_code"
+            :errors="$page.props.errors.postal_code"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Postal code"
           />
@@ -156,10 +156,10 @@ export default {
     LoadingButton,
     SelectInput,
     TextInput,
-    TrashedMessage
+    TrashedMessage,
   },
   props: {
-    organization: Object
+    organization: Object,
   },
   remember: "form",
   data() {
@@ -173,19 +173,22 @@ export default {
         city: this.organization.city,
         region: this.organization.region,
         country: this.organization.country,
-        postal_code: this.organization.postal_code
-      }
+        postal_code: this.organization.postal_code,
+      },
     };
   },
   methods: {
     submit() {
       this.sending = true;
-      this.$inertia
-        .put(
-          this.route("organizations.update", this.organization.id),
-          this.form
-        )
-        .then(() => (this.sending = false));
+      this.$inertia.put(
+        this.route("organizations.update", this.organization.id),
+        this.form,
+        {
+          onFinish: () => {
+            this.sending = false;
+          },
+        }
+      );
     },
     destroy() {
       if (confirm("Are you sure you want to delete this organization?")) {
@@ -200,7 +203,7 @@ export default {
           this.route("organizations.restore", this.organization.id)
         );
       }
-    }
-  }
+    },
+  },
 };
 </script>

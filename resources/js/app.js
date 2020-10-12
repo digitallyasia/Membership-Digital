@@ -1,11 +1,11 @@
 import Vue from "vue";
 import VueMeta from "vue-meta";
 import PortalVue from "portal-vue";
-import { InertiaApp } from "@inertiajs/inertia-vue";
+import { app,plugin } from "@inertiajs/inertia-vue";
 
 Vue.config.productionTip = false;
 Vue.mixin({ methods: { route: window.route } });
-Vue.use(InertiaApp);
+Vue.use(plugin);
 Vue.use(PortalVue);
 Vue.use(VueMeta);
 Vue.config.ignoredElements = ["trix-editor"];
@@ -19,17 +19,17 @@ Vue.mixin({
     }
 });
 
-let app = document.getElementById("app");
+let el = document.getElementById("app");
 new Vue({
     metaInfo: {
         titleTemplate: title =>
             title ? `${title} - Membership Digital` : "Membership Digital"
     },
     render: h =>
-        h(InertiaApp, {
+        h(app, {
             props: {
-                initialPage: JSON.parse(app.dataset.page),
+                initialPage: JSON.parse(el.dataset.page),
                 resolveComponent: name => require(`./Pages/${name}`).default
             }
         })
-}).$mount(app);
+}).$mount(el);

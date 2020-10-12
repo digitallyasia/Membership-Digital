@@ -1,6 +1,20 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
+  future: {
+    purgeLayersByDefault: true,
+    removeDeprecatedGapUtilities: false
+  },
+  purge: {
+    content: [
+      './storage/framework/views/*.php',
+      './resources/views/**/*.blade.php',
+      './resources/js/**/*.vue'
+    ],
+    options: {
+      whitelist: ['nprogress|standard|premium/']
+    }
+  },
   theme: {
     extend: {
       fontFamily: {
@@ -16,6 +30,10 @@ module.exports = {
           '300': '#b2b7ff',
           '100': '#e6e8ff',
         },
+      },
+      maxWidth: {
+        '3xs': '12rem',
+        '2xs': '16rem'
       },
       boxShadow: theme => ({
         outline: '0 0 0 2px ' + theme('colors.indigo.500'),

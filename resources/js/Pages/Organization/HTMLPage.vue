@@ -22,38 +22,44 @@ import Trix from "@/Shared/Trix";
 export default {
   metaInfo() {
     return {
-      title: this.title
+      title: this.title,
     };
   },
   layout: Layout,
   components: {
     Trix,
-    LoadingButton
+    LoadingButton,
   },
   props: {
     html: String,
     title: String,
-    field: String
+    field: String,
   },
   data() {
     return {
       value: this.html,
-      saving: false
+      saving: false,
     };
   },
   methods: {
     saveHTML() {
       this.saving = true;
-      this.$inertia
-        .post(this.route("organization.save-page"), {
+      this.$inertia.post(
+        this.route("organization.save-page"),
+        {
           field: this.field,
-          html: this.value
-        })
-        .then(() => (this.saving = false));
+          html: this.value,
+        },
+        {
+          onFinish: () => {
+            this.saving = false;
+          },
+        }
+      );
     },
     handleChange(value) {
       this.value = value;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -13,7 +13,7 @@
         <div class="flex flex-wrap p-8 -mb-8 -mr-6">
           <file-input
             v-model="form.image"
-            :errors="$page.errors.image"
+            :errors="$page.props.errors.image"
             class="w-full pb-8 lg:w-full"
             type="file"
             accept="image/*"
@@ -21,19 +21,19 @@
           />
           <text-input
             v-model="form.title"
-            :errors="$page.errors.title"
+            :errors="$page.props.errors.title"
             class="w-full pb-8 pr-6"
             label="Title"
           />
           <text-input
             v-model="form.url"
-            :errors="$page.errors.url"
+            :errors="$page.props.errors.url"
             class="w-full pb-8 pr-6"
             label="Url (Optional)"
           />
           <textarea-input
             v-model="form.details"
-            :errors="$page.errors.details"
+            :errors="$page.props.errors.details"
             class="w-full pb-8 pr-6"
             label="Details"
           />
@@ -69,7 +69,7 @@ import FileInput from "@/Shared/FileInput";
 export default {
   metaInfo() {
     return {
-      title: `${this.form.title}`
+      title: `${this.form.title}`,
     };
   },
   layout: Layout,
@@ -79,10 +79,10 @@ export default {
     TextInput,
     TrashedMessage,
     FileInput,
-    TextareaInput
+    TextareaInput,
   },
   props: {
-    announcement: Object
+    announcement: Object,
   },
   remember: "form",
   data() {
@@ -92,8 +92,8 @@ export default {
         title: this.announcement.title,
         details: this.announcement.details,
         url: this.announcement.url,
-        image: this.announcement.image
-      }
+        image: this.announcement.image,
+      },
     };
   },
   methods: {
@@ -105,9 +105,15 @@ export default {
       data.append("url", this.form.url || "");
       data.append("image", this.form.image || "");
       data.append("_method", "put");
-      this.$inertia
-        .post(this.route("announcements.update", this.announcement.id), data)
-        .then(() => (this.sending = false));
+      this.$inertia.post(
+        this.route("announcements.update", this.announcement.id),
+        data,
+        {
+          onFinish: () => {
+            this.sending = false;
+          },
+        }
+      );
     },
     restore() {
       if (confirm("Are you sure you want to restore this announcement?")) {
@@ -122,7 +128,7 @@ export default {
           this.route("announcements.destroy", this.announcement.id)
         );
       }
-    }
-  }
+    },
+  },
 };
 </script>

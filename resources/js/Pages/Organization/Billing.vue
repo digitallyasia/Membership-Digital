@@ -1,48 +1,50 @@
 <template>
   <div class="-m-12">
     <main>
-      <div class="flex flex-col p-12 lg:flex-row">
-        <div class="flex flex-col flex-wrap content-start w-full lg:w-1/2 xl:w-2/3 md:flex-row">
+      <div class="flex flex-col p-12 xl:flex-row">
+        <div
+          class="flex flex-col flex-wrap content-start w-full :w-1/2 xl:w-2/3 md:flex-row lg:mb-12 xl:mb-0"
+        >
           <div class="w-full mb-4 lg:mb-0 md:w-1/2">
-            <div class="justify-center p-5 mr-4 text-center card sm:mr-4 lg:mr-12">
+            <div class="justify-center p-5 text-center card sm:mr-4 lg:mr-12">
               <div class="flex flex-col text-center">
                 <div class="mb-2 text-base font-bold">Your Current Organisation Plan</div>
                 <h1
                   class="py-2 font-serif text-3xl font-semibold leading-none text-gray-900 sm:text-4xl lg:text-5xl"
-                >{{$page.auth.organization.subscription.name}}</h1>
+                >{{$page.props.auth.organization.subscription.name}}</h1>
               </div>
             </div>
           </div>
           <div class="w-full mb-4 lg:mb-0 md:w-1/2">
-            <div class="justify-start p-5 card lg:mr-12">
+            <div class="justify-start p-5 card xl:mr-12">
               <div class="flex flex-col w-full">
                 <div class="mb-1 text-base font-bold text-center">Plan Detail</div>
                 <div>
                   Members:
                   <span
                     class="font-serif font-semibold"
-                  >{{ $page.auth.organization.subscription.number_of_members}}</span>
+                  >{{ $page.props.auth.organization.subscription.number_of_members}}</span>
                   <span>(total)</span>
                 </div>
                 <div>
                   Notifications:
                   <span
                     class="font-serif font-semibold"
-                  >{{ $page.auth.organization.subscription.number_of_notifications}}</span>
+                  >{{ $page.props.auth.organization.subscription.number_of_notifications}}</span>
                   <span>(monthly)</span>
                 </div>
                 <div>
                   Announcements:
                   <span
                     class="font-serif font-semibold"
-                  >{{ $page.auth.organization.subscription.number_of_announcements}}</span>
+                  >{{ $page.props.auth.organization.subscription.number_of_announcements}}</span>
                   <span>(monthly)</span>
                 </div>
                 <div>
                   Benefits:
                   <span
                     class="font-serif font-semibold"
-                  >{{ $page.auth.organization.subscription.number_of_benefits}}</span>
+                  >{{ $page.props.auth.organization.subscription.number_of_benefits}}</span>
                   <span>(total)</span>
                 </div>
               </div>
@@ -78,7 +80,7 @@
             </div>
           </div>
         </div>
-        <div class="w-full mt-4 lg:w-1/2 lg:mt-0">
+        <div class="w-full xl:w-1/2">
           <div class="w-full overflow-x-auto bg-white rounded shadow-md">
             <table class="w-full whitespace-no-wrap">
               <tr class="font-bold text-left bg-gray-300">
@@ -133,7 +135,7 @@
       </div>
       <div
         class="items-center w-full p-12 pt-0 xl:w-1/2"
-        v-if="!showPackages && !pendingPayment && $page.auth.organization.subscription.id ===1"
+        v-if="!showPackages && !pendingPayment && $page.props.auth.organization.subscription.id ===1"
       >
         <div class="flex-col items-center text-center card md:flex-row md:text-left">
           <div class="flex flex-col">
@@ -198,7 +200,7 @@
                   <button
                     class="block w-full px-6 py-4 text-base font-semibold leading-6 text-center text-teal-600 transition duration-150 ease-in-out bg-white rounded-lg cursor-pointer font-display hover:text-teal-500 focus:outline-none focus:shadow-outline"
                     @click="changePlan(plan)"
-                    v-text="plan.id === $page.auth.organization.plan_id ? 'Current Plan': selectedPlan && selectedPlan.id === plan.id?'Selected Plan': 'Change Plan'"
+                    v-text="plan.id === $page.props.auth.organization.plan_id ? 'Current Plan': selectedPlan && selectedPlan.id === plan.id?'Selected Plan': 'Change Plan'"
                   ></button>
                 </div>
               </div>
@@ -281,26 +283,34 @@ export default {
     },
     cancelUpgrade() {
       this.canceling = true;
-      this.$inertia
-        .post(this.route("organization.bill.delete"), {
+      this.$inertia.post(
+        this.route("organization.bill.delete"),
+        {
           bill_id: this.pendingPayment.bill_id,
-        })
-        .then((respose) => {
-          this.canceling = false;
-        });
+        },
+        {
+          onFinish: () => {
+            this.canceling = false;
+          },
+        }
+      );
     },
     generateBill() {
       this.generatingBill = true;
-      this.$inertia
-        .post(this.route("organization.bill.generate"), {
+      this.$inertia.post(
+        this.route("organization.bill.generate"),
+        {
           plan_id: this.selectedPlan.id,
           subscription: this.selectedSubscription,
-        })
-        .then((respose) => {
-          this.generatingBill = false;
-          this.showPackages = false;
-          this.selectedPlan = null;
-        });
+        },
+        {
+          onFinish: () => {
+            this.generatingBill = false;
+            this.showPackages = false;
+            this.selectedPlan = null;
+          },
+        }
+      );
     },
   },
 };

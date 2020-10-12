@@ -8,7 +8,7 @@
             class="flex items-center justify-between px-6 py-4 bg-indigo-900 lg:flex-shrink-0 lg:w-64 lg:justify-center"
           >
             <inertia-link class="mt-1" href="/">
-              <logo class="fill-white" />
+              <logo class="fill-white max-w-3xs" />
             </inertia-link>
             <dropdown class="lg:hidden" placement="bottom-end">
               <svg
@@ -26,13 +26,13 @@
           <div
             class="flex items-center justify-between w-full p-4 text-sm bg-white border-b lg:py-0 lg:px-12 lg:text-lg"
           >
-            <div class="mt-1 mr-4">{{ $page.auth.organization.name }}</div>
+            <div class="mt-1 mr-4">{{ $page.props.auth.organization.name }}</div>
             <dropdown class="mt-1" placement="bottom-end">
               <div class="flex items-center cursor-pointer select-none group">
                 <div
                   class="mr-1 text-gray-700 whitespace-no-wrap group-hover:text-indigo-600 focus:text-indigo-600"
                 >
-                  <span>{{ $page.auth.organization.name }}</span>
+                  <span>{{ $page.props.auth.organization.name }}</span>
                 </div>
                 <icon
                   class="w-5 h-5 group-hover:fill-indigo-600 fill-gray-700 focus:fill-indigo-600"
@@ -40,7 +40,7 @@
                 />
               </div>
               <div slot="dropdown" class="py-2 mt-2 text-sm bg-white rounded shadow-xl">
-                <!-- <inertia-link class="block px-6 py-2 hover:bg-indigo-500 hover:text-white" :href="route('users.edit', $page.auth.organization.id)">My Profile</inertia-link> -->
+                <!-- <inertia-link class="block px-6 py-2 hover:bg-indigo-500 hover:text-white" :href="route('users.edit', $page.props.auth.organization.id)">My Profile</inertia-link> -->
                 <inertia-link
                   class="block px-6 py-2 hover:bg-indigo-500 hover:text-white"
                   :href="route('organization.logout')"
@@ -78,12 +78,12 @@ export default {
     FlashMessages,
     Icon,
     Logo,
-    MainMenu
+    MainMenu,
   },
   data() {
     return {
       showUserMenu: false,
-      accounts: null
+      accounts: null,
     };
   },
   methods: {
@@ -92,7 +92,7 @@ export default {
     },
     hideDropdownMenus() {
       this.showUserMenu = false;
-    }
-  }
+    },
+  },
 };
 </script>

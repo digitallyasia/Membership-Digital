@@ -80,19 +80,20 @@ export default {
   methods: {
     reset() {
       this.sending = true;
-      this.$inertia
-        .post(this.route("organization.password.update"), {
+      this.$inertia.post(
+        this.route("organization.password.update"),
+        {
           email: this.email,
           password: this.password,
           password_confirmation: this.password_confirmation,
           token: this.token,
-        })
-        .then(() => {
-          this.sending = false;
-        })
-        .catch(() => {
-          this.sending = false;
-        });
+        },
+        {
+          onFinish: () => {
+            this.sending = false;
+          },
+        }
+      );
     },
   },
 };

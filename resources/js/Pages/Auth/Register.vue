@@ -6,7 +6,7 @@
         <div class="flex flex-wrap p-8 -mb-8">
           <file-input
             v-model="form.logo"
-            :errors="$page.errors.logo"
+            :errors="$page.props.errors.logo"
             class="w-full pb-8 lg:w-full"
             type="file"
             accept="image/*"
@@ -14,14 +14,14 @@
           />
           <text-input
             v-model="form.name"
-            :errors="$page.errors.name"
+            :errors="$page.props.errors.name"
             class="w-full pb-8"
             label="Name"
             placeholder="Name"
           />
           <text-input
             v-model="form.email"
-            :errors="$page.errors.email"
+            :errors="$page.props.errors.email"
             class="w-1/2 pb-8 pr-6"
             label="Main Admin Email"
             type="email"
@@ -29,7 +29,7 @@
           />
           <text-input
             v-model="form.unique_id"
-            :errors="$page.errors.unique_id"
+            :errors="$page.props.errors.unique_id"
             class="w-1/2 pb-8"
             label="Unique ID"
             placeholder="Unique ID"
@@ -82,46 +82,49 @@
                 </div>
               </div>
             </div>
-            <div v-if="$page.errors.auto_join" class="form-error">{{ $page.errors.auto_join[0] }}</div>
+            <div
+              v-if="$page.props.errors.auto_join"
+              class="form-error"
+            >{{ $page.props.errors.auto_join[0] }}</div>
           </div>
           <text-input
             v-model="form.address"
-            :errors="$page.errors.address"
+            :errors="$page.props.errors.address"
             class="w-full pb-8"
             label="Address"
             placeholder="Address"
           />
           <text-input
             v-model="form.city"
-            :errors="$page.errors.city"
+            :errors="$page.props.errors.city"
             class="w-1/3 pb-8 pr-6"
             label="City"
             placeholder="City"
           />
           <text-input
             v-model="form.state"
-            :errors="$page.errors.state"
+            :errors="$page.props.errors.state"
             class="w-1/3 pb-8 pr-6"
             label="State"
             placeholder="State"
           />
           <text-input
             v-model="form.postal_code"
-            :errors="$page.errors.postal_code"
+            :errors="$page.props.errors.postal_code"
             class="w-1/3 pb-8"
             label="Postal Code"
             placeholder="Postal Code"
           />
           <text-input
             v-model="form.phone"
-            :errors="$page.errors.phone"
+            :errors="$page.props.errors.phone"
             class="w-full pb-8"
             label="Phone"
             placeholder="Phone"
           />
           <textarea-input
             v-model="form.description"
-            :errors="$page.errors.description"
+            :errors="$page.props.errors.description"
             class="w-full pb-8"
             label="Description"
             placeholder="Let your members know what your organisation is about"
@@ -209,9 +212,11 @@ export default {
       data.append("postal_code", this.form.postal_code);
       data.append("description", this.form.description);
       data.append("auto_join", this.form.auto_join);
-      this.$inertia
-        .post(this.route("organization.register"), data)
-        .then(() => (this.sending = false));
+      this.$inertia.post(this.route("organization.register"), data, {
+        onFinish: () => {
+          this.sending = false;
+        },
+      });
     },
   },
 };

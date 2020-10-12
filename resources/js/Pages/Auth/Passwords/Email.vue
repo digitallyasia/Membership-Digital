@@ -5,10 +5,10 @@
       <div class="flex flex-wrap justify-center">
         <div class="w-full max-w-sm">
           <div
-            v-if="$page.status"
+            v-if="$page.props.status"
             class="px-3 py-4 mb-4 text-sm text-green-700 bg-green-100 border border-t-8 border-green-600 rounded"
             role="alert"
-          >{{ $page.status }}</div>
+          >{{ $page.props.status }}</div>
 
           <div class="flex flex-col break-words bg-white border-2 rounded shadow-md">
             <div class="px-6 py-3 mb-0 font-semibold text-gray-700 bg-gray-200">Reset Password</div>
@@ -69,14 +69,15 @@ export default {
   methods: {
     send() {
       this.sending = true;
-      this.$inertia
-        .post(this.route("organization.password.email"), { email: this.email })
-        .then(() => {
-          this.sending = false;
-        })
-        .catch(() => {
-          this.sending = false;
-        });
+      this.$inertia.post(
+        this.route("organization.password.email"),
+        { email: this.email },
+        {
+          onFinish: () => {
+            this.sending = false;
+          },
+        }
+      );
     },
   },
 };

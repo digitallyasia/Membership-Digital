@@ -6,7 +6,7 @@
       <inertia-link
         class="btn-indigo"
         :href="route('announcements.create')"
-        v-if="$page.auth.organization.subscription.number_of_announcements - $page.auth.organization.announcements_with_trashed_count > 0"
+        v-if="$page.props.auth.organization.subscription.number_of_announcements - $page.props.auth.organization.announcements_with_trashed_count > 0"
       >
         <span>Create</span>
         <span class="hidden md:inline">Announcement</span>
@@ -110,23 +110,23 @@ export default {
   components: {
     Icon,
     Pagination,
-    SearchFilter
+    SearchFilter,
   },
   props: {
     announcements: Object,
-    filters: Object
+    filters: Object,
   },
   data() {
     return {
       form: {
         search: this.filters.search,
-        trashed: this.filters.trashed
-      }
+        trashed: this.filters.trashed,
+      },
     };
   },
   watch: {
     form: {
-      handler: debounce(function() {
+      handler: debounce(function () {
         let query = pickBy(this.form);
         this.$inertia.replace(
           this.route(
@@ -135,8 +135,8 @@ export default {
           )
         );
       }, 400),
-      deep: true
-    }
+      deep: true,
+    },
   },
   methods: {
     reset() {
@@ -146,7 +146,7 @@ export default {
       if (confirm("Are you sure you want to delete this announcement?")) {
         this.$inertia.delete(this.route("announcements.destroy", id));
       }
-    }
-  }
+    },
+  },
 };
 </script>
