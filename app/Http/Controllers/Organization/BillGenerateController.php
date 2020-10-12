@@ -22,7 +22,7 @@ class BillGenerateController extends Controller
         $organization = Auth::guard('organization')->user();
         $plan = Plan::findOrFail($request->plan_id);
         $bill1 = Billplz::bill()->create(
-            'p6eilwlj',
+            setting('billplz_collection_id'),
             $organization->email,
             $organization->mobile,
             $organization->name,
