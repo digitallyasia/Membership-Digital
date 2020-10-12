@@ -1,15 +1,12 @@
-/* Reset */
-@import 'tailwindcss/base';
-@import 'reset';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-/* Components */
-@import 'tailwindcss/components';
 @import 'buttons';
 @import 'form';
 @import 'nprogress';
 
-/* Utilities */
-@import 'tailwindcss/utilities';
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
 
 .toggle__dot {
   top: -0.25rem;
@@ -160,7 +157,6 @@ ol {
   font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
   font-weight: bold;
 }
-@import url('https://fonts.googleapis.com/css?family=Roboto:300');
 
 :root {
   --neutral-dark: #585560;
