@@ -28,7 +28,7 @@ class BillGenerateController extends Controller
             $organization->name,
             $request->subscription === 'monthly' ? $plan->monthly_price . '00' : $plan->yearly_price . '00',
             route('billplz.callback'),
-            'asdasdasd'
+            $request->subscription === 'monthly' ? "Monthly Subscription" : "Yearly Subscription",
         );
         $bill = $bill1->toArray();
         $payment = $organization->payments()->create([
