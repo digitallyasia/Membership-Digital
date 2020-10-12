@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Date::use(CarbonImmutable::class);
         Builder::defaultStringLength(191);
-        if (env('APP_ENV') === 'production') {
+        if (env('REDIRECT_HTTPS')) {
             $url->forceScheme('https');
         }
     }
