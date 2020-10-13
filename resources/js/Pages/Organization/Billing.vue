@@ -69,7 +69,6 @@
                 <a
                   class="flex items-center justify-center ml-auto font-bold text-center rounded-lg btn-indigo"
                   :href="`https://www.${$page.props.sandbox? 'billplz-sandbox':'billplz'}.com/bills/${pendingPayment.bill_id}`"
-                  target="_blank"
                 >Pay Now</a>
                 <button
                   :disabled="canceling"
