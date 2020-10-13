@@ -28,6 +28,7 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
 Route::post('/billplz/callback', 'BillPlzCallbackController')->name('billplz.callback');
+Route::get('/billplz/redirect', 'BillPlzRedirectController')->name('billplz.redirect');
 Route::name('organization.')->namespace('Organization')->group(function () {
     Route::prefix('/organization')->group(function () {
         Auth::routes(['verify' => false]);

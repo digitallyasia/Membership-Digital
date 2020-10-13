@@ -30,7 +30,7 @@ class BillGenerateController extends Controller
             route('billplz.callback'),
             $request->subscription === 'monthly' ? "Monthly Subscription" : "Yearly Subscription",
             [
-                'redirect_url' => route('organization.billing')
+                'redirect_url' => route('billplz.redirect')
             ]
         );
         $bill = $bill1->toArray();
