@@ -38,8 +38,8 @@ class BillPlzRedirectController extends Controller
                 'plan_id' => $payment->plan_id,
                 'subscription_expire_at' => $payment->subscription === 'monthly' ? Carbon::now()->addMonth() : Carbon::now()->addYear()
             ]);
-            return redirect(route('organization.billing'));
+            return redirect(route('organization.billing'))->with('success', 'Please refresh page to check payment status.');
         }
-        return redirect(route('organization.dashboard'));
+        return redirect(route('organization.billing'))->with('error', 'Invalid Callback.');
     }
 }
