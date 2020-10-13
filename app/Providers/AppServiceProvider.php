@@ -70,6 +70,7 @@ class AppServiceProvider extends ServiceProvider
             'status' => function () {
                 return Session::get('status') ?? null;
             },
+            "sandbox" => env('BILLPLZ_SANDBOX', false)
         ]);
     }
 
