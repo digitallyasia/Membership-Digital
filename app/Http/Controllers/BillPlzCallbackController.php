@@ -29,7 +29,7 @@ class BillPlzCallbackController extends Controller
         if ($request->x_signature === hash_hmac('sha256', implode('|', $key_value_pair), env('BILLPLZ_X_SIGNATURE'))) {
             $payment = Payment::where('bill_id', '=', $request->id)->first();
             $payment->update([
-                'amount' => $request->paid_amount,
+                'amount' => $request->paid_amount / 100,
                 'state' => $request->state,
                 'paid' => (bool) $request->paid,
                 'paid_at' => new \DateTime($request->paid_at),
