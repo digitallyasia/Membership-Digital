@@ -137,7 +137,7 @@
                   <span
                     class="flex items-center px-6 py-4"
                     tabindex="-1"
-                  >{{ moment(payment.paid_at).format('LLL') }}</span>
+                  >{{ payment.paid_at ? moment(payment.paid_at).format('LLL') :''}}</span>
                 </td>
               </tr>
               <tr v-if="payments.data.length === 0">
@@ -264,7 +264,7 @@ export default {
       activeTab: "Accepted",
       showPackages: false,
       selectedPlan: null,
-      selectedSubscription: "monthly",
+      selectedSubscription: "yearly",
       canceling: false,
       generatingBill: false,
     };
