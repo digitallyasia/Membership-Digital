@@ -86,5 +86,5 @@
     @apply justify-around;
 }
 .card {
-    @apply px-8 py-6 overflow-hidden bg-white rounded-lg shadow-lg flex-start-around;
+    @apply overflow-hidden bg-white rounded-lg shadow-lg flex-start-around;
 }

@@ -3,7 +3,7 @@
     <div class="flex flex-col xl:flex-row">
       <div class="flex flex-col flex-wrap content-start w-full xl:w-2/3 md:flex-row">
         <div class="w-full md:w-1/2">
-          <div class="mr-4 card sm:mr-4 lg:mr-12 lg:mb-12">
+          <div class="mr-4 card px-8 py-6 sm:mr-4 lg:mr-12 lg:mb-12">
             <icon name="users" class="w-20 h-20" :class="'fill-indigo-400 group-hover:fill-white'" />
             <div class="flex flex-col pt-2 pl-6">
               <div class="mb-2 text-xl font-bold">Members</div>
@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="w-full md:w-1/2">
-          <div class="mt-6 mr-4 md:mt-0 card sm:mr-4 lg:mr-12 lg:mb-12 xl:mr-12">
+          <div class="mt-6 mr-4 md:mt-0 card px-8 py-6 sm:mr-4 lg:mr-12 lg:mb-12 xl:mr-12">
             <icon
               name="notifications"
               class="w-20 h-20"
@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="w-full md:w-1/2">
-          <div class="mt-6 mr-4 lg:mt-0 card sm:mr-4 lg:mr-12 lg:mb-12">
+          <div class="mt-6 mr-4 lg:mt-0 card px-8 py-6 sm:mr-4 lg:mr-12 lg:mb-12">
             <icon
               name="announcements"
               class="w-20 h-20"
@@ -44,7 +44,7 @@
           </div>
         </div>
         <div class="w-full md:w-1/2">
-          <div class="mt-6 mr-4 lg:mt-0 card sm:mr-4 lg:mr-12 lg:mb-12 xl:mr-12">
+          <div class="mt-6 mr-4 lg:mt-0 card px-8 py-6 sm:mr-4 lg:mr-12 lg:mb-12 xl:mr-12">
             <icon
               name="benefits"
               class="w-20 h-20"

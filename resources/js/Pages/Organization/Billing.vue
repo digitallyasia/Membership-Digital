@@ -6,7 +6,7 @@
           class="flex flex-col flex-wrap content-start w-full :w-1/2 xl:w-2/3 md:flex-row lg:mb-12 xl:mb-0"
         >
           <div class="w-full mb-4 lg:mb-0 md:w-1/2">
-            <div class="justify-center p-5 text-center card sm:mr-4 lg:mr-12">
+            <div class="justify-center p-5 text-center card px-8 py-6 sm:mr-4 lg:mr-12">
               <div class="flex flex-col text-center">
                 <div class="mb-2 text-base font-bold">Your Current Organisation Plan</div>
                 <h1
@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="w-full mb-4 lg:mb-0 md:w-1/2">
-            <div class="justify-start p-5 card xl:mr-12">
+            <div class="justify-start p-5 card px-8 py-6 xl:mr-12">
               <div class="flex flex-col w-full">
                 <div class="mb-1 text-base font-bold text-center">Plan Detail</div>
                 <div>
@@ -51,7 +51,7 @@
             </div>
           </div>
           <div class="w-full mb-4 lg:mt-12 lg:mb-0 xl:mr-12" v-if="pendingPayment">
-            <div class="items-center justify-center card w-full flex-col sm:flex-row">
+            <div class="items-center justify-center card px-8 py-6 w-full flex-col sm:flex-row">
               <div class="flex flex-col w-full text-center mb-4 xl:text-left">
                 <div class="mb-2 font-serif text-xl font-bold text-gray-900">You have a bill due</div>
                 <div>
@@ -81,7 +81,7 @@
             </div>
           </div>
           <div
-            class="flex-col items-center text-center card sm:flex-row sm:text-left w-full mb-4 lg:mt-12 xl:mr-12"
+            class="flex-col items-center text-center card px-8 py-6 sm:flex-row sm:text-left w-full mb-4 lg:mt-12 xl:mr-12"
             v-if="!showPackages && !pendingPayment && $page.props.auth.organization.subscription.id ===1"
           >
             <div class="flex flex-col w-full sm:w-auto">
