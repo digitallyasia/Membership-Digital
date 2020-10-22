@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center">
     <!-- <label v-if="label" class="form-label">{{ label }}:</label> -->
     <div
-      class="flex flex-col w-auto max-w-md p-0 mx-auto border-0 form-input"
+      class="flex flex-col w-auto max-w-md p-0 mx-auto border-0"
       :class="{ error: errors.length }"
     >
       <img
@@ -48,16 +48,16 @@ export default {
     accept: String,
     rounded: {
       type: Boolean,
-      default: false
+      default: false,
     },
     errors: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data() {
     return {
-      preview: null
+      preview: null,
     };
   },
   watch: {
@@ -65,7 +65,7 @@ export default {
       if (!value) {
         this.$refs.file.value = "";
       }
-    }
+    },
   },
   methods: {
     filesize(size) {
@@ -88,15 +88,15 @@ export default {
 
       reader.readAsDataURL(file);
 
-      reader.onload = e => {
+      reader.onload = (e) => {
         this.preview = e.target.result;
         this.$emit("input", file);
       };
     },
     remove() {
       this.preview = null;
-      this.$emit("input", '');
-    }
-  }
+      this.$emit("input", "");
+    },
+  },
 };
 </script>
