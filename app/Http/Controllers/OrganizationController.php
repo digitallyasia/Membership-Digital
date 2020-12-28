@@ -34,6 +34,8 @@ class OrganizationController extends Controller
             'whatsapp' => ['nullable', 'string', 'max:255'],
             'instagram' => ['nullable', 'string', 'max:255'],
             'youtube' => ['nullable', 'string', 'max:255'],
+            'twitter' => ['nullable', 'string', 'max:255'],
+            'telegram' => ['nullable', 'string', 'max:255'],
         ]);
         if ($request->hasFile('logo')) {
             $logo = time() . '.' . $request->file('logo')->getClientOriginalExtension();
