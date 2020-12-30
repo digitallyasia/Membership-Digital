@@ -110,6 +110,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::prefix('organizations/{organization}')->group(function () {
         Route::get('/', function ($organization) {
+            $membership = $organization->membership(request()->user());
+            $organization->status = $membership ? $membership->pivot->status : null;
             return new OrganizationResource($organization);
         });
 
