@@ -1,13 +1,13 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen p-8 bg-indigo-800">
-    <div class="w-full max-w-4xl">
-      <logo class="block w-full max-w-xs mx-auto fill-white" height="50" />
-      <form class="mt-8 overflow-hidden bg-white rounded-lg shadow-xl" @submit.prevent="submit">
-        <div class="flex flex-wrap p-8 -mb-8">
+  <div class="flex items-center justify-center min-h-screen p-4 bg-indigo-800 sm:p-8">
+    <div class="w-full max-w-xl">
+      <logo class="block w-full max-w-xs mx-auto mb-4 fill-white sm:mb-8" height="50" />
+      <form class="overflow-hidden bg-white rounded-lg shadow-xl" @submit.prevent="submit">
+        <div class="flex flex-wrap p-4 -mb-8 sm:p-8">
           <file-input
             v-model="form.logo"
             :errors="$page.props.errors.logo"
-            class="w-full pb-8 lg:w-full"
+            class="w-full pb-4 lg:w-full"
             type="file"
             accept="image/*"
             label="Logo"
@@ -15,41 +15,42 @@
           <text-input
             v-model="form.name"
             :errors="$page.props.errors.name"
-            class="w-full pb-8"
-            label="Name"
+            class="w-full pb-4"
+            label="Organization Name"
             placeholder="Name"
           />
           <text-input
             v-model="form.email"
             :errors="$page.props.errors.email"
-            class="w-1/2 pb-8 pr-6"
+            class="w-full pb-4 pr-0"
             label="Main Admin Email"
             type="email"
             placeholder="Main Admin Email"
           />
-          <text-input
+          <!-- <text-input
             v-model="form.unique_id"
             :errors="$page.props.errors.unique_id"
-            class="w-1/2 pb-8"
+            class="w-1/2 pb-4"
             label="Unique ID"
             placeholder="Unique ID"
-          />
+          /> -->
 
           <text-input
             v-model="form.password"
-            class="w-1/2 pb-8 pr-6"
+            class="w-full pb-4 pr-0 sm:pr-6 sm:w-1/2"
             label="Password"
             placeholder="Password"
             type="password"
+            :errors="$page.props.errors.password"
           />
           <text-input
             v-model="form.password_confirmation"
-            class="w-1/2 pb-8"
+            class="w-full pb-4 sm:w-1/2"
             label="Confirm Password"
             placeholder="Confirm Password"
             type="password"
           />
-          <div class="w-full pb-8">
+          <div class="w-full pb-4">
             <label
               for="auto_join"
               class="inline-block w-full mb-6 font-bold"
@@ -57,8 +58,9 @@
             <div class="flex flex-row justify-around">
               <div class="w-1/4">
                 <div class="relative">
-                  <label class="font-bold">
+                  <label class="flex items-center font-bold">
                     <input
+                    class="mr-2"
                       name="auto_join"
                       type="radio"
                       required
@@ -70,8 +72,9 @@
               </div>
               <div class="w-1/4">
                 <div class="relative">
-                  <label class="font-bold">
+                  <label class="flex items-center font-bold">
                     <input
+                    class="mr-2"
                       name="auto_join"
                       type="radio"
                       required
@@ -90,42 +93,42 @@
           <text-input
             v-model="form.address"
             :errors="$page.props.errors.address"
-            class="w-full pb-8"
+            class="w-full pb-4"
             label="Address"
             placeholder="Address"
           />
           <text-input
             v-model="form.city"
             :errors="$page.props.errors.city"
-            class="w-1/3 pb-8 pr-6"
+            class="w-full pb-4 pr-0 sm:pr-6 sm:w-1/3"
             label="City"
             placeholder="City"
           />
           <text-input
             v-model="form.state"
             :errors="$page.props.errors.state"
-            class="w-1/3 pb-8 pr-6"
+            class="w-full pb-4 pr-0 sm:pr-6 sm:w-1/3"
             label="State"
             placeholder="State"
           />
           <text-input
             v-model="form.postal_code"
             :errors="$page.props.errors.postal_code"
-            class="w-1/3 pb-8"
+            class="w-full pb-4 sm:w-1/3"
             label="Postal Code"
             placeholder="Postal Code"
           />
           <text-input
             v-model="form.phone"
             :errors="$page.props.errors.phone"
-            class="w-full pb-8"
+            class="w-full pb-4"
             label="Phone"
             placeholder="Phone"
           />
           <textarea-input
             v-model="form.description"
             :errors="$page.props.errors.description"
-            class="w-full pb-8"
+            class="w-full pb-4"
             label="Description"
             placeholder="Let your members know what your organisation is about"
           />
@@ -182,7 +185,6 @@ export default {
         logo: "",
         name: "",
         email: "",
-        unique_id: "",
         password: "",
         password_confirmation: "",
         address: "",
@@ -206,7 +208,6 @@ export default {
       data.append("password_confirmation", this.form.password_confirmation);
       data.append("address", this.form.address);
       data.append("phone", this.form.phone);
-      data.append("unique_id", this.form.unique_id);
       data.append("city", this.form.city);
       data.append("state", this.form.state);
       data.append("postal_code", this.form.postal_code);

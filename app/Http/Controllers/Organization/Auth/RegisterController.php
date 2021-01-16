@@ -56,7 +56,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'logo' => ['required', 'image', 'mimes:jpeg,jpg,png'],
+            'logo' => ['required', 'image'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:organizations'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -65,8 +65,8 @@ class RegisterController extends Controller
             'city' => ['required', 'string', 'max:255'],
             'state' => ['required', 'string', 'max:255'],
             'postal_code' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:255'],
-            'auto_join' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'auto_join' => ['required', 'numeric', 'min:0', 'max:1'],
         ]);
     }
 

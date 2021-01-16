@@ -1,6 +1,22 @@
 <template>
   <div>
-    <label v-if="label" class="font-bold form-label" :for="id">{{ label }}:</label>
+    <label
+      v-if="label"
+      class="font-bold form-label"
+      :for="id"
+    >
+      <span v-if="label">
+        {{ label }}:
+        <span
+          v-if="!required"
+          class="font-normal text-gray-500"
+        >(optional)</span>
+        <span
+          v-else
+          class="leading-4 text-red-600 align-bottom"
+        >*</span>
+      </span>
+    </label>
     <input
       :id="id"
       ref="input"
@@ -8,10 +24,14 @@
       class="px-3 rounded-lg form-input"
       :class="{ error: errors.length }"
       :type="type"
+      :required="required"
       :value="value"
       @input="$emit('input', $event.target.value)"
     />
-    <div v-if="errors.length" class="form-error">{{ errors[0] }}</div>
+    <div
+      v-if="errors.length"
+      class="form-error"
+    >{{ errors[0] }}</div>
   </div>
 </template>
 
@@ -21,13 +41,17 @@ export default {
   props: {
     id: {
       type: String,
-      default() {
+      default () {
         return `text-input-${this._uid}`;
       }
     },
     type: {
       type: String,
       default: "text"
+    },
+    required: {
+      type: Boolean,
+      default: true
     },
     value: String,
     label: String,
@@ -37,13 +61,13 @@ export default {
     }
   },
   methods: {
-    focus() {
+    focus () {
       this.$refs.input.focus();
     },
-    select() {
+    select () {
       this.$refs.input.select();
     },
-    setSelectionRange(start, end) {
+    setSelectionRange (start, end) {
       this.$refs.input.setSelectionRange(start, end);
     }
   }

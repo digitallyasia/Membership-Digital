@@ -1,10 +1,27 @@
 <template>
   <div>
-    <label v-if="label" class="font-bold form-label" :for="id">{{ label }}:</label>
+    <label
+      v-if="label"
+      class="font-bold form-label"
+      :for="id"
+    >
+      <span v-if="label">
+        {{ label }}:
+        <span
+          v-if="!required"
+          class="font-normal text-gray-500"
+        >(optional)</span>
+        <span
+          v-else
+          class="leading-4 text-red-600 align-bottom"
+        >*</span>
+      </span>
+    </label>
     <textarea
       :id="id"
       ref="input"
       v-bind="$attrs"
+      :required="required"
       class="form-textarea"
       :class="{ error: errors.length }"
       :value="value"
@@ -26,6 +43,10 @@ export default {
     },
     value: String,
     label: String,
+    required: {
+      type: Boolean,
+      default: true
+    },
     errors: {
       type: Array,
       default: () => []

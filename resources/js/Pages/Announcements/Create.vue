@@ -28,7 +28,8 @@
             v-model="form.url"
             :errors="$page.props.errors.url"
             class="w-full pb-8 pr-6"
-            label="Url (Optional)"
+            label="Url"
+            :required="false"
           />
           <textarea-input
             v-model="form.details"

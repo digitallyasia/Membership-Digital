@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center">
+  <div class="flex flex-col items-center justify-center">
     <!-- <label v-if="label" class="form-label">{{ label }}:</label> -->
     <div
       class="flex flex-col w-auto max-w-md p-0 mx-auto border-0"

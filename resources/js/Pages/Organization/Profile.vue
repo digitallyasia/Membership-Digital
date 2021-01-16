@@ -20,7 +20,7 @@
             v-model="form.name"
             :errors="$page.props.errors.name"
             class="w-full pb-8 pr-6"
-            label="Name"
+            label="Organization Name"
           />
           <text-input
             v-model="form.email"
@@ -70,6 +70,7 @@
             class="w-full pb-8 pr-6"
             label="Website"
             placeholder="https://www.example.com"
+            :required="false"
           />
           <text-input
             v-model="form.facebook"
@@ -77,6 +78,7 @@
             class="w-full pb-8 pr-6"
             label="Facebook"
             placeholder="https://www.facebook.com"
+            :required="false"
           />
           <text-input
             v-model="form.whatsapp"
@@ -84,6 +86,7 @@
             class="w-full pb-8 pr-6"
             label="WhatsApp"
             placeholder="https://web.whatsapp.com"
+            :required="false"
           />
           <text-input
             v-model="form.instagram"
@@ -91,6 +94,7 @@
             class="w-full pb-8 pr-6"
             label="Instagram"
             placeholder="https://www.instagram.com"
+            :required="false"
           />
           <text-input
             v-model="form.youtube"
@@ -98,6 +102,7 @@
             class="w-full pb-8 pr-6"
             label="Youtube"
             placeholder="https://www.youtube.com"
+            :required="false"
           />
           <text-input
             v-model="form.twitter"
@@ -105,6 +110,7 @@
             class="w-full pb-8 pr-6"
             label="Twitter"
             placeholder="https://www.twitter.com"
+            :required="false"
           />
           <text-input
             v-model="form.telegram"
@@ -112,6 +118,7 @@
             class="w-full pb-8 pr-6"
             label="Telegram"
             placeholder="https://www.telegram.com"
+            :required="false"
           />
         </div>
         <div class="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">

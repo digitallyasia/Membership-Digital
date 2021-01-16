@@ -13,13 +13,13 @@ const path = require("path");
  */
 
 mix.js("resources/js/app.js", "public/js")
-    .postCss("resources/css/app.css", "public/css/app.css",[
-            require("postcss-import"),
-            require("postcss-nesting"),
-            require("tailwindcss")
-        ])
+    .postCss("resources/css/app.css", "public/css/app.css", [
+        require("postcss-import"),
+        require("postcss-nesting"),
+        require("tailwindcss")
+    ])
     .browserSync({
-        proxy: "http://www.membership-digital.com"
+        proxy: "http://membership-digital.test"
     })
     .webpackConfig({
         output: { chunkFilename: "js/[name].js?id=[chunkhash]" },
