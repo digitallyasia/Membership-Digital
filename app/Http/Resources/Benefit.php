@@ -26,6 +26,7 @@ class Benefit extends JsonResource
                 $this->image
             ) : null,
             'promo_code' => $this->promo_code,
+            'redemption_link' => $this->redemption_link,
             'created_at' => $this->created_at,
         ];
     }

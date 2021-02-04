@@ -31,6 +31,13 @@
             class="w-full pb-8 pr-6"
             label="Promo Code"
           />
+          <text-input
+            v-model="form.redemption_link"
+            :errors="$page.props.errors.redemption_link"
+            class="w-full pb-8 pr-6"
+            label="Redemption Link"
+            :required="false"
+          />
           <textarea-input
             v-model="form.details"
             :errors="$page.props.errors.details"
@@ -45,7 +52,11 @@
             type="button"
             @click="destroy"
           >Delete Benefit</button>
-          <loading-button :loading="sending" class="ml-auto btn-indigo" type="submit">Update Benefit</loading-button>
+          <loading-button
+            :loading="sending"
+            class="ml-auto btn-indigo"
+            type="submit"
+          >Update Benefit</loading-button>
         </div>
       </form>
     </div>
@@ -62,7 +73,7 @@ import FileInput from "@/Shared/FileInput";
 import TextareaInput from "@/Shared/TextareaInput";
 
 export default {
-  metaInfo() {
+  metaInfo () {
     return {
       title: `${this.form.title}`,
     };
@@ -80,24 +91,26 @@ export default {
     benefit: Object,
   },
   remember: "form",
-  data() {
+  data () {
     return {
       sending: false,
       form: {
         title: this.benefit.title,
         details: this.benefit.details,
         promo_code: this.benefit.promo_code,
+        redemption_link: this.benefit.redemption_link,
         image: this.benefit.image,
       },
     };
   },
   methods: {
-    submit() {
+    submit () {
       this.sending = true;
       var data = new FormData();
       data.append("title", this.form.title);
       data.append("details", this.form.details);
       data.append("promo_code", this.form.promo_code || "");
+      data.append("redemption_link", this.form.redemption_link || "");
       data.append("image", this.form.image || "");
       data.append("_method", "put");
       this.$inertia.post(this.route("benefits.update", this.benefit.id), data, {
@@ -106,12 +119,12 @@ export default {
         },
       });
     },
-    restore() {
+    restore () {
       if (confirm("Are you sure you want to restore this benefit?")) {
         this.$inertia.put(this.route("benefits.restore", this.benefit.id));
       }
     },
-    destroy() {
+    destroy () {
       if (confirm("Are you sure you want to delete this benefit?")) {
         this.$inertia.delete(this.route("benefits.destroy", this.benefit.id));
       }

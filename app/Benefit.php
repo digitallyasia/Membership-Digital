@@ -58,6 +58,7 @@ class Benefit extends Model
         'image',
         'promo_code',
         'redemptions_count',
+        'redemption_link'
     ];
 
     /**

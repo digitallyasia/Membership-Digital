@@ -56,6 +56,8 @@ class Benefit extends Resource
                 ->rules('required'),
             Text::make('Promo Code')
                 ->rules('required'),
+            Text::make('Redemption Link')
+                ->rules('nullable'),
             Textarea::make('Details')
                 ->rules('required'),
             Number::make('Redemptions Count')

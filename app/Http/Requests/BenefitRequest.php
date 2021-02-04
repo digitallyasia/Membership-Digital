@@ -28,6 +28,7 @@ class BenefitRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'details' => ['required', 'string'],
             'promo_code' => ['required', 'string'],
+            'redemption_link' => ['nullable', 'string'],
             'image' => $image,
         ];
     }
