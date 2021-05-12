@@ -75,7 +75,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/update', 'API\ProfileUpdateController');
 
         Route::get('/organizations', function () {
-            return new OrganizationCollection(request()->user()->organizations()->paginate());
+            return new OrganizationCollection(request()->user()->organizations()->paginate(50));
         });
 
         Route::get('/feeds', function () {
@@ -120,13 +120,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/announcements', function ($organization) {
             return $organization->isMember(request()->user())
-                ? new AnnouncementCollection(Announcement::where('organization_id', $organization->id)->paginate())
+                ? new AnnouncementCollection(Announcement::where('organization_id', $organization->id)->paginate(50))
                 : response(['message' => 'You are not member of this organization'], 403);
         });
 
         Route::get('/benefits', function ($organization) {
             return $organization->isMember(request()->user())
-                ? new BenefitCollection(Benefit::where('organization_id', $organization->id)->paginate())
+                ? new BenefitCollection(Benefit::where('organization_id', $organization->id)->paginate(50))
                 : response(['message' => 'You are not member of this organization'], 403);
         });
     });
