@@ -63,6 +63,8 @@ class Organization extends Resource
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
+           
+               
 
             Text::make('Email')
                 ->sortable()
@@ -79,7 +81,12 @@ class Organization extends Resource
 
             Text::make('Phone')
                 ->rules('required', 'max:255'),
-
+            Text::make('referral_code')
+                ->sortable()
+                ->rules('required', 'max:255'),
+            Text::make('referred_by')
+                ->sortable()
+                ->rules('required', 'max:255'),
             Text::make('Address')
                 ->rules('required', 'max:255')
                 ->hideFromIndex(),

@@ -1,7 +1,9 @@
 <template>
   <div>
     <h1 class="mb-8 text-3xl font-bold">
-      <span class="text-indigo-400 hover:text-indigo-600">Organization Profile</span>
+      <span class="text-indigo-400 hover:text-indigo-600"
+        >Organization Profile</span
+      >
     </h1>
 
     <div class="max-w-4xl overflow-hidden bg-white rounded-lg shadow">
@@ -64,6 +66,19 @@
             class="w-full pb-8 pr-6"
             label="Description"
           />
+          <label class="lblReferredBy">Referral Code:</label>
+          <input
+            readonly
+            v-model="form.referral_code"
+            class="w-full pb-8 pr-6 referredby"
+          />
+          <label class="lblReferredBy">Referred By:</label>
+          <input
+            readonly
+            v-model="form.referred_by"
+            class="w-full pb-8 pr-6 referredby"
+          />
+
           <text-input
             v-model="form.website"
             :errors="$page.props.errors.website"
@@ -121,8 +136,15 @@
             :required="false"
           />
         </div>
-        <div class="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
-          <loading-button :loading="sending" class="ml-auto btn-indigo" type="submit">Update</loading-button>
+        <div
+          class="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200"
+        >
+          <loading-button
+            :loading="sending"
+            class="ml-auto btn-indigo"
+            type="submit"
+            >Update</loading-button
+          >
         </div>
       </form>
     </div>

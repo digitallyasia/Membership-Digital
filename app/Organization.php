@@ -63,6 +63,8 @@ class Organization extends Authenticatable
         'youtube',
         'twitter',
         'telegram',
+        'referred_by',
+        'referral_code'
     ];
     /**
      * The number of models to return for pagination.

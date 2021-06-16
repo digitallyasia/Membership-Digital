@@ -60,12 +60,14 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:organizations'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'address' => ['required', 'string', 'max:255'],
+          
             'phone' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'state' => ['required', 'string', 'max:255'],
             'postal_code' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
+            
+            
             'auto_join' => ['required', 'numeric', 'min:0', 'max:1'],
         ]);
     }
@@ -78,6 +80,9 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        do {
+            $refrence_id = mt_rand( 1000000000, 9999999999 );
+         } while (Organization::where('referral_code', $refrence_id)->exists());
         return Organization::create([
             'logo' => Storage::disk('images')->put(
                 time() . $data['logo']->getClientOriginalExtension(),
@@ -86,13 +91,15 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'address' => $data['address'],
+            
             'phone' => $data['phone'],
             'city' => $data['city'],
             'state' => $data['state'],
             'postal_code' => $data['postal_code'],
             'description' => $data['description'],
+            'referred_by' => $data['referred_by'],
             'auto_join' => $data['auto_join'],
+            'referral_code'=>$refrence_id
         ]);
     }
 
@@ -103,11 +110,26 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        $this->validator($request->all())->validate();
-        $organization = $this->create($request->all());
-        $this->guard()->login($organization);
+        if(empty($request->referred_by)){
+            $this->validator($request->all())->validate();
+            $organization = $this->create($request->all());
+            $this->guard()->login($organization);
+        }
+       else if (Organization::where('referral_code', $request->referred_by)->exists()) {
+           
+            $this->validator($request->all())->validate();
+            $organization = $this->create($request->all());
+            $this->guard()->login($organization);
 
-        return $this->registered($request, $organization);
+        
+         }
+         else{
+           $this->validator($request->all())->validate();
+            $message = "Unable to find (referral by) code in our database";
+            return response(json_encode($message));
+
+         }
+       
     }
 
     protected function guard()

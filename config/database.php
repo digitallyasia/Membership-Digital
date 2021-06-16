@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Str;
 
-$DATABASE_URL = parse_url(getenv("JAWSDB_URL"));
+// $DATABASE_URL = parse_url(getenv("JAWSDB_URL"));
 
-$host = $DATABASE_URL["host"];
-$username = $DATABASE_URL["user"];
-$password = $DATABASE_URL["pass"];
-$database = substr($DATABASE_URL["path"], 1);
+// $host = $DATABASE_URL["host"];
+// $username = $DATABASE_URL["user"];
+// $password = $DATABASE_URL["pass"];
+// $database = substr($DATABASE_URL["path"], 1);
 
 return [
 
@@ -70,25 +70,25 @@ return [
             ]) : [],
         ],
 
-        'heroku-mysql' => [
-            'driver' => 'mysql',
-            'host'      => $host,
-            'database'  => $database,
-            'username'  => $username,
-            'password'  => $password,
-            'url' => env('DATABASE_URL'),
-            'port' => env('DB_PORT', '3306'),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'strict' => true,
-            'engine' => 'InnoDB',
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
-        ],
+        // 'heroku-mysql' => [
+        //     'driver' => 'mysql',
+        //     'host'      => $host,
+        //     'database'  => $database,
+        //     'username'  => $username,
+        //     'password'  => $password,
+        //     'url' => env('DATABASE_URL'),
+        //     'port' => env('DB_PORT', '3306'),
+        //     'unix_socket' => env('DB_SOCKET', ''),
+        //     'charset' => 'utf8mb4',
+        //     'collation' => 'utf8mb4_unicode_ci',
+        //     'prefix' => '',
+        //     'prefix_indexes' => true,
+        //     'strict' => true,
+        //     'engine' => 'InnoDB',
+        //     'options' => extension_loaded('pdo_mysql') ? array_filter([
+        //         PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+        //     ]) : [],
+        // ],
 
         'pgsql' => [
             'driver' => 'pgsql',
