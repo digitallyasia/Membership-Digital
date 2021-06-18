@@ -14,7 +14,7 @@ class AddReferralFieldsToOrganization extends Migration
     public function up()
     {
         Schema::table('organizations', function (Blueprint $table) {
-            $table->string('referral_code')->nullable()->after('faq');
+            $table->string('referral_code')->unique()->nullable()->after('faq');
             $table->string('referred_by')->nullable()->after('faq');
         });
     }
