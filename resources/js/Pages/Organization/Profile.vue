@@ -69,12 +69,14 @@
           <label class="lblReferredBy">Referral Code:</label>
           <input
             readonly
+            disabled
             v-model="form.referral_code"
             class="w-full pb-8 pr-6 referredby"
           />
           <label class="lblReferredBy">Referred By:</label>
           <input
             readonly
+            disabled
             v-model="form.referred_by"
             class="w-full pb-8 pr-6 referredby"
           />
