@@ -15,7 +15,6 @@ $factory->define(Organization::class, function (Faker $faker) {
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'remember_token' => \Str::random(10),
         'phone' => $faker->phoneNumber,
-        'address' => $faker->streetAddress,
         'city' => $faker->city,
         'state' => $faker->state,
         'postal_code' => $faker->postcode,
