@@ -36,6 +36,7 @@ class User extends Authenticatable
         'fcm_token',
         'address',
         'date_of_birth',
+        'type'
     ];
 
     /**

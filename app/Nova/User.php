@@ -7,6 +7,7 @@ use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 
@@ -71,6 +72,10 @@ class User extends Resource
             Text::make('Address'),
 
             Date::make('Date of Birth'),
+            Select::make('Type')->options([
+                'ADMIN' => 'Admin',
+                'MEMBER' => 'Member',
+            ])->displayUsingLabels(),
         ];
     }
 
