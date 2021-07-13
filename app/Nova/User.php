@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Avatar;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
@@ -76,6 +77,7 @@ class User extends Resource
                 'ADMIN' => 'Admin',
                 'MEMBER' => 'Member',
             ])->displayUsingLabels(),
+            BelongsToMany::make('Organizations')
         ];
     }
 
