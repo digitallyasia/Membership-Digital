@@ -29,6 +29,7 @@ class AnnouncementRequest extends FormRequest
             'details' => ['required', 'string'],
             'url' => ['nullable', 'string'],
             'image' => $image,
+            'send_notification' => ['boolean', 'required']
         ];
     }
 }

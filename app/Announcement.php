@@ -21,29 +21,31 @@ class Announcement extends Model
             $builder->orderBy('id', 'desc');
         });
         static::created(function ($announcement) {
-            $notificationBuilder = new PayloadNotificationBuilder($announcement->organization->name . ': ' . $announcement->title);
-            $notificationBuilder->setBody($announcement->details)
-                ->setSound('default');
+            if ($announcement->send_notification) {
+                $notificationBuilder = new PayloadNotificationBuilder($announcement->organization->name . ': ' . $announcement->title);
+                $notificationBuilder->setBody($announcement->details)
+                    ->setSound('default');
 
-            $notification = $notificationBuilder->build();
+                $notification = $notificationBuilder->build();
 
-            $topic = new Topics();
-            $topic->topic('organization_' . $announcement->organization_id);
+                $topic = new Topics();
+                $topic->topic('organization_' . $announcement->organization_id);
 
-            $dataBuilder = new PayloadDataBuilder();
-            $dataBuilder->addData([
-                'organization_id' => $announcement->organization_id,
-                'type' => 'Announcements',
-                'id' => $announcement->id,
-            ]);
+                $dataBuilder = new PayloadDataBuilder();
+                $dataBuilder->addData([
+                    'organization_id' => $announcement->organization_id,
+                    'type' => 'Announcements',
+                    'id' => $announcement->id,
+                ]);
 
-            $data = $dataBuilder->build();
+                $data = $dataBuilder->build();
 
-            $topicResponse = FCM::sendToTopic($topic, null, $notification, $data);
+                $topicResponse = FCM::sendToTopic($topic, null, $notification, $data);
 
-            $topicResponse->isSuccess();
-            $topicResponse->shouldRetry();
-            $topicResponse->error();
+                $topicResponse->isSuccess();
+                $topicResponse->shouldRetry();
+                $topicResponse->error();
+            }
         });
     }
 
@@ -58,6 +60,7 @@ class Announcement extends Model
         'details',
         'url',
         'image',
+        'send_notification'
     ];
 
     /**
@@ -75,6 +78,7 @@ class Announcement extends Model
     protected $casts = [
         'id' => 'integer',
         'organization_id' => 'integer',
+        'send_notification' => 'boolean'
     ];
 
 

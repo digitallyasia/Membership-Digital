@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
@@ -56,6 +57,7 @@ class Announcement extends Resource
                 ->disk('images')
                 ->rules('nullable'),
             Textarea::make('Details'),
+            Boolean::make('Send Notification')->default(true)
         ];
     }
 

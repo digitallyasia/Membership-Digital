@@ -139,8 +139,15 @@
           />
         </div>
         <div
-          class="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200"
+          class="flex items-center justify-between px-8 py-4 bg-gray-100 border-t border-gray-200"
         >
+          <loading-button
+            :loading="deleting"
+            class="mr-auto  btn-delete"
+            type="button"
+            @click="destroy"
+            >Delete Organization</loading-button
+          >
           <loading-button
             :loading="sending"
             class="ml-auto btn-indigo"
@@ -188,10 +195,18 @@ export default {
   data() {
     return {
       sending: false,
+      deleting: false,
       form: JSON.parse(JSON.stringify(this.$page.props.auth.organization)),
     };
   },
   methods: {
+      destroy() {
+      if (confirm("Are you sure you want to delete your Organization?")) {
+        this.$inertia.delete(
+          this.route("organization.delete")
+        );
+      }
+    },
     submit() {
       this.sending = true;
       var data = new FormData();

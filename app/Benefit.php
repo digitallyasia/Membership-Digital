@@ -20,29 +20,31 @@ class Benefit extends Model
             $builder->orderBy('id', 'desc');
         });
         static::created(function ($benefit) {
-            $notificationBuilder = new PayloadNotificationBuilder($benefit->organization->name . ': ' . $benefit->title);
-            $notificationBuilder->setBody($benefit->details)
-                ->setSound('default');
+            if ($benefit->send_notification) {
+                $notificationBuilder = new PayloadNotificationBuilder($benefit->organization->name . ': ' . $benefit->title);
+                $notificationBuilder->setBody($benefit->details)
+                    ->setSound('default');
 
-            $notification = $notificationBuilder->build();
+                $notification = $notificationBuilder->build();
 
-            $topic = new Topics();
-            $topic->topic('organization_' . $benefit->organization_id);
+                $topic = new Topics();
+                $topic->topic('organization_' . $benefit->organization_id);
 
-            $dataBuilder = new PayloadDataBuilder();
-            $dataBuilder->addData([
-                'organization_id' => $benefit->organization_id,
-                'type' => 'Rewards',
-                'id' => $benefit->id,
-            ]);
+                $dataBuilder = new PayloadDataBuilder();
+                $dataBuilder->addData([
+                    'organization_id' => $benefit->organization_id,
+                    'type' => 'Rewards',
+                    'id' => $benefit->id,
+                ]);
 
-            $data = $dataBuilder->build();
+                $data = $dataBuilder->build();
 
-            $topicResponse = FCM::sendToTopic($topic, null, $notification, $data);
+                $topicResponse = FCM::sendToTopic($topic, null, $notification, $data);
 
-            $topicResponse->isSuccess();
-            $topicResponse->shouldRetry();
-            $topicResponse->error();
+                $topicResponse->isSuccess();
+                $topicResponse->shouldRetry();
+                $topicResponse->error();
+            }
         });
     }
 
@@ -58,7 +60,8 @@ class Benefit extends Model
         'image',
         'promo_code',
         'redemptions_count',
-        'redemption_link'
+        'redemption_link',
+        'send_notification'
     ];
 
     /**
@@ -76,6 +79,7 @@ class Benefit extends Model
     protected $casts = [
         'id' => 'integer',
         'organization_id' => 'integer',
+        'send_notification' => 'boolean'
     ];
 
 

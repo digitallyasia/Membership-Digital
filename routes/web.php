@@ -54,6 +54,7 @@ Route::name('organization.')->namespace('Organization')->group(function () {
         Route::get('/notifications', 'OrganizationNotificationsController')->name('notifications');
         Route::get('/account/profile', 'OrganizationAccountController@profile')->name('profile');
         Route::get('/account/billing', 'OrganizationAccountController@billing')->name('billing');
+        Route::delete('/account/delete', 'OrganizationAccountController@delete')->name('delete');
     });
 });
 

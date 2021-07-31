@@ -24,6 +24,10 @@
             class="w-full pb-8 pr-6"
             label="Title"
           />
+          <label class="flex items-center select-none mb-8" for="send_notification">
+              <input id="send_notification" v-model="form.send_notification" class="mr-1" type="checkbox" />
+              <span class="text-sm">Send Notification</span>
+            </label>
           <text-input
             v-model="form.url"
             :errors="$page.props.errors.url"
@@ -37,6 +41,7 @@
             class="w-full pb-8 pr-6"
             label="Details"
           />
+
         </div>
         <div class="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
           <loading-button :loading="sending" class="btn-indigo" type="submit">Create Announcement</loading-button>
@@ -74,6 +79,7 @@ export default {
         details: "",
         url: "",
         image: "",
+        send_notification:true
       },
     };
   },
@@ -85,6 +91,7 @@ export default {
       data.append("details", this.form.details);
       data.append("url", this.form.url);
       data.append("image", this.form.image);
+      data.append("send_notification", this.form.send_notification);
       this.$inertia.post(this.route("announcements.store"), data, {
         onFinish: () => {
           this.sending = false;

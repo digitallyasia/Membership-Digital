@@ -24,4 +24,10 @@ class OrganizationAccountController extends Controller
             'pendingPayment' => Auth::guard('organization')->user()->pendingPayment()->first(),
         ]);
     }
+    public function delete(Request $request)
+    {
+        Auth::guard('organization')->user()->delete();
+        return redirect()
+            ->route('organization.login');
+    }
 }

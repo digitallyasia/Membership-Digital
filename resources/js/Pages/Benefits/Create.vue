@@ -24,6 +24,10 @@
             class="w-full pb-8 pr-6"
             label="Title"
           />
+          <label class="flex items-center select-none mb-8" for="send_notification">
+              <input id="send_notification" v-model="form.send_notification" class="mr-1" type="checkbox" />
+              <span class="text-sm">Send Notification</span>
+            </label>
           <text-input
             v-model="form.promo_code"
             :errors="$page.props.errors.promo_code"
@@ -85,6 +89,7 @@ export default {
         promo_code: "",
         redemption_link: "",
         image: "",
+        send_notification:true
       },
     };
   },
@@ -97,6 +102,7 @@ export default {
       data.append("promo_code", this.form.promo_code);
       data.append("redemption_link", this.form.redemption_link);
       data.append("image", this.form.image);
+      data.append("send_notification", this.form.send_notification);
       this.$inertia.post(this.route("benefits.store"), data, {
         onFinish: () => {
           this.sending = false;

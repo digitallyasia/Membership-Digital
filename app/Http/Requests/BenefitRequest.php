@@ -30,6 +30,7 @@ class BenefitRequest extends FormRequest
             'promo_code' => ['required', 'string'],
             'redemption_link' => ['nullable', 'string'],
             'image' => $image,
+            'send_notification' => ['boolean', 'required']
         ];
     }
 }
