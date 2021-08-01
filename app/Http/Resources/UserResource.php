@@ -17,9 +17,11 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'profile_picture' => $this->profile_picture ? Storage::disk('images')->url(
-                $this->profile_picture
-            ) : null,
+            'profile_picture' => $this->profile_picture !== null
+                ? (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $this->profile_picture)
+                    ? $this->profile_picture
+                    : Storage::disk('images')->url($this->profile_picture))
+                : null,
             'name' => $this->name,
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at,

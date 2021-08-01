@@ -9,12 +9,11 @@ use App\Http\Resources\BenefitCollection;
 use App\Http\Resources\OrganizationCollection;
 use App\Http\Resources\OrganizationResource;
 use App\Http\Resources\UserResource;
-use App\Notifications\AppForgotPasswordNotification;
 use App\Rules\MatchOldPassword;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 /*
@@ -63,6 +62,40 @@ Route::post('/login', function () {
         'token' => $user->createToken('Application')->plainTextToken,
         'organizations' => $user->organizations()->wherePivot('status', 'accepted')->pluck('organizations.id'),
     ], 200);
+});
+Route::post('/login-with-google', function (Request $request) {
+    request()->validate([
+        'user' => 'required',
+        'fcm_token' => 'required',
+    ]);
+
+    try {
+        $existingUser = User::where('email', $request->user['email'])->first();
+    } catch (\Exception $e) {
+        return response([
+            'message' => 'Invalid Token',
+        ], 404);
+    }
+    if ($existingUser) {
+        $existingUser->update(['fcm_token' => request()->fcm_token]);
+        return response([
+            'token' => $existingUser->createToken('Application')->plainTextToken,
+            'organizations' => $existingUser->organizations()->wherePivot('status', 'accepted')->pluck('organizations.id'),
+        ], 200);
+    } else {
+        $newUser                  = new User;
+        $newUser->name            = $request->user['name'];
+        $newUser->email           = $request->user['email'];
+        $newUser->email_verified_at = now();
+        $newUser->google_id       = $request->user['id'];
+        $newUser->profile_picture = $request->user['photo'];
+        $newUser->fcm_token = request()->fcm_token;
+        $newUser->save();
+        return response([
+            'token' => $newUser->createToken('Application')->plainTextToken,
+            'organizations' => $newUser->organizations()->wherePivot('status', 'accepted')->pluck('organizations.id'),
+        ], 200);
+    }
 });
 Route::post('forget_password', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 
