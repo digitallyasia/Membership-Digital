@@ -36,7 +36,6 @@ class Organization extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'address',
         'auto_join',
         'city',
         'description',

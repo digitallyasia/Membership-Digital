@@ -23,7 +23,6 @@ class OrganizationController extends Controller
             'logo' => request()->hasFile('logo') ? 'required|image|mimes:jpeg,jpg,png' : 'required|string|ends_with:.jpg,.jpeg,.png',
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:organizations,email,' . Auth::guard('organization')->user()->id],
-            'address' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'state' => ['required', 'string', 'max:255'],

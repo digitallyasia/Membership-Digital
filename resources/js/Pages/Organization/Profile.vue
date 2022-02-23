@@ -37,12 +37,6 @@
             label="Phone"
           />
           <text-input
-            v-model="form.address"
-            :errors="$page.props.errors.address"
-            class="w-full pb-8 pr-6"
-            label="Address"
-          />
-          <text-input
             v-model="form.city"
             :errors="$page.props.errors.city"
             class="w-1/3 pb-8 pr-6"
@@ -139,11 +133,11 @@
           />
         </div>
         <div
-          class="flex items-center justify-between px-8 py-4 bg-gray-100 border-t border-gray-200"
+          class="flex items-center justify-between px-8 py-4 bg-gray-100 border-t border-gray-200 "
         >
           <loading-button
             :loading="deleting"
-            class="mr-auto  btn-delete"
+            class="mr-auto btn-delete"
             type="button"
             @click="destroy"
             >Delete Organization</loading-button
@@ -200,11 +194,9 @@ export default {
     };
   },
   methods: {
-      destroy() {
+    destroy() {
       if (confirm("Are you sure you want to delete your Organization?")) {
-        this.$inertia.delete(
-          this.route("organization.delete")
-        );
+        this.$inertia.delete(this.route("organization.delete"));
       }
     },
     submit() {
@@ -213,7 +205,6 @@ export default {
       data.append("logo", this.form.logo);
       data.append("name", this.form.name);
       data.append("email", this.form.email);
-      data.append("address", this.form.address);
       data.append("phone", this.form.phone);
       data.append("city", this.form.city);
       data.append("state", this.form.state);
