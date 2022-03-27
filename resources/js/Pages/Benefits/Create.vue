@@ -102,7 +102,7 @@ export default {
       data.append("promo_code", this.form.promo_code);
       data.append("redemption_link", this.form.redemption_link);
       data.append("image", this.form.image);
-      data.append("send_notification", this.form.send_notification);
+      data.append("send_notification", this.form.send_notification ? 1:0);
       this.$inertia.post(this.route("benefits.store"), data, {
         onFinish: () => {
           this.sending = false;
